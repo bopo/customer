@@ -1,0 +1,10 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "bopo <ibopo@126.com>",
+  "license": "MIT",
+  "dependencies": {
+    "taco": "^1.6.0"
+  }
+}

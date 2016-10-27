@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>{% block title %}账号绑定{% endblock %}</title>
+    {% block header %}
+        <link rel="stylesheet" type="text/css" href="{% static 'frontend/css/reset.min.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'frontend/css/index.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'frontend/css/ladda.min.css' %}"/>
+
+        <script type="text/javascript" src="{% static 'frontend/js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'frontend/js/spin.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'frontend/js/ladda.min.js' %}"></script>
+{#        <script type="text/javascript" src="{% static 'frontend/js/commons.js' %}"></script>#}
+        <script type="text/javascript">
+            $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});
+        </script>
+    {% endblock %}
+</head>
+
+<body>
+{% block toolbar %}{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}
+    <footer class="footer fixed bgf0f0f2">
+        <div class="copyright">Copyright&copy;2016 {{ site_name }} 版权所有</div>
+    </footer>
+{% endblock %}
+{% block scripts %}{% endblock %}
+</body>
+</html>
