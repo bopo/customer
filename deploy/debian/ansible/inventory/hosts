@@ -15,6 +15,11 @@
 # not be able to leverage the above features on your current operating system.
 # You can however use a virtual machine as the Ansible Controller.
 
-[debops_all_hosts]
-server ansible_ssh_host=127.0.0.1 ansible_ssh_user=root ansible_ssh_port=2222
+# [debops_all_hosts]
+# server1
 
+[debops_all_hosts:children]
+servers
+
+[servers]
+server1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_sudo_user=root ansible_ssh_private_key_file="/Users/bopo/.vagrant.d/boxes/debian/0/virtualbox/vagrant_private_key"
