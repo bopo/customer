@@ -23,8 +23,8 @@
 # from rest_framework.permissions import IsAuthenticated
 # from rest_framework_extensions.decorators import action
 
-# from stock.consumer.models import Like, Favorite
-# from stock.consumer.serializers import LikeSerializer, FavoriteSerializer
+# from service.consumer.models import Like, Favorite
+# from service.consumer.serializers import LikeSerializer, FavoriteSerializer
 
 
 # class BaseViewSet(viewsets.GenericViewSet):

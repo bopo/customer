@@ -4,13 +4,14 @@ import time
 
 import short_url as short_url
 from django.conf import settings
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from stock.restauth.helpers import gen_sign, send_verify_code, check_verify_code
-from stock.wechat.models import Member
-from wechatpy import WeChatOAuth
-from wechatpy import WeChatOAuthException
+from wechatpy import WeChatOAuth, WeChatOAuthException
+
+from service.restauth.helpers import (
+    check_verify_code, gen_sign, send_verify_code
+)
+from service.wechat.models import Member
 
 try:
     from cStringIO import StringIO

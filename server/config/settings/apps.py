@@ -4,11 +4,11 @@ from __future__ import unicode_literals
 from .base import INSTALLED_APPS
 
 INSTALLED_APPS += (
-    'stock.frontend',
-    'stock.service',
-    'stock.wechat',
-    'stock.restauth',
-    'stock.restauth.registration',
+    'service.frontend',
+    'service.kernel',
+    # 'service.wechat',
+    # 'service.restauth',
+    # 'service.restauth.registration',
 
     'imagekit',
     'reversion',
@@ -33,4 +33,3 @@ JPUSH_SECRET = u'0ed88cbd56b67e96a9df7885'
 
 WECHAT_APPKEY = 'wx95d4b735c05ff6a7'
 WECHAT_SECRET = '5c330e437a2ebf13faf122551b103520'
-

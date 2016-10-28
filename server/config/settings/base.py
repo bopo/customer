@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    # 'stock.middleware.DisableCSRFCheck',
+    # 'service.middleware.DisableCSRFCheck',
     # 'sslify.middleware.SSLifyMiddleware',
     # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
@@ -163,7 +163,7 @@ DEFAULT_CHARSET = 'utf-8'
 try:
     from .apps import *
     # from .auth import *
-    from .rest import *
+    # from .rest import *
     from .suit import *
 
     from .static import *

@@ -3,7 +3,10 @@ from __future__ import unicode_literals
 
 from .base import *
 
-INSTALLED_APPS = ("suit",) + INSTALLED_APPS + ('suit_redactor', 'mptt',)
+INSTALLED_APPS = ("suit",) + INSTALLED_APPS + (
+    # 'suit_redactor', 
+    'mptt',
+)
 
 # Django Suit configuration example
 SUIT_CONFIG = {

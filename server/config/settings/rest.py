@@ -16,7 +16,7 @@ INSTALLED_APPS += (
 )
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'stock.service.exception.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'service.exception.custom_exception_handler',
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -48,7 +48,7 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     # 'LOGIN_SERIALIZER': 'path.to.custom.LoginSerializer',
     # 'TOKEN_SERIALIZER': 'path.to.custom.TokenSerializer',
-    # 'USER_DETAILS_SERIALIZER': 'stock.consumer.serializers.AccountDetailsSerializer',
+    # 'USER_DETAILS_SERIALIZER': 'service.consumer.serializers.AccountDetailsSerializer',
 }
 
 REST_FRAMEWORK_EXTENSIONS = {

@@ -1,32 +1,35 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import stock.service.urls
+# from service.wechat import views
+import django
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from stock.wechat import views
-import django
-import stock.frontend.views
+
+# import service.kernel.urls
+
+# import service.frontend.views
 
 urlpatterns = (
-    url(r'^api/wechat/$', views.home),
-    url(r'^api/', include(stock.service.urls)),
-    url(r'^account/signup/$', stock.frontend.views.signup),
-    url(r'^account/verify/$', stock.frontend.views.verify),
+    # url(r'^$', service.frontend.views.home),
+    # url(r'^api/wechat/$', views.home),
+    # url(r'^api/', include(service.kernel.urls)),
+    # url(r'^account/signup/$', service.frontend.views.signup),
+    # url(r'^account/verify/$', service.frontend.views.verify),
 
-    url(r'^account/success/(?P<openid>.*)/$', stock.frontend.views.success),
-    url(r'^account/errors/', stock.frontend.views.errors),
+    # url(r'^account/success/(?P<openid>.*)/$', service.frontend.views.success),
+    # url(r'^account/errors/', service.frontend.views.errors),
     
-    url(r'^account/union/$', stock.frontend.views.union),
+    # url(r'^account/union/$', service.frontend.views.union),
     
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 )
 
 if settings.DEBUG:
-    url(r'^media/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
-    url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT}),
+    # url(r'^media/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
+    # url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT}),
     
     if ('debug_toolbar' in settings.INSTALLED_APPS):
         import debug_toolbar

@@ -22,7 +22,7 @@ EMAIL_HOST_PASSWORD = 'yourgmailpassword'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'stock.consumer.contrib.restauth.backends.CustomUserBackend',
+    'service.consumer.contrib.restauth.backends.CustomUserBackend',
 )
 
 ACCOUNT_AUTHENTICATION_METHOD = 'mobile'

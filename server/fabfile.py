@@ -3,21 +3,30 @@
 import os
 import time
 
+import environ
+
 from fabric.api import cd, env, local, run, task
 from fabric.context_managers import prefix
 from fabric.contrib import django, project
 from fabric.contrib.console import prompt
 
 HERE = os.path.abspath(os.path.dirname(__file__))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
+os.environ.setdefault("PRODUCTION_HOSTS", "")
 
-django.settings_module('config.settings.local')
+environ.Env.read_env()
+env = environ.Env()
 
-env.roledefs = {
-    # 'slave': ['root@101.200.136.70'],
-    'master': ['root@114.55.86.150'],
-    # 'vagrant': ['vagrant@127.0.0.1'],
-    # 'pi': ['root@10.7.7.233'],
-}
+PRODUCTION_HOSTS = env('PRODUCTION_HOSTS', None)
+# django.settings_module('config.settings.local')
+
+env.hosts = PRODUCTION_HOSTS
+# env.roledefs = {
+#     # 'slave': ['root@101.200.136.70'],
+#     'master': ['root@114.55.86.150'],
+#     # 'vagrant': ['vagrant@127.0.0.1'],
+#     # 'pi': ['root@10.7.7.233'],
+# }
 
 env.fixtures = (
     'flatpages',

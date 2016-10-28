@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
-from builtins import str
-from builtins import object
+
 import logging
+from builtins import object, str
+
 from django.db.utils import IntegrityError
-from scrapy.exceptions import DropItem
 from dynamic_scraper.models import SchedulerRuntime
+from scrapy.exceptions import DropItem
+
 
 class DjangoWriterPipeline(object):
     

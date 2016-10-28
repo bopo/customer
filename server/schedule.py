@@ -15,9 +15,10 @@
 # Learn more: http://github.com/fengsp/plan
 
 import click
+
 from plan import Plan
 
-cron = Plan("stock", path='/home/apps/stock', environment={'DJANGO_SETTINGS_MODULE': 'config.settings.prod'})
+cron = Plan("movie", path='/home/apps/movie', environment={'DJANGO_SETTINGS_MODULE': 'config.settings.prod'})
 # cron.script('manage.py runscript collect_liwushuo_items', every='9.hour')
 # cron.script('manage.py runjob collect_nanyibang_items', every='9.hour')
 

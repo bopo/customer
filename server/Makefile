@@ -89,6 +89,9 @@ docs:
 	
 req.all: req.base req.local req.test req.docs req.scrapy
 
+req:
+	@$(PIP) install -U -r requirements.txt
+
 req.base:
 	@$(PIP) install  -r .requirements/base.txt
 

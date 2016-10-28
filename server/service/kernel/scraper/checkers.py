@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
+
 from dynamic_scraper.spiders.django_checker import DjangoChecker
-from stock.service.models import Article
+
+from service.kernel.models import Article
 
 
 class ArticleChecker(DjangoChecker):
