@@ -72,6 +72,12 @@ def cron(action='check'):
     with prefix('workon surprise'), cd(env.remote_dir):
         run('python schedule.py %s' % action)
 
+@task
+def d2u():
+    local('find . -name "*.html" -exec dos2unix {} \;')
+    local('find . -name "*.py" -exec dos2unix {} \;')
+    local('find . -name "*.css" -exec dos2unix {} \;')
+    local('find . -name "*.js" -exec dos2unix {} \;')
 
 @task
 def cert():
