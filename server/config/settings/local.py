@@ -29,7 +29,6 @@ INSTALLED_APPS += (
     #     'notifications',
     #     'allauth',
     #     'oauth_provider',
-    # 'dynamic_scraper',
 )
 
 DATABASES = {

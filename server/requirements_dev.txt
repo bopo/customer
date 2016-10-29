@@ -2,5 +2,6 @@
 
 fabric
 ansible
+django-baker
 django-environ
 django-debug-toolbar

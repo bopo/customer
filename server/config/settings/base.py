@@ -167,12 +167,12 @@ try:
     from .suit import *
 
     from .static import *
-    from .celery import *
+    # from .celery import *
 
     from .cache import *
     from .thumb import *
     # from .sentry import *
-    from .scraper import *
+    # from .scraper import *
 
 except ImportError as e:
     raise e

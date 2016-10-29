@@ -1,8 +1,8 @@
-coverage
-doctest2
-pytest
+tox
 mock
 nose
-tox
 flake8
+pytest
+coverage
+doctest2
 django-coverage
