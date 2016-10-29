@@ -1,0 +1,65 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+{% include 'home/slider2.inc.html' %}
+<div class="adbox"><{adsense::show('home960x90_1')}}</div>
+{% include 'home/movie.inc.html' %}
+<div class="adbox"><{adsense::show('home960x90_2')}}</div>
+{% include 'home/tv.inc.html' %}
+<div class="adbox"><{adsense::show('home960x90_3')}}</div>
+{% include 'home/comic.inc.html' %}
+<div class="adbox"><{adsense::show('home960x60_4')}}</div>
+{% include 'home/variety.inc.html' %}
+<div class="adbox"></div>
+{% include 'home/search.inc.html' %}
+{% include 'home/linkbox.inc.html' %}
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+var JsCssFtpDir = '';
+$(function(){
+	FF.Home.searchInput($("#wd_bottom"),$('#ffsearch_bottom'));
+	$("#slider_name").ItemScroll({BoxObjID:"#slider_name",ItemConID:"#silder_con",ItemConItem:"li",ItemTabID:"#silder_nav",ItemTabItem:"li",Timer:3000,Optrue:true,Rfunction:function(con){$(con).find("img.loadimg_w234_h314").trigger("sporty");}});
+	$(".imagelink").hover(
+		function(){
+			$(this).find(".bigextbox").show();
+			$(this).find(".smallextbox").hide();
+		},
+		function(){
+			$(this).find(".smallextbox").show();
+			$(this).find(".bigextbox").hide();
+		}
+	);
+
+	$("div.bigextbox").click(function(e){ location.href = $(this).find("a.notelink").attr("href"); });
+	$("img.loadimg_w234_h314").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'assets/images/no-pic-d.gif'});
+	$("img.loadimg_w234_h314_s").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'assets/images/no-pic-d.gif'});
+	$("img.loadimg_w114_h160_s").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'assets/images/no-pic-z.gif'});
+	$("img.loadimg_w114_h160").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'assets/images/no-pic-z.gif'});
+	$("img.loadimg_w79_h110_s").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'assets/images/no-pic-x.gif'});
+	$("img.loadimg_w79_h110").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'assets/images/no-pic-x.gif'});
+
+	/* 选项卡切换 */
+	$("#box_movier").tab({tabId:"#box_movier_tabbtn",tabTag:"li",conId:"#box_movier_tabcon",conTag:"div.cententbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w114_h160").trigger("sporty");}});
+	$("#box_tv").tab({tabId:"#box_tv_tabbtn",tabTag:"li",conId:"#box_tv_tabcon",conTag:"div.cententbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w114_h160").trigger("sporty");}});
+	$("#box_dm").tab({tabId:"#box_dm_tabbtn",tabTag:"li",conId:"#box_dm_tabcon",conTag:"div.cententbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w114_h160").trigger("sporty");}});
+	$("#box_zy").tab({tabId:"#box_zy_tabbtn",tabTag:"li",conId:"#box_zy_tabcon",conTag:"div.cententbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w114_h160").trigger("sporty");}});
+	$("#tab_top_movie_hot").tab({tabId:"#tab_top_movie_tabbtn",tabTag:"li",conId:"#tab_top_movie_tabcon",conTag:"div.conbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w79_h110").trigger("sporty");}});
+	$("#tab_top_tv_hot").tab({tabId:"#tab_top_tv_tabbtn",tabTag:"li",conId:"#tab_top_tv_tabcon",conTag:"div.conbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w79_h110").trigger("sporty");}});
+	$("#tab_top_dm_hot").tab({tabId:"#tab_top_dm_tabbtn",tabTag:"li",conId:"#tab_top_dm_tabcon",conTag:"div.conbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w79_h110").trigger("sporty");}});
+	$("#tab_top_zy_hot").tab({tabId:"#tab_top_zy_tabbtn",tabTag:"li",conId:"#tab_top_zy_tabcon",conTag:"div.conbox",act:"mouseover", fun:function(contag){ $(contag).find("img.loadimg_w79_h110").trigger("sporty");}});
+	$("#tab_synch").tab({tabId:"#tab_synch_tabbtn",tabTag:"li",conId:"#tab_synch_tabcon",conTag:"ol.ui-synch-item",act:"mouseover"});
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	$("img.loadimg_w510_h340").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'public/images/no-pic-l.gif'});
+	$("img.loadimg_w210_h100").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'public/images/no-pic-h2.gif'});
+	$("img.loadimg_w210_h100_2").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'public/images/no-pic-h2.gif'});
+	$("#tab_hot").tab({tabId:"#tab_hot_tabbtn",tabTag:"li",conId:"#tab_hot_tabcon",conTag:"div.conbox",act:"mouseover"});
+	$("#specialhotimg").ItemScroll_h({BoxObjID:"#specialhotimg",ItemConID:"#specialImgCon",ItemConItem:"li",ItemTabID:"#specialImgTab",ItemTabItem:"li",Timer:3000,Optrue:true,Rfunction:function(con){$(con).find("img.loadimg_w510_h340").trigger("sporty");}});
+});
+</script>
+
+{% endblock %}

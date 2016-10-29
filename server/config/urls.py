@@ -12,7 +12,8 @@ from django.contrib import admin
 # import service.frontend.views
 
 urlpatterns = (
-    # url(r'^$', service.frontend.views.home),
+    # url(r'^$', include('service.frontend.views.home')),
+    url(r'^', include('service.frontend.urls')),
     # url(r'^api/wechat/$', views.home),
     # url(r'^api/', include(service.kernel.urls)),
     # url(r'^account/signup/$', service.frontend.views.signup),

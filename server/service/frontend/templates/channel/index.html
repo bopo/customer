@@ -1,0 +1,77 @@
+<!-- #layout name='frontend.html' block='container' -->
+<div class="box980">
+  <div class="f_l w670 ">
+    <!-- BEGIN __channels -->
+    <div class="publicbox w668">
+      <div class="pdbox">
+        <div class="titlebox">
+          <div class="titletxt titleimg_{{top._current}}{{_ROWCNT}}"></div>
+          <a class="titlemore" href="{{url::bind('channel',alias)}}">更多</a>
+          <div class="cl"></div>
+        </div>
+        <div class="cententbox">
+          <div class="imgitembox">
+            <!-- BEGIN _videos -->
+            <!-- IF _ROWCNT<="5" -->
+            <div class="imgitem <!-- IF _ROWCNT="5" -->last<!-- ENDIF -->">
+              <a class="imglink" href="{{url::bind('detail',id)}}">
+                <img class="loadimg_w114_h160" data-original="{{picurl}}" src="/assets/images/noimg.gif" alt="点击播放《{{html::name(name)}}》" />
+                <span class="txbg"></span>
+                <span class="tx"> <!-- IF note --> {{note}} <!-- ELSEIF state<>"0" --> 更新至{{state}}集 <!-- ELSE --> 全集 <!-- ENDIF --> </span>
+              </a>
+              <a class="titlelink" href="{{url::bind('detail',id)}}" alt="点击查看详情《{{html::name(name)}}》">{{html::name(name)}}</a>
+              <span class="yylink"> {{channel::actor(actor)}} </span>
+              <div class="starbox">
+                <span class="starbs">
+                  <span class="starbb" style="width:{{channel::percent(gold)}};"></span>
+                </span>
+                <span class="goldtx">{{gold}}</span>
+                <div class="cl"></div>
+              </div>
+            </div>
+            <!-- ENDIF -->
+            <!-- END _videos -->
+            <div class="cl"></div>
+          </div>
+          <div class="txtitembox">
+            <!-- BEGIN _videos -->
+            <!-- IF _ROWCNT>"5" -->
+            <span class="imgitem <!-- IF _EQUALLY="0" -->last<!-- ENDIF -->"><a href="{{url::bind('detail',id)}}" alt="点击查看详情《{{html::name(name)}}》" >{{html::name(name)}}&nbsp;</a></span>
+            <!-- ENDIF -->
+            <!-- END _videos -->
+            <div class="cl"></div>
+          </div>
+          <div class="cl"></div>
+        </div>
+      </div>
+    </div>
+    <!-- END __channels -->
+    <div class="cl"></div>
+  </div>
+
+  <div class="f_r w302">
+    <div class="publicbox w300">{{adsense::show("channel_right_1")}}</div>
+    <!-- #include virtual="sidebar/ranking.inc.html" -->
+    <div class="publicbox w300">{{adsense::show("channel_right_2")}}</div>
+    <!-- #include virtual="sidebar/update.inc.html" -->
+    <div class="publicbox w300">{{adsense::show("channel_right_3")}}</div>
+    <!-- #include virtual="sidebar/special.inc.html" -->
+    <div class="cl"></div>
+  </div>
+  <div class="cl"></div>
+</div>
+
+<!-- #block name='javascript' -->
+<script type="text/javascript">
+$(function(){
+  var JsCssFtpDir = '';
+	$("img.loadimg_w79_h110_s").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'/assets/images/no-pic-x.gif'});
+	$("img.loadimg_w79_h110").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'/assets/images/no-pic-x.gif'});
+	$("#tab_hot").tab({tabId:"#tab_hot_tabbtn",tabTag:"li",conId:"#tab_hot_tabcon",conTag:"div.conbox",act:"mouseover",
+	fun:function(contag){ $(contag).find("img.loadimg_w79_h110").trigger("sporty");}});
+	$(".imgbox_z img").click(function(){ $(this).parent().click();});
+	$("img.loadimg_w150_h72").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'/assets/images/no-pic-h.gif'});
+	$("img.loadimg_w114_h160").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'/assets/images/no-pic-z.gif'});
+});
+</script>
+<!-- #block end -->

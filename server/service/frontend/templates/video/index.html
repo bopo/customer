@@ -1,0 +1,269 @@
+<!-- #layout name='simple.html' block='container' -->
+<style>div.adbox{background: #fff;padding: 10px 0 10px;margin:0 auto 10px;border: 1px solid #afafaf;width: 978px;}</style>
+<div class="box980 m_u10_d10">
+  <div class="publicbox vodplaymbxbox">
+    <div class="mbxbox"><a href="/">蜜糖影视</a>
+      <!-- BEGIN _nav -->
+      <!-- IF _VALUE.name<>"" -->
+      <span class="line">»</span><a href="{{url::bind('channel',_VALUE.alias)}}">{{_VALUE.name}}</a>
+      <!-- ENDIF -->
+      <!-- END _nav -->
+      <span class="line">»</span>{{_video.name}}</div>
+    <div class="bcpfbox">
+      <a href="{{url::bind('feedback','report',_video.id)}}" target="_blank">报错</a>
+      <a href="#sgold">评分</a>
+    </div>
+    <div class="cl"></div>
+  </div>
+</div>
+<div class="adbox">{{adsense::show('video960x90_1')}}</div>
+<!-- 播放器 -->
+<div class="player">
+  <div class="box980" style="z-index:1;position:relative;" id="player"></div>
+</div>
+<!-- //播放器 -->
+<div class="adbox">{{adsense::show('video960x90_2')}}</div>
+<div id="sgold" class="box978 publicbox">
+  <div class="p10" style=" width:958px;">
+    <div class="vodgoldbox_play">
+      <div class="goldbox">
+        <div class="g_img">
+          <div id="gold">0</div>
+          <span class="Goldnum"><span class="gol_x">0</span><span class="gol_n">.</span></span>
+          <div class="cl"></div>
+        </div>
+        <div class="w p3 w350 playvodb">
+          <span class="zybox_t">总评分：</span>
+          <span id='zgoldtxtbox' class="zybox_n">很差，浪费时间！&nbsp;</span>
+          <span class="zybox_n"><span id="golder">0</span>人评分&nbsp;</span>
+          <span class="zybox_n"><span id="looker">0</span>人看过&nbsp;</span>
+          <span class="zybox_n"><a href="#uyan" id="uyan_count_unit" class="av" >影评(0)</a></span>
+          <div class="cl"></div>
+        </div>
+        <div class="cl"></div>
+      </div>
+    </div>
+
+    <div class="updownbtnbox">
+      <a class="scbtnbox" href="#">搜藏此片</a>
+      <a href="javascript:void(0)" class="Up" id="Up"><span>0</span></a>
+      <a href="javascript:void(0)" class="Down" id="Down"><span>0</span></a>
+    </div>
+    <div class="playfxbox">
+      <!-- Baidu Button BEGIN -->
+      <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{
+				'url':'{{url::bind('detail',_video.id)}}',
+				'desc':'{{_video.content}}',
+				'text':'{{_video.note}}',
+				'pic':'{{_video.picurl}}'
+			}"> <a class="bds_qzone"></a> <a class="bds_tsina"></a> <a class="bds_tsohu"></a> <a class="bds_tqq"></a> <a class="bds_renren"></a> <a class="bds_kaixin001"></a> <a class="bds_baidu"></a> <a class="bds_tieba"></a> <a class="bds_hi"></a> <a class="bds_douban"></a> <a class="bds_taobao"></a> <span class="bds_more"></span> </div>
+      <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6556540" ></script>
+      <script type="text/javascript" id="bdshell_js"></script>
+      <script type="text/javascript">document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script>
+      <!-- Baidu Button END -->
+      <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+  </div>
+</div>
+<div class="adbox">{{adsense::show('video960x90_3')}}</div>
+
+<!-- 剧集 -->
+<div class="box978 publicbox" id="play_zy">
+  <div id="play_tabbtn" class="vodhottitle" style="padding-left:237px;">
+    <ul>
+      <!-- BEGIN _player -->
+      <li class="<!-- IF parent._cur=_KEY -->cur<!-- ENDIF -->"><span class="{{play}}"></span><!-- IF state --><span class="no_v">{{state}}</span><!-- ENDIF --></li>
+      <!-- END _player -->
+      <div class="cl"></div>
+    </ul>
+    <div class="txt"><a href="#" target="_blank">不能播放，报错</a></div>
+  </div>
+  <div id="play_tabcon">
+    <!-- BEGIN _player -->
+    <div class="vodplaybox playitembox" <!-- IF parent._cur=_KEY --><!-- ELSE -->style="display:none"<!-- ENDIF -->>
+      <div class="wxts" style="margin:0px 0px 10px 0px;">
+        <div class="snvtvb" ><span class="snvd">温馨提示：</span>[DVD：标准清晰版]&nbsp;[BD：高清无水印]&nbsp;[HD：高清版]&nbsp;[TS：抢先非清晰版] - 其中，BD和HD版本不太适合4M以下的宽带的用户和网速过慢的用户观看。</a></div>
+        <div class="snvtvs" >
+          <!-- IF play="bdhd" -->
+          <div class="askbox">
+            <span class="asktitle">[百度影音-常见问题]</span>
+            <p><span class="snvd">紧急BUG一：</span>当您打开影片时候，出现了一部已经缓冲完毕，且影片内容不正确时，请打开baidu player这个下载目录，删除清空里面下载的影片，然后刷新页面即可。注：删除前，请退出打开了百度影音播放页面和"百度影音"播放器或"baidup2pservice"进程，防止由于软件对内容的读写导致无法删除。</p>
+            <p><span class="snvd">紧急BUG二：</span>当缓冲一直为0时，请尝试刷新一下页面。</p>
+            <p><span class="snvd">常见问题一：</span>如打开本页的播放窗口提示需要安装播放器，请点击下载百度影音，一路"下一步"安装，完毕后刷新页面即可</p>
+            <p><span class="snvd">常见问题二：</span>开始播后将有5-15秒左右的缓冲时间，属于正常现象；如播放的页面长时间一直显示为0%，很有可能资源被删除，您可以点击这里留言报错</p>
+            <p><span class="snvd">常见问题三：</span>百度影音太占网速，一播放家里其他人都不能上网了怎么办？百度影音为达到更好的缓冲效果，有时可能会出现过度占用网速的情况。您可以在播放器设置-下载面板中设置最大上传下载速度。也可以在播放器设置-系统中勾选"退出时自动结束p2p进程"，然后在系统托盘图标上右键选择完全退出。</p>
+            <p><span class="snvd">播放技巧一：</span>正常情况下的新片和热片，百度影音都能保持非常流畅的播放；如有出现不流畅，您可以选择暂停缓冲一会再观看，或是检查一下自己电脑是否开启了其他占用网速的软件。（百度影音是一个P2P的播放软件，用户越多速度越快，所以部分老片冷片会速度较慢，用户数增加后这个问题会很快解决）</p>
+            <p><span class="snvd">播放技巧二：</span>页面播放的东西，会在本地存一份，具体可在"播放器设置"-"下载面板"中可以查看和设置缓冲文件目录。在下载过程中若硬盘空间不足，百度影音会弹出提示窗口。只需重新设置缓冲目录或者删除旧缓冲文件即可。</p>
+            <p>具体可以访问以下图文并茂的链接百度影音常见问题、产品简介、快速入门、操作指南。</p>
+          </div>
+          <!-- ELSEIF play="qvod" -->
+          <div class="askbox">
+            <span class="asktitle">[快播高清-常见问题]</span>
+            <p><span class="snvd">紧急BUG一：</span>当您打开影片时候，出现了一部已经缓冲完毕，且影片内容不正确时，请打开baidu player这个下载目录，删除清空里面下载的影片，然后刷新页面即可。注：删除前，请退出打开了快播高清播放页面和"快播高清"播放器或"baidup2pservice"进程，防止由于软件对内容的读写导致无法删除。</p>
+            <p><span class="snvd">紧急BUG二：</span>当缓冲一直为0时，请尝试刷新一下页面。</p>
+            <p><span class="snvd">常见问题一：</span>如打开本页的播放窗口提示需要安装播放器，请点击下载快播高清，一路"下一步"安装，完毕后刷新页面即可</p>
+            <p><span class="snvd">常见问题二：</span>开始播后将有5-15秒左右的缓冲时间，属于正常现象；如播放的页面长时间一直显示为0%，很有可能资源被删除，您可以点击这里留言报错</p>
+            <p><span class="snvd">常见问题三：</span>快播高清太占网速，一播放家里其他人都不能上网了怎么办？快播高清为达到更好的缓冲效果，有时可能会出现过度占用网速的情况。您可以在播放器设置-下载面板中设置最大上传下载速度。也可以在播放器设置-系统中勾选"退出时自动结束p2p进程"，然后在系统托盘图标上右键选择完全退出。</p>
+            <p><span class="snvd">播放技巧一：</span>正常情况下的新片和热片，快播高清都能保持非常流畅的播放；如有出现不流畅，您可以选择暂停缓冲一会再观看，或是检查一下自己电脑是否开启了其他占用网速的软件。（快播高清是一个P2P的播放软件，用户越多速度越快，所以部分老片冷片会速度较慢，用户数增加后这个问题会很快解决）</p>
+            <p><span class="snvd">播放技巧二：</span>页面播放的东西，会在本地存一份，具体可在"播放器设置"-"下载面板"中可以查看和设置缓冲文件目录。在下载过程中若硬盘空间不足，快播高清会弹出提示窗口。只需重新设置缓冲目录或者删除旧缓冲文件即可。</p>
+            <p>具体可以访问以下图文并茂的链接快播高清常见问题、产品简介、快速入门、操作指南。</p>
+          </div>
+          <!-- ELSE -->
+          <div class="askbox">
+            <span class="asktitle">[Flash常见问题]</span>
+            <p><span class="snvd">常见问题一：</span>如打开本页的播放窗口空白或有个是个大叉叉，请点击这里下载Flash 9插件,然后重启浏览器</p>
+            <p><span class="snvd">常见问题二：</span>在已安装Flash的情况下，如打开的本页播放区域是空白一片，可以尝试刷新本页（网速慢使播放器加载稍慢)</p>
+            <p><span class="snvd">常见问题三：</span>节目出现双语对白，可打开电脑上音量调节功能，拉动平衡杆到任意一边调整语种。</p>
+            <p><span class="snvd">常见问题四：</span>为何有的节目看到一半就断掉或没有响应了？最有效的解决方法是：IE浏览器--工具-- Internet选项--点击"删除文件"按钮，然后关闭浏览器重新打开</p>
+            <p><span class="snvd">播放技巧一： </span>部分视频如果出现卡的情况，可暂停一会，让其缓冲后再播放</p>
+            <p><span class="snvd">播放技巧二： </span>可提前打开下一集的页面，播放后按暂停（不要关闭），让其缓冲，这样看完这集就可以很流畅的看下一集了。</p>
+          </div>
+          <!-- ENDIF -->
+
+        </div>
+      </div>
+      <!-- BEGIN playlist equally=6 -->
+      <!-- IF parent.state -->
+      <a href="{{url::bind('video',top._video.id,parent._KEY,_KEY)}}" class="<!-- IF top._args.2=_KEY -->cur<!-- ENDIF --> <!-- IF _EQUALLY=0 -->last<!-- ENDIF -->" target="_blank">&nbsp;{{_VALUE}}&nbsp;<span class="cl <!-- IF _FIRST -->new<!-- ENDIF -->"></span></a>
+      <!-- ELSE -->
+      <a href="{{url::bind('video',top._video.id,parent._KEY,_KEY)}}" class="<!-- IF top._args.2=_KEY -->cur<!-- ENDIF --> <!-- IF _EQUALLY=0 -->last<!-- ENDIF -->" target="_blank">&nbsp;{{_VALUE}}&nbsp;<span class="cl"></span></a>
+      <!-- ENDIF -->
+      <!-- END playlist -->
+      <span class="cl"></span>
+    </div>
+    <!-- END _player -->
+  </div>
+</div>
+<!-- //剧集 -->
+
+<div class="box980">
+  <div class="f_l w632">
+    <div class="publicbox w630 solhotbox">
+      <!-- 滚动图片代码开始 -->
+      <div id="vodhotscroll">
+        <div class="slider_box" id="slider_name">
+          <div class="titlelike"></div>
+          <ul class="silder_nav clearfix" id="silder_nav">
+            <a class='prev'>Prev</a> <a class='next'>Next</a>
+            <li><span class="nav_1"></span></li>
+            <li><span class="nav_2"></span></li>
+            <li><span class="nav_3"></span></li>
+            <div class="cl"></div>
+          </ul>
+          <div class="imgitembox">
+            <ul class="silder_con" id="silder_con">
+              <li class="silder_panel clearfix">
+                <!-- BEGIN _silder equally=5 -->
+                <div class="imgitem <!-- IF _EQUALLY=0 -->last<!-- ENDIF -->">
+                  <a class="imglink" href="{{url::bind('detail',id)}}">
+                    <img class="loadimg_w114_h160" data-original="{{picurl}}" src="/assets/images/noimg.gif" alt="点击播放《{{html::name(name)}}》" />
+                    <span class="txbg"></span>
+                    <span class="tx">{{note}}</span>
+                  </a>
+                  <a class="titlelink" href="{{url::bind('detail',id)}}" alt="点击查看详情《{{html::name(name)}}》">{{html::name(name)}}</a>
+                  <span class="yylink">{{html::actor2(actor)}}</span>
+                  <div class="starbox">
+                    <span class="starbs">
+                      <span class="starbb" style="width:{{channel::percent(gold)}};"></span>
+                    </span>
+                    <span class="goldtx">{{gold}}</span>
+                    <div class="cl"></div>
+                  </div>
+                </div>
+                <!-- IF _EQUALLY=0 -->
+                <!-- IF _LAST -->
+                <!-- ELSE -->
+                </li><li class="silder_panel clearfix">
+                <!-- ENDIF -->
+                <!-- ENDIF -->
+                <!-- END _silder -->
+              </li>
+            </ul>
+            <div class="cl"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 滚动图片代码结束 -->
+    </div>
+  </div>
+  <div class="f_r publicbox w338 h302 albr">
+    <div class="gg336"> {{adsense::show('index-960902')}} </div>
+  </div>
+  <div class="cl"></div>
+</div>
+
+<div class="box980">
+  <div class="f_l w632">
+    <div id="uyan" class="publicbox">
+      <div class="vodhottitle pltitle" ></div>
+      <div class="plbox">
+      <!-- UY BEGIN -->
+      <div id="uyan_frame"></div>
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1746015"></script>
+      <!-- UY END -->
+      </div>
+    </div>
+  </div>
+  <div class="f_r publicbox w338">
+    <div class="vodhottitle zytitle" ></div>
+    <div class="ypjjbox" >
+      <ul class="intro">
+        <li class="img"><a href="{{url::bind('detail',_video.id)}}"><img class="loadimg_w102_h143" data-original="{{_video.picurl}}" src="/assets/images/noimg.gif" alt="{{_video.name}}全集观看"/></a></li>
+        <li class="txbox">
+          <h2><a href="{{url::bind('detail',_video.id)}}" class="title">{{_video.name}}</a></h2>
+          <p>状态：<!-- IF _video.state<>"0" -->更新至{{_video.state}}集<!-- ELSE -->{{_video.note}}<!-- ENDIF --></p>
+          <p>类型：<a href="{{url::bind('channel',_nav.0.alias)}}">{{_nav.0.name}}</a></p>
+          <p>主演：<span class="zybox_s">{{html::actor(actor)}}</p>
+          <p>地区：{{_video.area}}</p>
+          <p>上映∶{{_video.year}}&nbsp;更新：{{date::format(_video.addtime)}}</p>
+        </li>
+        <div class="cl"></div>
+      </ul>
+      <div class="cl"></div>
+    </div>
+    <div class="jqbox">剧情简介：<br /> {{html::content(_video.content)}} </div>
+  </div>
+  <div class="cl"></div>
+</div>
+
+<!-- #block name='javascript' -->
+{{adsense::show("play-couplet")}}
+<script type="text/javascript">
+var Id          = '{{_video.id}}';
+var Sid         = '{{_video.sid}}';
+var Cid         = '{{_video.cid}}';
+var Root        = '/';
+var vod_name    = "{{_video.name}}";
+var vod_urlname = "{{_play}}";
+var url_list    = "{{playlist::toString(_video.playlist)}}";
+var list_name   = "<a href=\"{{url::bind('channel',_nav.0.alias)}}\">{{_nav.0.name}}</a>";
+var JsCssFtpDir = '';
+var server_name = "{{_video.server}}";
+var player_name = "{{_video.play}}";
+FF.History.Insert('{{html::name(_video.name)}} {{_play}}', "{{request::server('REQUEST_URI')}}", 10, 7, '','');
+
+$(document).ready(function($) {
+  FF.UpDown.Vod('/vote/updown/'+Id);
+  FF.Home.Sc($(".scbtnbox"));
+  FF.Home.Sc($("#smallscbtn"));
+  $("#play_zy").tab({tabId:"#play_tabbtn",tabTag:"li",conId:"#play_tabcon",conTag:"div.vodplaybox",act:"click"});
+  $("#slider_name").ItemScroll({BoxObjID:"#slider_name",ItemConID:"#silder_con",ItemConItem:"li",ItemTabID:"#silder_nav",ItemTabItem:"li",Timer:3000,Optrue:true,Rfunction:function(con){$(con).find("img.loadimg_w114_h160").trigger("sporty");}});
+  $("img.loadimg_w114_h160").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'public/images/no-pic-z.gif'});
+  $("img.loadimg_w102_h143").lazyload({effect:"fadeIn",errorimgpic:JsCssFtpDir+'public/images/no-pic-z.gif'});
+  $(".header_s_smallmainmenu li").hover(function(){
+      $(this).find('div.satvbox').show();
+      $(this).find('iframe').height($(this).find('div.satv').outerHeight());
+      $(this).find('a.maina_s').addClass($(this).attr('class') + "_on");
+    }, function(e){
+      $(this).find('div.satvbox').hide();
+      $(this).find('a.maina_s').removeClass($(this).attr('class') + "_on");
+    }
+  );
+  $('#looker').load("{{url::bind('vote','hits',_video.id)}}");
+});
+</script>
+<script type="text/javascript" src="/assets/scripts/setting.js" charset="utf-8"></script>
+<script type="text/javascript" src="/assets/scripts/player.js" charset="utf-8"></script>
+<script src="http://j.77power.com/adscpv/i.php?z=54904"></script>
+<!-- #block end -->

@@ -1,0 +1,268 @@
+<!-- #layout name='frontend.html' block='container' -->
+<div class="box980">
+	<div class="vodreadbox publicbox">
+		<div class="toolbox">
+			<a class="btn_savedsk" href="{{url::bind('desktop',_detail.id)}}"></a>
+			<span class="line"></span>
+			<a class="btn_sc" href="#"></a>
+			<span class="line"></span>
+			<a class="btn_rss" href="{{url::bind('feed','rss')}}" target="_blank"></a>
+		</div>
+		<div class="mbxboxbox w928">
+			<div class="mbxbox"><a href="/">蜜糖影视</a>
+			<!-- BEGIN _nav -->
+			<!-- IF _VALUE.name<>"" -->
+			<span class="line">»</span><a href="{{url::bind('channel',_VALUE.alias)}}">{{_VALUE.name}}</a>
+			<!-- ENDIF -->
+			<!-- END _nav -->
+			<span class="line">»</span>{{_detail.name}}</div>
+		  <div class="mbxbox_r">&nbsp;</div>
+		  <div class="cl"></div>
+		</div>
+		<div id="movtxtbox" class="vod_l">
+			<div class="pic">
+				<a href="{{url::bind('detail',_detail.id)}}"><img class="loadimg_w234_h314" data-original="{{_detail.picurl}}" src="{{_detail.picurl}}" alt="{{_detail.name}}全集观看" /></a>
+			</div>
+			<div class="txt" >
+				<div class="title w"><a href="{{url::bind('detail',_detail.id)}}" class="title">{{_detail.name}}</a></div>
+				<div class="vodgoldbox">
+					<div class="goldbox">
+						<div class="g_img">
+							<div id="gold">0</div>
+							<span class="Goldnum"><span class="gol_x">0</span><span class="gol_n">.</span></span>
+							<div class="cl"></div>
+						</div>
+						<div class="w p3 w360">
+							<span class="zybox_t">总评分：</span>
+							<span id='zgoldtxtbox' class="zybox_n">很差，浪费时间！&nbsp;</span>
+							<span class="zybox_n"><span id="golder">0</span>人评分&nbsp;</span>
+							<span class="zybox_n"><span id="looker">0</span>人看过&nbsp;</span>
+							<span class="zybox_n"><a href="#uyan" id="uyan_count_unit" class="av">影评(0)</a></span>
+						</div>
+						<div class="cl"></div>
+					</div>
+				</div>
+				<div class="w"><span class="zybox_t">导演：</span><span class="zybox_c">{{html::director(_detail.director)}}</span></div>
+				<div class="w w370" style="position:relative;">
+					<span class="zybox_t">主演：</span>
+					<span id="yybox" class="zybox_ext">{{html::actor(_detail.actor)}}</span>
+					<a href="#" id="yymoerbtn" class="yymoerbtn">更多</a>
+				</div>
+				<!--div class="w"><span class="zybox_t">类型：</span>{{html::tags(_detail.tags)}}</div-->
+				<div class="w w370" style="position:relative;">
+					<span class="zybox_t">别名：</span>
+					<span id="ymbox">
+						<span class="zybox_s"><a alt="{{_detail.alias}}">{{video::alias(_detail.alias)}}</a></span>
+					</span>
+					<a href="#" class="yymoerbtn">更多</a>
+				</div>
+				
+				<div class="w_box">
+					<div class="w">
+						<span class="sbox"><span class="zybox_t">地区：</span>
+						<span class="zybox_s"><a href="{{url::bind('browse','area',_detail.area)}}"><!-- IF _detail.area -->{{_detail.area}}<!-- ELSE -->未知<!-- ENDIF --></a></span></span>
+					</div>
+					<div class="w"><span class="sbox">
+						<span class="zybox_t">上映：</span>
+						<span class="zybox_s SEN"><a
+				  href="{{url::bind('browse','year',_detail.year)}}"><!-- IF _detail.year -->{{_detail.year}}<!-- ELSE -->未知<!-- ENDIF --></a></span></span>
+				</div>
+
+				<div class="w">
+					<span class="sbox_x">
+						<span class="zybox_t">状态：</span>
+						<span class="zybox_s"><!-- IF _detail.state<>"0" -->更新至{{_detail.state}}集<!-- ELSE -->{{_detail.note}}<!-- ENDIF --></span>
+					</span>
+				</div>
+			</div>
+			<div class="w_box">
+				<div class="w">
+					<span class="sbox"><span class="zybox_t">对白：</span>
+					<span class="zybox_s"><a
+				  href="{{url::bind('browse','lang',_detail.lang)}}"><!-- IF _detail.lang -->{{_detail.lang}}<!-- ELSE -->未知<!-- ENDIF --></a></span></span>
+				</div>
+				<div class="w">
+					<span class="sbox"><span class="zybox_t">版本：</span>
+					<span class="zybox_s SEN"><a
+				  href="{{url::bind('browse','version',_detail.version)}}">{{_detail.version}}</a></span></span>
+				</div>
+				<div class="w">
+					<span class="sbox_x">
+						<span class="zybox_t">更新：</span>
+						<span class="zybox_s SEN">{{date::format(_detail.addtime,'Y-m-d H:i:s')}}</span>
+					</span>
+				</div>
+			</div>
+			<div class="w w385">
+				<span class="zybox_t">评论：</span>
+				<span class="zybox_c"> <a href="#comment" id="link-cmt2">当前有5条评论，我也要评论</a> <a href="#comment" id="link-cmt">我也要评论</a> </span>
+
+				<span class="zybox_t">剧情：</span>
+				<span id="ymbox">
+					<span class="zybox_s"><a href="#jqtitle">{{video::subtring(_detail.content,'30')}}</a></span>
+					<a href="#jqtitle" class="">更多</a>	
+				</span>
+							
+			</div>
+			<div class="fxbox">
+				<span class="fxboxtitle">分享：</span>
+				<!-- Baidu Button BEGIN -->
+				<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{
+				'url':'{{url::bind('detail',_detail.id)}}',
+				'desc':'{{html::content2(_detail.content)}}',
+				'text':'{{_detail.name}}',
+				'pic':'{{_detail.picurl}}'
+				}">
+				<a class="bds_qzone"></a>
+				<a class="bds_tsina"></a>
+				<a class="bds_tqq"></a>
+				<a class="bds_douban"></a>
+				<a class="bds_renren"></a>
+				<a class="bds_t163"></a>
+				<a class="bds_taobao"></a>
+				<a class="bds_kaixin001"></a>
+				<a class="bds_tqf"></a>
+				<a class="bds_baidu"></a>
+				<a class="bds_sohu"></a>
+				<span class="bds_more"></span>
+				<a class="shareCount"></a>
+				</div>
+				<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6556540" ></script>
+				<script type="text/javascript" id="bdshell_js"></script>
+				<script type="text/javascript">document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script>
+				<!-- Baidu Button END -->
+			  <div class="cl"></div>
+				</div>
+				<div class="cl"></div>
+			</div>
+		</div>
+		<div class="vod_r">
+			<div class="gg300 "> {{adsense::show("detail300x250")}} </div>
+		</div>
+		<div class="cl"></div>
+	</div>
+</div>
+
+<div class="box978 publicbox" id="play_zy">
+	<div id="play_tabbtn" class="vodhottitle" style="padding-left:237px;">
+		<ul>
+			<!-- BEGIN _player -->
+			<li class="<!-- IF _FIRST -->cur<!-- ENDIF -->"><span class="{{play}}"></span><!-- IF state --><span class="no_v">{{state}}</span><!-- ENDIF --></li>
+			<!-- END _player -->
+			<div class="cl"></div>
+		</ul>
+		<div class="txt"><a href="{{url::bind('feedback','report',_detail.id)}}" target="_blank">不能播放，报错</a></div>
+  </div>
+  <div id="play_tabcon">
+		<!-- BEGIN _player -->
+		<div class="vodplaybox playitembox" <!-- IF _FIRST --><!-- ELSE -->style="display:none"<!-- ENDIF -->>
+			<div class="wxts" style="margin:0px 0px 10px 0px;">
+				<div class="snvtvb" >
+					<span class="snvd">温馨提示：</span>[DVD：标准清晰版]&nbsp;[BD：高清无水印]&nbsp;[HD：高清版]&nbsp;[TS：抢先非清晰版] - 其中，BD和HD版本不太适合4M以下的宽带的用户和网速过慢的用户观看。
+				</div>
+				<div class="snvtvs" >
+					<span class="snvd">[{{html::player(play,'1')}}]</span> {{html::player(play,'2')}}
+				</div>
+			</div>
+			<!-- BEGIN playlist equally=6 -->
+			<!-- IF parent.state -->
+			<a href="{{url::bind('video',top._detail.id,parent._KEY,_KEY)}}" <!-- IF _EQUALLY=0 -->class="last"<!-- ENDIF --> target="_blank">&nbsp;{{_VALUE}}&nbsp;<span class="cl <!-- IF _FIRST -->new<!-- ENDIF -->"></span></a>
+			<!-- ELSE -->
+			<a href="{{url::bind('video',top._detail.id,parent._KEY,_KEY)}}" <!-- IF _EQUALLY=0 -->class="last"<!-- ENDIF --> target="_blank">&nbsp;{{_VALUE}}&nbsp;<span class="cl"></span></a>
+			<!-- ENDIF -->
+			<!-- END playlist -->
+		</div>
+		<!-- END _player -->
+	</div>
+</div>
+
+<div class="box980">
+	<div class="f_l w632">
+		<div class="publicbox w630 solhotbox">
+		<!-- 滚动图片代码开始 -->
+		<div id="vodhotscroll">
+		  <div class="slider_box" id="slider_name">
+			<div class="titlelike"></div>
+			<ul class="silder_nav clearfix" id="silder_nav">
+				<a class='prev'>Prev</a>
+				<a class='next'>Next</a>
+				<li><span class="nav_1"></span></li>
+				<li><span class="nav_2"></span></li>
+				<li><span class="nav_3"></span></li>
+				<div class="cl"></div>
+			</ul>
+			<div class="imgitembox">
+			<ul class="silder_con" id="silder_con">
+				<li class="silder_panel clearfix">
+					<!-- BEGIN _silder equally=5 -->
+					<div class="imgitem <!-- IF _EQUALLY=0 -->last<!-- ENDIF -->">
+						<a class="imglink" href="{{url::bind('detail',id)}}">
+							<img class="loadimg_w114_h160" data-original="{{picurl}}" src="/assets/images/noimg.gif" alt="点击播放《{{html::name(name)}}》" />
+							<span class="txbg"></span>
+							<span class="tx">{{note}}</span>
+						</a>
+            <a class="titlelink" href="{{url::bind('detail',id)}}" alt="点击查看详情《{{html::name(name)}}》">{{html::name(name)}}</a>
+            <span class="yylink">{{html::actor2(actor)}}</span>
+            <div class="starbox">
+              <span class="starbs">
+                <span class="starbb" style="width:{{channel::percent(gold)}};"></span>
+              </span>
+              <span class="goldtx">{{gold}}</span>
+              <div class="cl"></div>
+            </div>
+          </div>
+					<!-- IF _EQUALLY=0 -->
+					<!-- IF _LAST -->
+					<!-- ELSE -->
+					</li><li class="silder_panel clearfix">
+					<!-- ENDIF -->
+					<!-- ENDIF -->
+					<!-- END _silder -->
+				</li>
+			</ul>
+			<div class="cl"></div>
+			</div>
+		  </div>
+		</div>
+		<!-- 滚动图片代码结束 -->
+		</div>
+	</div>
+	<div class="f_r publicbox w338 h302 albr">
+		<div class="gg336">
+			{{adsense::show('detail336x250')}}
+		</div>
+	</div>
+	<div class="cl"></div>
+</div>
+<div class="box978 publicbox">
+	<div class="vodhottitle jqtitle" id="jqtitle"><h3>《{{html::name(_detail.name)}}》剧情介绍</h3></div>
+	<div class="vod_content">
+		<p>{{html::content(_detail.content)}}</p>
+		<p class="stringns"> 蜜糖影视——中国高清体验式影视门户，畅享百万高清百度影音电影资源，mi-tang.com第一时间为您提供最新的影视大片，好看的电影电视剧，百度影音电影，BDHD电影在线观看及下载，如果您觉得本站不错，请推荐给您的朋友，或在您的博客/QQ/论坛签名里放个蜜糖影视的链接，感谢！BDHD电影看的人越多下载速度越快，蜜糖影视将为你第一时间分享互联网的高清电影电视剧！ </p>
+	  <p class="stringns"> 蜜糖影视是您娱乐和学习的好地方！学习和工作疲惫时您可以观看搞笑的喜剧片和综艺片能够缓解压力，增添您的快乐；这里有经典的欧美电视剧和日韩电视剧，标准的中英·日·韩语和清晰的中文字幕， 可以在休闲中学习外语，让您的外语水平得到提高；浪漫的港台剧，让您重温昔日的浪漫情怀。蜜糖影视24小时与您相伴,为您提供{{_detail.name}}视频在线观看;{{_detail.name}}优酷视频;{{_detail.name}}现场直播;以及最新电视剧、电视剧网、韩国电视剧、香港TVB电视剧、最新动作电影、最新电影、经典电影、香港电影、日本电影、韩国电影、欧美电影、快播电影、QVOD电影、蜜糖影视-中国影视爱好者们最喜欢去的电影网站 免费！ </p>
+	</div>
+</div>
+<a name="comment"></a>
+<div class="box978 publicbox" id="uyan">
+	<div class="vodhottitle pltitle"></div>
+	<div class="plbox">
+		<!-- UY BEGIN -->
+		<div id="uyan_frame"></div>
+		<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1746015"></script>
+		<!-- UY END -->
+	</div>
+</div>
+
+<!-- #block name='javascript' -->
+<script language="javascript">
+var Root='/';var Sid='{{_detail.sid}}';var Cid='{{_detail.cid}}';var JsCssFtpDir='';var Id='{{_detail.id}}';
+$(function(){
+	$("#play_zy").tab({tabId:"#play_tabbtn",tabTag:"li",conId:"#play_tabcon",conTag:"div.vodplaybox",act:"click"});
+	$("#slider_name").ItemScroll({BoxObjID:"#slider_name",ItemConID:"#silder_con",ItemConItem:"li",ItemTabID:"#silder_nav",ItemTabItem:"li",Timer:3000,Optrue:true,Rfunction:function(con){$(con).find("img.loadimg_w114_h160").trigger("sporty");}});
+	$("img.loadimg_w114_h160").lazyload({effect:"fadeIn",event:"sporty",errorimgpic:JsCssFtpDir+'assets/images/no-pic-z.gif'});
+	FF.Home.Sc($(".btn_sc"));
+	$('#looker').load("{{url::bind('vote','hits',_detail.id)}}");
+});
+// FF.History.Insert('{{_detail.name}}','{{url::bind('detail',_detail.id)}}',10,7,'','');
+</script>
+<!-- #block end -->

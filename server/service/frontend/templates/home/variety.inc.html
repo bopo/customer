@@ -1,0 +1,238 @@
+<!-- 电影块 -->
+<div class="box980">
+	<div class="publicbox w668 f_l" id="box_zy">
+		<div class="i_titlebox">
+			<div class="i_title_txt f_l imgtxt_zy"></div>
+			<div class="i_title_menu f_r menu_zy" id="box_zy_tabbtn">
+				<ul>
+					<li class="cur">热播综艺</li>
+					<!-- BEGIN __variety.sons -->
+					<li>[[_VALUE}}综艺</li>
+					<!-- END __variety.sons -->
+					<div class="cl"></div>
+				</ul>
+			</div>
+			<div class="cl"></div>
+		</div>
+		<div class="i_conbox " id="box_zy_tabcon">
+			<div class="cententbox" style="display:block;">
+				<div class="sibox_l">
+					<div class="topone">
+						<div class="imagelink">
+							<a class="titlelink" href="[[url::bind('detail',__variety.choose._big.id)}}" alt="点击查看详情《[[__variety.choose._big.name}}》">
+								<img class="loadimg_w234_h314_s" data-original="[[__variety.choose._big.picurl}}" src="/assets/images/noimg.gif" alt="[[__variety.choose._big.name}}" />
+							</a>
+							<div class="smallextbox">
+								<span class="txbg"></span>
+								<span class="tx"><a class="titlelink" href="[[url::bind('detail',__variety.choose._big.id)}}" >[[__variety.choose._big.name}}</a></span>
+							</div>
+							<div class="bigextbox">
+								<span class="txbg"></span>
+								<span class="tx">
+									<span class="s_title"><a class="titlelink" href="[[url::bind('detail',__variety.choose._big.id)}}" >[[__variety.choose._big.name}}</a></span>
+									<span class="s_txt">版本：[[__variety.choose._big.note}}</span>
+									<span class="s_txt">主演：[[html::actor2(__variety.choose._big.actor)}}</span>
+									<span class="s_txt mline">语言：[[__variety.choose._big.lang}}</span>
+									<span class="s_txt mline">类型：[[html::tags(__variety.choose._big.tags)}}</span>
+									<span class="s_txt">简介：[[html::content2(__variety.choose._big.content)}}</span>
+								</span>
+								<span class="glodbox">[[__variety.choose._big.gold}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="topstv">
+						<div class="toptitle imgtitlezytj"></div>
+						<div class="jjsyitembox">
+							<!-- BEGIN __variety.choose._top -->
+							<span class="thitembox">
+								<a class="titlelink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+								<div class="cl"></div>
+							</span>
+							<!-- END __variety.choose._top -->
+						</div>
+					</div>
+				</div>
+
+				<div class="sibox_r">
+					<div class="imgitembox">
+						<!-- BEGIN __variety.choose._choose equally=3 -->
+						<!-- IF _EQUALLY=0 -->
+						<div class="imgitem last">
+							<a class="imglink" href="[[url::bind('detail',id)}}">
+								<img class="loadimg_w114_h160_s" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="点击播放《[[html::name(name)}}》" />
+								<span class="txbg"></span>
+								<span class="tx">[[note}}</span>
+							</a>
+							<a class="titlelink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+							<span class="yylink">[[html::actor2(actor)}}</span>
+							<div class="starbox">
+								<span class="starbs">
+									<span class="starbb" style="width:[[channel::percent(gold)}};"></span>
+								</span>
+								<span class="goldtx">[[gold}}</span>
+								<div class="cl"></div>
+							</div>
+						</div>
+						<!-- ELSE -->
+						<div class="imgitem">
+							<a class="imglink" href="[[url::bind('detail',id)}}">
+								<img class="loadimg_w114_h160_s" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="点击播放《[[html::name(name)}}》" />
+								<span class="txbg"></span>
+								<span class="tx">[[note}}</span>
+							</a>
+							<a class="titlelink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+							<span class="yylink">[[html::actor2(actor)}}</span>
+							<div class="starbox">
+								<span class="starbs">
+									<span class="starbb" style="width:[[channel::percent(gold)}};"></span>
+								</span>
+								<span class="goldtx">[[gold}}</span>
+								<div class="cl"></div>
+							</div>
+						</div>
+						<!-- ENDIF -->
+						<!-- END __variety.choose._choose -->
+						<div class="cl"></div>
+					</div>
+				</div>
+				<div class="cl"></div>
+			</div>
+
+			<!-- BEGIN __variety._sons -->
+			<div class="cententbox">
+				<div class="imgitembox">
+					<!-- BEGIN _items equally=5 -->
+					<!-- IF _EQUALLY=0 -->
+					<div class="imgitem f_l last">
+						<a class="imglink" href="[[url::bind('detail',id)}}">
+							<img class="loadimg_w114_h160" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="点击播放《[[html::name(name)}}》" />
+							<span class="txbg"></span>
+							<span class="tx">[[note}}</span>
+						</a>
+						<a class="titlelink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+						<span class="yylink">[[html::actor2(actor)}}</span>
+						<div class="starbox">
+							<span class="starbs">
+								<span class="starbb" style="width:[[channel::percent(gold)}};"></span>
+							</span>
+							<span class="goldtx">[[gold}}</span>
+							<div class="cl"></div>
+						</div>
+					</div>
+					<!-- ELSE -->
+					<div class="imgitem f_l ">
+						<a class="imglink" href="[[url::bind('detail',id)}}">
+							<img class="loadimg_w114_h160" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="点击播放《[[html::name(name)}}》" />
+							<span class="txbg"></span>
+							<span class="tx">[[note}}</span>
+						</a>
+						<a class="titlelink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+						<span class="yylink">[[html::actor2(actor)}}</span>
+						<div class="starbox">
+							<span class="starbs">
+								<span class="starbb" style="width:[[channel::percent(gold)}};"></span>
+							</span>
+							<span class="goldtx">[[gold}}</span>
+							<div class="cl"></div>
+						</div>
+					</div>
+					<!-- ENDIF -->
+					<!-- END _items -->
+					<div class="cl"></div>
+				</div>
+			</div>
+			<!-- END __variety._sons -->
+
+		</div>
+		<div class="cl"></div>
+	</div>
+
+	<div class="publicbox w300 f_r">
+		<div class="pdrbox extbox p16_u_r_d7_l">
+			<div class="pdrboxtab" style="height:26px;">
+				<div class="titletxt titleimg_ext"></div>
+				<div class="ftitletxt"><a href="[[url::bind('channel','variety')}}">更多</a></div>
+			</div>
+			<div class="extitembox">
+				<!-- BEGIN __variety.tags equally=7 -->
+				<!-- IF _EQUALLY='0' -->
+				<dd><a href="[[url::bind('browse','tags',name)}}" class='last'>[[html::name(name)}}</a></dd>
+				<!-- ELSE -->
+				<dd><a href="[[url::bind('browse','tags',name)}}">[[html::name(name)}}</a></dd>
+				<!-- ENDIF -->
+				<!-- END __variety.tags -->
+				<div class="cl"></div>
+			</div>
+		</div>
+
+		<div id="tab_top_zy_hot" class="pdrbox p16_u11_r_d_l">
+			<div id="tab_top_zy_tabbtn" class="pdrboxtab" >
+				<div class="titletxt titleimg_zy"></div>
+				<ul>
+					<li class="cur" >日</li>
+					<li>周</li>
+					<li>月</li>
+					<div class="cl"></div>
+				</ul>
+			</div>
+
+			<div id="tab_top_zy_tabcon">
+				<!-- BEGIN __variety._ranking -->
+				<div class="conbox" <!-- IF _FIRST --><!-- ELSE -->style="display:none;"<!-- ENDIF -->>
+					<div class="itembox">
+						<!-- BEGIN _items -->
+						<!-- IF _ROWCNT='1' -->
+						<div class="imgitem">
+							<div class="imgbox">
+								<a href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">
+									<img class="loadimg_w79_h110_s" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="点击播放《[[html::name(name)}}》" />
+								</a>
+								<div class="toplabel"></div>
+							</div>
+							<div class="imgtxtbox">
+								<a class="titlelink" alt="点击查看详情《[[html::name(name)}}》" href="">[[html::name(name)}}</a>
+								<span class="yylink"> [[html::actor2(actor)}} </span>
+								<span class="yylink">上映：[[lang}}</span>
+								<div class="starbox">
+									<span class="starbs">
+										<span class="starbb" style="width:100%;"></span>
+									</span>
+									<span class="goldtx">[[gold}}</span>
+									<div class="cl"></div>
+								</div>
+								<a class="playbtn" href="" alt="点击播放《[[html::name(name)}}》"></a>
+							</div>
+							<div class="cl"></div>
+						</div>
+						<!-- ELSEIF _ROWCNT<='3' -->
+						<div class="item">
+							<span class="nobox ">[[_ROWCNT}}</span>
+							<span class="titlelinkbox">
+								<a class="hitlink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+							</span>
+							<span class="datebox gold">[[gold}}</span>
+							<div class="cl"></div>
+						</div>
+						<!-- ELSE -->
+						<div class="item">
+							<span class="nobox ns">[[_ROWCNT}}</span>
+							<span class="titlelinkbox">
+								<a class="hitlink" href="[[url::bind('detail',id)}}" alt="点击查看详情《[[html::name(name)}}》">[[html::name(name)}}</a>
+							</span>
+							<span class="datebox gold">[[gold}}</span>
+							<div class="cl"></div>
+						</div>
+						<!-- ENDIF -->
+						<!-- END _items -->
+					</div>
+					<span class="cl"></span>
+				</div>
+				<!-- END __variety._ranking -->
+			</div>
+		</div>
+
+	</div>
+	<div class="cl"></div>
+</div>
+<!-- //电影块 -->

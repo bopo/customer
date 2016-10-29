@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+from .views import home
 # sitemaps = {'static': PhotoViewSitemap,}
 
 # urlpatterns = patterns('',
@@ -15,7 +15,7 @@ from django.conf.urls import url
 #     )
 
 urlpatterns = [
-    # url(r'^$', 'frontend.views.home', name='home'),
+    url(r'^$', home, name='home'),
     # url(r'^channel/(?P<id>\d+)', 'frontend.views.channel', name='category'),
     # url(r'^detail/(?P<id>\d+)', 'frontend.views.detail', name='detail'),
     # url(r'^detail/(?P<id>\d+\.html)', 'frontend.views.detail', name='detail'),

@@ -1,0 +1,90 @@
+<!-- #layout name='frontend.html' block='container' -->
+<div class="box980">
+	<div class="f_l w116">
+		<div class="publicbox top_menu_l">
+			<div class="title updatetitle"></div>
+			<div class="menu">
+				<ul>
+					<li<!-- IF _alias="" --> class="cur"<!-- ENDIF -->>
+						<a href="{{url::bind('update')}}">今日更新</a>
+					</li>
+					<!-- BEGIN _sidebar -->
+					<li<!-- IF top._alias=alias --> class="cur"<!-- ENDIF -->>
+						<a href="{{url::bind('update',alias)}}">{{html::name(name)}}</a>
+					</li>
+					<!-- END _sidebar -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="f_r">
+		<div class="publicbox w852">
+			<div class="vodhottitle noimgtitle updatetitle">
+				<span class="txtitle">最近更新 <strong>100</strong> 部{{_cname}}</span>
+				<span class="txttype">类型</span>
+				<span class="txtext">标签</span>
+				<span class="txtuptime">更新时间</span>
+			</div>
+			<div class="conlistbox_new" style="display:block;">
+				<ul>
+					<!-- BEGIN _videos -->
+					<li>
+						<span class="no">{{_ROWCNT}}</span>
+						<span class="t_titlebox"><a class="t_title" href="{{url::bind('detail',id)}}" title="{{html::name(name)}} {{note}}"
+						><font color="">{{html::name(name)}}</font></a>
+						<!-- IF note -->
+						/<a href="{{url::bind('video',id,'0',state)}}" title="{{html::name(name)}} {{note}}">{{note}}</a>
+						<!-- ELSE -->
+						/<a href="{{url::bind('video',id,'0',state)}}" title="{{html::name(name)}} 第{{state}}集">第{{state}}集</a>
+						<!-- ENDIF -->
+						</span>
+						<span class="t_typebox">
+							<a class="t_type" href="{{url::bind('channel',_alias)}}" title="{{_channel}}">[{{_channel}}]</a>
+						</span>
+						<span class="t_extbox">{{html::tags(tags)}}</span>
+						<span class="t_timebox"><b style="color:red;">{{date::format(addtime,'Y-m-d')}}</b></span>
+						<div class="cl"></div>
+						<div class="lvbox">
+							<div class="lv_imgbox">
+								<a class="imglink" href="{{url::bind('detail',id)}}">
+									<img class="itemimg" src="/assets/images/noimg.gif" data-original="{{picurl}}" alt="点击播放《{{html::name(name)}}》" />
+									<span class="txbg"></span>
+									<span class="tx">{{title}}</span>
+								</a>
+							</div>
+							<div class="lv_txtitembox">
+								<dl>
+									<dt><font color="">{{html::name(name)}}</font></dt>
+									<dd><label>主演：</label>{{html::actor(actor)}}</dd>
+									<dd class="jq"><label>剧情：</label>{{html::content2(content)}}</dd>
+									<dd class="upext"><label>状态：</label>更新至{{html::intro(state)}}</dd>
+									<dd class="upext"><label>更新时间：</label>{{date::format(addtime,'Y-m-d H:i:s')}}</dd>
+								</dl>
+							</div>
+						</div>
+					</li>
+					<!-- END _videos -->
+
+					<div class="cl"></div>
+				</ul>
+				<div class="cl"></div>
+			</div>
+		</div>
+	</div>
+	<div class="cl"></div>
+</div>
+
+<!-- #block name='javascript' -->
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$("img.itemimg").lazyload({effect:"fadeIn",event:"sporty"});
+	$("span.t_titlebox a").hover(function(){
+			$(this).parents("li").find("div.lvbox").show();
+			$(this).parents("li").find("img.itemimg").trigger("sporty");
+		},
+		function(){
+			$(this).parents("li").find("div.lvbox").hide();
+	});
+});
+</script>
+<!-- #block end -->

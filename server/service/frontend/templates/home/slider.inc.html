@@ -1,0 +1,32 @@
+<!-- 滚动图片代码开始 -->
+<div id="slider">
+  <div class="slider_box" id="slider_name" > 
+    <div class="silder_tip" id="movie_tip">电影</div> 
+    <ul class="silder_con" id="silder_con">
+        <!-- BEGIN _slider -->
+        <li class="silder_panel clearfix"> 
+            <!-- BEGIN _items -->
+            <div class="starsitem"> 
+                <p><a href="[[url::bind('detail',id)}}"><img class="loadimg_w234_h314" data-original="[[picurl}}" src="/assets/images/noimg.gif" alt="[[name}}" /></a></p> 
+                <h4></h4> 
+                <span><a href="[[url::bind('detail',id)}}" title="[[name}}">[[html::name(name)}}</a></span> 
+            </div>
+            <!-- IF _LAST -->
+            <!-- ELSE -->   
+            <div class="starsline"></div>
+            <!-- ENDIF -->  
+            <!-- END _items -->
+        </li>
+        <!-- END _slider -->
+    </ul>
+    <ul class="silder_nav clearfix" id="silder_nav">
+      <li><span class="nav_1"></span></li>
+      <li><span class="nav_2"></span></li>
+      <li><span class="nav_3"></span></li>
+      <li style="margin-right:0px;"><span class="nav_4"></span></li>
+      <div class="cl"></div>
+    </ul>
+    <a class='prev'>Prev</a><a class='next'>Next</a>
+  </div>
+</div>
+<!-- //滚动图片代码结束 -->
