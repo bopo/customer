@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>微商记账助手</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+
+		<link rel="stylesheet" href="css/sm.min.css">
+		<link rel="stylesheet" href="css/wshelper.css">
+	</head>
+
+	<body>
+		<div class="page">
+			<input type="hidden" id="monthIndex" />
+			<input type="hidden" id="totalnumber" />
+			<nav class="bar bar-nav">
+				<a class="icon pull-left external" href="home.html">返回</a>
+				<h1 class="title" id="bar_title">今天流水</h1>
+			</nav>
+			<div class="content pull-to-refresh-content infinite-scroll infinite-scroll-bottom " id="pull_history" data-ptr-distance="55" data-distance="20">
+				<div class="pull-to-refresh-layer">
+					<div class="preloader"></div>
+					<div class="pull-to-refresh-arrow"></div>
+				</div>
+				<div class="dn-home-top" style="margin-top:0.5rem">
+					<div class="dn-home-date">
+						<span class="dn-home-month" id="lbl_title">今天</span>
+					</div>
+					<div class="dn-home-row">
+						<span>利润</span><span class="dn-home-num" id="lbl_monthprofit">￥0.00</span>
+					</div>
+					<div class="dn-home-row">
+						<span>出货</span><span class="dn-home-num" id="lbl_outmoney">￥0.00</span>
+					</div>
+					<div class="dn-home-row">
+						<span>进货</span><span class="dn-home-num" id="lbl_inmoney">￥0.00</span>
+					</div>
+				</div>
+				<div class="dn-group-list list-block">
+					<ul id="group_list">
+
+					</ul>
+				</div>
+				<div id="preloader_1" class="infinite-scroll-preloader ">
+					<div>加载中...</div>
+					<div class="preloader">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script id="tpl_grouplist" type="text/html">
+			{{# for(var i = 0, len = d.list.length; i< len; i++){ }} 
+				<li>
+				{{# if(d.list[i].type=="1"){ }}
+				<a href="checkOut.html?source=home&amp;type=%257B%257Bd.type%257D%257D&amp;id=%257B%257Bd.list[i].id%257D%257D" class="item-content item-link external">
+				{{# }else{ }}
+				<a href="checkIn.html?source=home&amp;type=%257B%257Bd.type%257D%257D&amp;id=%257B%257Bd.list[i].id%257D%257D" class="item-content item-link external">
+				{{# } }}
+					<div class="item-media">
+						<span class="dn-home-group-date"><font>{{d.list[i].daynumber}}</font><br>{{d.list[i].monthnumber}}月</span>
+						<img src="http://ws.datanexus.cn/uploadfile/productimg/{{d.list[i].picture}}" width="50" height="50" />
+					</div>
+					<div class="item-inner">
+						<div class="item-title">
+							<div class="item-title-row">
+								<div class="item-title">{{d.list[i].title}}</div>
+							</div>
+							<div class="item-subtitle">{{d.list[i].number}}{{d.list[i].unit}}</div>
+						</div>
+						<div class="item-after">
+							{{# if(d.list[i].type=="1"){ }}
+							<span class="color-warning">￥{{d.list[i].money}}</span> {{# } else{ }} ￥{{d.list[i].money}} {{# } }}
+						</div>
+					</div>
+				</a>
+				</li>
+			{{# } }}
+		</script>
+		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='js/lib/sm.0.6.2.js' charset='utf-8'></script>
+		<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/page/common.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/page/homeGroup.js" charset="UTF-8"></script>
+		<script type="text/javascript">
+			$.init();
+		</script>
+	</body>
+
+</html>

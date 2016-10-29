@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>微商记账助手</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<link rel="stylesheet" href="css/sm.min.css">
+		<link rel="stylesheet" href="css/wshelper.css">
+	</head>
+
+	<body>
+	<div class="page-group">
+		<div class="page page-current" id="out_record">
+			<nav class="bar bar-nav">
+				<a class="icon pull-left external" href="home.html">返回</a>
+				<h1 class="title">记一笔</h1>
+			</nav>
+			<div class="content">
+				<div class="buttons-tab">
+					<a href="record.html#" class="active button">出货</a>
+					<a href="record.html#in_record" class="button">进货</a>
+				</div>
+				<div class="list-block">
+					<form>
+						<ul>
+							<li class="dn-select">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">出货方式</div>
+										<div class="item-input">
+											<select id="out_type" name="outtype" required="required" onchange="displaySalerList();">
+												<option class="dn-option" value="">-请选择-</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="dn-select">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">产品</div>
+										<div class="item-input">
+											<select id="product_list_1" name="goods1" required="required" onchange="setUnit('product_list_1','lbl_unit_1','inp_price','outprice')" />
+												<option class="dn-option" value="">-请选择-</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">价格</div>
+										<div class="item-input">
+											<input id="inp_price" name="outprice" required="required" type="number" placeholder="出货价格" onchange="computeMoney('inp_price','inp_number','inp_totalmoney')" />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">库存</div>
+										<div class="item-input">
+											<input id="hidden_kucun" name="hidden_kucun" readonly="readonly" required="required" type="number" placeholder="库存量">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">数量</div>
+										<div class="item-input">
+											<input id="inp_number" name="outnumber" required="required" type="number" placeholder="出货数量" onchange="computeMoney('inp_price','inp_number','inp_totalmoney')" />
+										</div>
+										<div id="lbl_unit_1"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">合计</div>
+										<div class="item-input">
+											<input id="inp_totalmoney" name="outmoney" required="required" type="number" readonly="readonly" placeholder="自动计算">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li id="li_daili" class="dn-select" style="display:none">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">代理商</div>
+										<div class="item-input">
+											<select id="daili_list" name="salerId">
+												<option class="dn-option" value="">-请选择-</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li id="li_shouhuo">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">收货人</div>
+										<div class="item-input">
+											<input id="inp_outperson" name="outperson" required="required" type="text" placeholder="收货人姓名">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">日期</div>
+										<div class="item-input">
+											<input id="inp_outdate" name="outdate" required="required" type="text" placeholder="出货日期" data-toggle='date' />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="align-top">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">备注</div>
+										<div class="item-input">
+											<textarea id="inp_outremark" name="outremark" rows="1" placeholder="备注" style="height: 3rem;"></textarea>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="dn_uploader">
+									<div class="dn_uploader_bd">
+										<ul class="dn_uploader_files" id="imageList1"></ul>
+										<div class="dn_uploader_input_wrp">
+											<button class="dn_uploader_input" type="button" onclick="wxJSSDK.chooseImageWithCall2(3,'imageList1','outimg/')"></button>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</form>
+				</div>
+
+				<div class="content-block">
+					<a class="button button-big button-fill button-success" href="record.html#" onclick="saveOutInfo()">保存</a>
+				</div>
+			</div>
+		</div>
+		<div class="page" id="in_record">
+			<nav class="bar bar-nav">
+				<a class="icon pull-left external" href="home.html">返回</a>
+				<h1 class="title">记一笔</h1>
+			</nav>
+			<div class="content">
+				<div class="buttons-tab">
+					<a href="record.html#out_record" class="button">出货</a>
+					<a href="record.html#" class="active button">进货</a>
+				</div>
+				<div class="list-block">
+					<form>
+						<ul>
+							<li class="dn-select">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">产品</div>
+										<div class="item-input">
+											<select id="product_list_2" name="goods2" required="required" onchange="setUnit('product_list_2','lbl_unit_2','inprice','inprice')">
+												<option class="dn-option" value="">-请选择-</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">价格</div>
+										<div class="item-input">
+											<input type="number" placeholder="进货价格" required="required" name="inprice" id="inprice"  onchange="computeMoney('inprice','innumber','inmoney')" />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">数量</div>
+										<div class="item-input">
+											<input type="number" placeholder="进货数量" required="required" name="innumber" id="innumber" onchange="computeMoney('inprice','innumber','inmoney')" />
+										</div>
+										<div id="lbl_unit_2"></div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">合计</div>
+										<div class="item-input">
+											<input type="number" id="inmoney" name="inmoney" required="required" readonly="readonly" placeholder="自动计算">
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">日期</div>
+										<div class="item-input">
+											<input id="inp_indate" name="indate" type="text" required="required" placeholder="进货日期" data-toggle='date' />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="align-top">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">备注</div>
+										<div class="item-input">
+											<textarea rows="1" name="inremark" placeholder="备注" style="height: 3rem;"></textarea>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="dn_uploader">
+									<div class="dn_uploader_bd">
+										<ul class="dn_uploader_files" id="imageList2">
+	
+										</ul>
+										<div class="dn_uploader_input_wrp">
+											<button class="dn_uploader_input" type="button" onclick="wxJSSDK.chooseImageWithCall2(3,'imageList2','inimg/')"></button>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<div class="content-block">
+					<a class="button button-big button-fill button-success" href="record.html#" onclick="saveInInfo()">保存</a>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script id="tpl_outtype" type="text/html">
+			<option class="dn-option" value="">-请选择-</option>
+			{{# for(var i = 0, len = d.length; i< len; i++){ }} 
+			<option value="{{d[i].id}}">{{d[i].title}}</option>
+			{{# } }}
+		</script>
+
+		<script id="tpl_daili" type="text/html">
+			<option class="dn-option" value="">-请选择-</option>
+			{{# for(var i = 0, len = d.length; i< len; i++){ }} 
+			<option value="{{d[i].id}}">{{d[i].title}}</option>
+			{{# } }}
+		</script>
+
+		<script id="tpl_goodslist" type="text/html">
+			<option class="dn-option" value="" unit="" inprice="" outprice="">-请选择-</option>
+			{{# for(var i = 0, len = d.length; i< len; i++){ }} 
+			<option value="{{d[i].id}}" unit="{{d[i].unit}}" kucun="{{d[i].kucun}}" inprice="{{d[i].inprice}}" outprice="{{d[i].outprice}}">{{d[i].title}}</option>
+			{{# } }}
+		</script>
+
+		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+		<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/weixin/cookie.js"></script>
+		<script type="text/javascript" src="js/weixin/sha1.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
+		<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
+		<script type="text/javascript" src="js/weixin/wxImage.js"></script>
+		<script type="text/javascript" src="js/page/common.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/page/record.js" charset="UTF-8"></script>
+		<script type="text/javascript">
+			$.init();
+		</script>
+	</body>
+
+</html>

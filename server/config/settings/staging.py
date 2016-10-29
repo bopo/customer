@@ -18,7 +18,7 @@ INSTALLED_APPS += (
     # 'django_rest_framework_generator',
 
     'allauth',
-    # 'oauth_provider',
+        # 'oauth_provider',
     'django_extensions',
 )
 

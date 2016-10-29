@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>流水</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="{% static 'frontend/css/wshelper.css' %}">
+</head>
+
+<body>
+<input type="hidden" id="monthIndex"/>
+<input type="hidden" id="totalnumber"/>
+<div class="page-group">
+    <div class="page page-current" id="historypage">
+        <nav class="bar bar-tab">
+            <a class="tab-item external" href="home.html">
+                <span class="icon icon-dn-home"></span>
+                <span class="tab-label">主页</span>
+            </a>
+            <a class="tab-item external active" href="history.html">
+                <span class="icon icon-dn-bagx"></span>
+                <span class="tab-label">流水</span>
+            </a>
+            <a class="tab-item external" href="report.html">
+                <span class="icon icon-dn-chart"></span>
+                <span class="tab-label">统计</span>
+            </a>
+            <a class="tab-item external" href="me.html">
+                <span class="icon icon-dn-user"></span>
+                <span class="tab-label">我的</span>
+            </a>
+        </nav>
+        <header class="bar bar-nav">
+            <h1 class='title'>流水</h1>
+        </header>
+        <div class="content  pull-to-refresh-content infinite-scroll infinite-scroll-bottom " id="pull_history"
+             data-ptr-distance="55" data-distance="20">
+            <div class="pull-to-refresh-layer">
+                <div class="preloader"></div>
+                <div class="pull-to-refresh-arrow"></div>
+            </div>
+            <div class="container dn-list" style="margin-top:0.5rem" id="history_list"></div>
+            <div id="preloader_1" class="infinite-scroll-preloader ">
+                <div>加载中...</div>
+                <div class="preloader">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tpl_history">
+    {{# for(var i = 0, len = d.length; i< len; i++){ }}
+    <div class="content-block-title">
+        <div class="dn-list-date">
+            <div>{{ d[i].year1}}</div>
+            <div><span class="dn-list-month">{{ d[i].month1}}</span>月</div>
+        </div>
+        <div class="dn-list-cost">
+            <div class="color-warning"><span>销</span>￥{{ d[i].outmoney}}</div>
+            <div><span>进</span>￥{{ d[i].inmoney}}</div>
+        </div>
+        <div class="dn-list-income">
+            <div class="color-primary">利润</div>
+            <div class="color-primary">￥{{ d[i].profit}}</div>
+        </div>
+    </div>
+    <div class="list-block">
+        <ul>
+            {{# for(var j=0;j
+            <d
+            [i].list.length;j++){ }}
+            <li>
+                {{# if(d[i].list[j].type=="1"){ }}
+                <a href="checkOut.html?source=history&amp;id=%257B%257Bd[i].list[j].id%257D%257D"
+                   class="item-content item-link external">
+                    {{# }else{ }}
+                    <a href="checkIn.html?source=history&amp;id=%257B%257Bd[i].list[j].id%257D%257D"
+                       class="item-content item-link external">
+                        {{# } }}
+                        <div class="item-media">
+                            <i>{{ d[i].list[j].daynumber}}</i>
+                            <img src="http://ws.datanexus.cn/uploadfile/productimg/{{ d[i].list[j].picture}}" width="50"
+                                 height="50"/>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">
+                                <div class="item-title-row">
+                                    <div class="item-title">{{ d[i].list[j].title}}</div>
+                                </div>
+                                <div class="item-subtitle">{{ d[i].list[j].number}}{{ d[i].list[j].unit}}</div>
+                            </div>
+                            <div class="item-after">
+                                {{# if(d[i].list[j].type=="1"){ }}
+                                <span class="color-warning">￥{{ d[i].list[j].money}}
+								</span> {{# }else{}} ￥{{d[i].list[j].money}} {{#}}}
+                            </div>
+                        </div>
+                    </a>
+            </li>
+            {{# } }}
+        </ul>
+    </div>
+    {{# } }}
+</script>
+<script type="text/html" id="tpl_nodata">
+    {{# for(var i=0;i
+    <d.length;i++){ }}
+    <div class="content-block-title" style="border-bottom: 1px solid #DFDFDF;">
+        <div class="dn-list-date">
+            <div>{{ d[i].year}}</div>
+            <div><span class="dn-list-month">{{ d[i].month}}</span>月</div>
+        </div>
+        <div class="dn-list-cost">
+            <div class="color-warning"><span>销</span>￥0.00</div>
+            <div><span>进</span>￥0.00</div>
+        </div>
+        <div class="dn-list-income">
+            <div class="color-primary">利润</div>
+            <div class="color-primary">￥0.00</div>
+        </div>
+    </div>
+    {{# } }}
+</script>
+<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/lib/sm.0.6.2.js' charset='utf-8'></script>
+<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/page/history.js"></script>
+<script type="text/javascript">
+    $.init();
+</script>
+</body>
+
+</html>

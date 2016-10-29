@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import home
+from .views import *
 # sitemaps = {'static': PhotoViewSitemap,}
 
 # urlpatterns = patterns('',
@@ -16,6 +16,10 @@ from .views import home
 
 urlpatterns = [
     url(r'^$', home, name='home'),
+    url(r'^history/', history, name='history'),
+    url(r'^report/', report, name='report'),
+    url(r'^me/', me, name='me'),
+
     # url(r'^channel/(?P<id>\d+)', 'frontend.views.channel', name='category'),
     # url(r'^detail/(?P<id>\d+)', 'frontend.views.detail', name='detail'),
     # url(r'^detail/(?P<id>\d+\.html)', 'frontend.views.detail', name='detail'),

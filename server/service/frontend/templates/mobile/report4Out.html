@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>微商记账助手</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		
+		<link rel="stylesheet" href="css/sm.min.css">
+		<link rel="stylesheet" href="css/wshelper.css">
+	</head>
+
+	<body>
+		<div class="page">
+			<nav class="bar bar-nav">
+			  <a class="icon pull-left external" href="report.html">返回</a>
+			  <a class="icon pull-right open-popup" href="report4Out.html#">本周</a>
+			  <h1 class="title">出货报表</h1>
+			</nav>
+			<div class="content">
+				<div class="content-block-title">总出货：0.00</div>
+				<div class="list-block">
+					<ul id="report_out_list"></ul>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="tpl_datePopup">
+		<div class="popup popup-date">
+			<div class="content-block">
+				<div class="list-block media-list">
+					<ul id="report_date_list">
+						<li>
+							<label class="label-checkbox item-content">
+						      <input type="radio" name="dateRadio" value="w"/>
+						      <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+						      <div class="item-inner">
+						        <div class="item-title-row">
+						          <div class="item-title">本周</div>
+						        </div>
+						      </div>
+						    </label>
+						</li>
+						<li>
+							<label class="label-checkbox item-content">
+							    <input type="radio" name="dateRadio" value="m" />
+							    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							    <div class="item-inner">
+							    	<div class="item-title-row">
+							        	<div class="item-title">本月</div>
+							        </div>
+						      	</div>
+						    </label>
+						</li>
+						<li>
+							<label class="label-checkbox item-content">
+							    <input type="radio" name="dateRadio" value="q" />
+							    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							    <div class="item-inner">
+							    	<div class="item-title-row">
+							        	<div class="item-title">本季</div>
+							        </div>
+						      	</div>
+						    </label>
+						</li>
+						<li>
+							<label class="label-checkbox item-content">
+							    <input type="radio" name="dateRadio" value="y" />
+							    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							    <div class="item-inner">
+							    	<div class="item-title-row">
+							        	<div class="item-title">本年</div>
+							        </div>
+						      	</div>
+						    </label>
+						</li>
+						<li>
+							<label class="label-checkbox item-content">
+							    <input type="radio" name="dateRadio" value="c" />
+							    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							    <div class="item-inner">
+							    	<div class="item-title-row">
+							        	<div class="item-title">自定义</div>
+							        </div>
+						      	</div>
+						    </label>
+						</li>
+					</ul>
+					<div class="row" id="customDate" style="display: none;">
+						<div class="col-50"><input type="text" name="startTime" id="startDate" placeholder="开始于" /></div>
+						<div class="col-50"><input type="text" name="endTime" id="endDate" placeholder="结束于" /></div>
+					</div>
+				</div>
+			</div>
+			<div class="content-block">
+				<p><a id="report_in_query_btn" class="button button-big button-fill button-success" href="report4Out.html#">完成</a></p>
+			</div>
+		</div>
+		</script>
+		<script type="text/html" id="tpl_report4Out">
+			{{# for(var i = 0, len = d.list.length; i< len; i++){ }} 
+			<li class="dn-report">
+				<a href="report4OutDetail.html?id=%257B%257Bd.list[i].id%257D%257D&amp;sd=%257B%257Bd.sd%257D%257D&amp;ed=%257B%257Bd.ed%257D%257D" class="item-link item-content external">
+					<div class="item-inner">
+						<div class="item-title">
+							<div class="item-title-row">
+								<div class="item-title">{{d.list[i].name}}</div>
+							</div>
+							<div class="item-subtitle">{{d.list[i].outmoney}}</div>
+						</div>
+						<div class="item-after"><span>{{d.list[i].percent}}%</span></div>
+					</div>
+					<div class="dn-progress" style="width:{{d.list[i].percent}}%;"></div>
+				</a>
+			</li>
+			{{# } }}
+		</script>
+		<script type='text/javascript' src='js/lib/zepto.min.js' charset='UTF-8'></script>
+		<script type='text/javascript' src='js/lib/sm.min.js' charset='UTF-8'></script>
+		<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="js/page/common.js"></script>
+		<script type="text/javascript" src="js/page/report4Out.js"></script>
+		<script type="text/javascript">
+			$.init();
+		</script>
+	</body>
+
+</html>

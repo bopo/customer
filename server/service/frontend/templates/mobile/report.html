@@ -1,0 +1,104 @@
+{% extends "mobile/layout.html" %}
+{% block content %}
+				<div class="content dn-list">
+					<div class="content-block-title">商品统计</div>
+					<div class="list-block">
+						<ul>
+							<li>
+								<a class="item-content item-link external" href="report4In.html">
+									<div class="item-media">
+										<div class="dn-report-goods"><span class="icon icon-dn-checkin"></span></div>
+									</div>
+									<div class="item-inner">
+										<div class="item-title">
+											<div class="item-title-row">
+												<div class="item-title">进货报表</div>
+											</div>
+											<div class="item-subtitle">查看商品进货信息</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a class="item-content item-link external" href="report4Out.html">
+									<div class="item-media">
+										<div class="dn-report-goods"><span class="icon icon-dn-bag"></span></div>
+									</div>
+									<div class="item-inner">
+										<div class="item-title">
+											<div class="item-title-row">
+												<div class="item-title">出货报表</div>
+											</div>
+											<div class="item-subtitle">查看商品出货信息</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a class="item-content item-link external" href="report4Store.html">
+									<div class="item-media">
+										<div class="dn-report-goods"><span class="icon icon-dn-basket"></span></div>
+									</div>
+									<div class="item-inner">
+										<div class="item-title">
+											<div class="item-title-row">
+												<div class="item-title">库存状况</div>
+											</div>
+											<div class="item-subtitle">统计商品库存信息</div>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="content-block-title">财务统计（VIP）</div>
+					<div class="list-block">
+						<ul>
+							<li>
+								<a class="item-content item-link external dn-unlink" id="report4Profit" href="javascript:forbidden();">
+									<div class="item-media">
+										<div class="dn-report-money"><span class="icon icon-dn-coins"></span></div>
+									</div>
+									<div class="item-inner">
+										<div class="item-title">
+											<div class="item-title-row">
+												<div class="item-title">利润报表</div>
+											</div>
+											<div class="item-subtitle">按时间、商品统计所得利润</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li>
+								<a class="item-content item-link external dn-unlink" id="report4Dealer" href="javascript:forbidden();">
+									<div class="item-media">
+										<div class="dn-report-money"><span class="icon icon-dn-stats"></span></div>
+									</div>
+									<div class="item-inner">
+										<div class="item-title">
+											<div class="item-title-row">
+												<div class="item-title">业绩报表</div>
+											</div>
+											<div class="item-subtitle">按时间、代理商、商品统计业绩</div>
+										</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+{% endblock %}						
+			</div>
+		</div>
+
+		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+		<script type="text/javascript" src="js/page/common.js"></script>
+		<script type="text/javascript" src="js/page/report.js"></script>
+		<script type="text/javascript">
+			$.init();
+		</script>
+	</body>
+
+</html>

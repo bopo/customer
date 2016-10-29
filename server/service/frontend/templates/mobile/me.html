@@ -1,0 +1,104 @@
+{% extends "mobile/layout.html" %}
+{% block content %}
+    <div class="dn-list content">
+        <div class="list-block media-list inset">
+            <ul>
+                <li>
+                    <a href="userInfo.html" class="item-link item-content external">
+                        <div class="item-media"><img src="images/hp.png" height="50" height="50" id="img_headerImg">
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title" id="lbl_nickname">匿名</div>
+                            </div>
+                            <div class="item-subtitle">手机号：<span id="lbl_telphone">--</span></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="list-block media-list inset">
+            <ul>
+                <li>
+                    <a href="goodsList.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-gift"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">商品</div>
+                                <div class="item-after" id="lbl_goods">0</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="dealerList.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-tree"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">代理</div>
+                                <div class="item-after" id="lbl_dealer">0</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="levelList.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-stack"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">等级</div>
+                                <div class="item-after" id="lbl_level">0</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="list-block media-list inset">
+            <ul>
+                <li>
+                    <a href="vip.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-rmb"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">充值</div>
+                                <div class="item-after" id="lbl_limitdate"></div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="help.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-question"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">帮助</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="feedback.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-chat"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">意见反馈</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="about.html" class="item-link item-content external">
+                        <div class="item-media"><span class="icon icon-dn-info"></span></div>
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">关于我们</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

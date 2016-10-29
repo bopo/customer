@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>微商记账助手</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/sm.min.css">
+		<link rel="stylesheet" href="css/wshelper.css">
+	</head>
+
+	<body>
+		<div class="page">
+			<nav class="bar bar-nav">
+				<a class="icon pull-left external" href="me.html">返回</a>
+				<h1 class="title">意见反馈</h1>
+			</nav>
+			<div class="content">
+				<form>
+					<div class="list-block">
+						<ul>
+							<li class="dn-select">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">问题类型</div>
+										<div class="item-input">
+											<select required="required" name="type">
+												<option value="008001">建议</option>
+												<option value="008002">出错</option>
+												<option value="008003">其他</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="align-top">
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-input">
+											<textarea rows="1" name="content" placeholder="反馈内容" style="height: 8rem;" required="required"></textarea>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="dn_uploader">
+									<div class="dn_uploader_bd">
+										<ul class="dn_uploader_files" id="picture_list"></ul>
+										<div class="dn_uploader_input_wrp">
+											<button class="dn_uploader_input" type="button" onclick="wxJSSDK.chooseImageWithCall2(3,'picture_list','inimg/')"></button>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</form>
+				<div class="content-block">
+					<a class="button button-big button-fill button-success" href="feedback.html#">提交</a>
+				</div>
+			</div>
+		</div>
+
+		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+		<script type="text/javascript" src="js/weixin/cookie.js"></script>
+		<script type="text/javascript" src="js/weixin/sha1.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
+		<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
+		<script type="text/javascript" src="js/weixin/wxImage.js"></script>
+		<script type="text/javascript" src="js/page/common.js" charset="utf-8"></script>
+		<script type="text/javascript" src="js/page/feedback.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			$.init();
+		</script>
+	</body>
+
+</html>

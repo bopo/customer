@@ -21,12 +21,7 @@ PRODUCTION_HOSTS = env('PRODUCTION_HOSTS', None)
 # django.settings_module('config.settings.local')
 
 env.hosts = PRODUCTION_HOSTS
-# env.roledefs = {
-#     # 'slave': ['root@101.200.136.70'],
-#     'master': ['root@114.55.86.150'],
-#     # 'vagrant': ['vagrant@127.0.0.1'],
-#     # 'pi': ['root@10.7.7.233'],
-# }
+
 
 env.fixtures = (
     'flatpages',
