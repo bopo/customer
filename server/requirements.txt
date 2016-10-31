@@ -1,5 +1,4 @@
 
-# django plugins
 django
 django-suit
 django-import-export
@@ -11,21 +10,31 @@ django-celery
 django-mptt
 
 django-suit-ckeditor
-django-suit-redactor
 django-extra-fields
 
+
+# django rest framework
+djangorestframework-word-filter
+djangorestframework-recursive
+djangorestframework-filters
+django-rest-multiple-models
+djangorestframework-oauth
+djangorestframework
+drf-nested-routers
+drf-extensions
 
 # librares
 easy_thumbnails
 whitenoise
 
 
+django-allauth
 django-imagekit
 django-easy-select2
-short_url
-
-qrcode
 django-reversion==1.10.2
+
+short_url
+pyqrcode
 
 
 gunicorn
@@ -40,3 +49,5 @@ django-redis
 redis
 click
 plan
+django-rest-swagger==0.3.10
+django-cors-headers

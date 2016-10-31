@@ -6,9 +6,10 @@ from .base import INSTALLED_APPS
 INSTALLED_APPS += (
     'service.frontend',
     'service.kernel',
-    # 'service.wechat',
-    # 'service.restauth',
-    # 'service.restauth.registration',
+    'service.wechat',
+    'service.consumer',
+    'service.restauth',
+    'service.restauth.registration',
 
     'imagekit',
     'reversion',
