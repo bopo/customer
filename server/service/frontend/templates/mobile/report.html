@@ -1,5 +1,40 @@
-{% extends "mobile/layout.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>统计</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/sm.min.css">
+		<link rel="stylesheet" href="css/wshelper.css">
+
+	</head>
+
+	<body>
+		<div class="page-group">
+			<div class="page page-current">
+				<nav class="bar bar-tab">
+					<a class="tab-item external" href="home.html">
+						<span class="icon icon-dn-home"></span>
+						<span class="tab-label">主页</span>
+					</a>
+					<a class="tab-item external" href="history.html">
+						<span class="icon icon-dn-bag"></span>
+						<span class="tab-label">流水</span>
+					</a>
+					<a class="tab-item external active" href="report.html">
+						<span class="icon icon-dn-chartx"></span>
+						<span class="tab-label">统计</span>
+					</a>
+					<a class="tab-item external" href="me.html">
+						<span class="icon icon-dn-user"></span>
+						<span class="tab-label">我的</span>
+					</a>
+				</nav>
 				<div class="content dn-list">
 					<div class="content-block-title">商品统计</div>
 					<div class="list-block">
@@ -12,14 +47,14 @@
 									<div class="item-inner">
 										<div class="item-title">
 											<div class="item-title-row">
-												<div class="item-title">进货报表</div>
+												<div class="item-title">销售报表</div>
 											</div>
-											<div class="item-subtitle">查看商品进货信息</div>
+											<div class="item-subtitle">查看商品销售信息</div>
 										</div>
 									</div>
 								</a>
 							</li>
-							<li>
+							<li style="display: block">
 								<a class="item-content item-link external" href="report4Out.html">
 									<div class="item-media">
 										<div class="dn-report-goods"><span class="icon icon-dn-bag"></span></div>
@@ -27,9 +62,9 @@
 									<div class="item-inner">
 										<div class="item-title">
 											<div class="item-title-row">
-												<div class="item-title">出货报表</div>
+												<div class="item-title">订单报表</div>
 											</div>
-											<div class="item-subtitle">查看商品出货信息</div>
+											<div class="item-subtitle">查看商品订单信息</div>
 										</div>
 									</div>
 								</a>
@@ -51,8 +86,8 @@
 							</li>
 						</ul>
 					</div>
-					<div class="content-block-title">财务统计（VIP）</div>
-					<div class="list-block">
+					<div class="content-block-title" style="display: none">财务统计（VIP）</div>
+					<div class="list-block" style="display: none">
 						<ul>
 							<li>
 								<a class="item-content item-link external dn-unlink" id="report4Profit" href="javascript:forbidden();">
@@ -87,8 +122,6 @@
 						</ul>
 					</div>
 				</div>
-
-{% endblock %}						
 			</div>
 		</div>
 

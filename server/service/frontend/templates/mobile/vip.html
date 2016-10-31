@@ -1,79 +1,80 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>微商记账助手</title>
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-		<link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />
-		
-		<link rel="stylesheet" href="css/sm.min.css">
-		<link rel="stylesheet" href="css/wshelper.css">
-	</head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>微商记账助手</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
-	<body onload="initPage()">
-	<input type="hidden" id="payMoney" />
-		<input type="hidden" id="moneyType" />
-		<input type="hidden" id="orderTitle" />
-		<input type="hidden" id="ordernum"/>
-	
-		<div class="page">
-			<nav class="bar bar-nav">
-			  <a class="icon pull-left external" href="me.html">返回</a>
-			  <h1 class="title">会员充值</h1>
-			</nav>
-			<div class="content">
-				<div class="list-block">
-					<ul>
-						<li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title label">有效期至</div>
-									<div class="item-input">
-										<input type="text" id="vip_limitdate" readonly="readonly" value="2017.07.01">
-									</div>
-								</div>
-							</div>
-						</li>
-						<li class="dn-select">
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title label">会员套餐</div>
-									<div class="item-input">
-										<select id="pay_type">
-											<option value="">-请选择-</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="content-block">
-					<a class="button button-big button-fill button-success" onclick="pay();" href="vip.html#">充值</a>
-				</div>
-			</div>
-		</div>
-        <script id="tpl_payType" type="text/html">
-			{{# for(var i = 0, len = d.length; i< len; i++){ }} 
-                <option value="{{d[i].value}}">{{d[i].title}}</option>
-			{{# } }}
-		</script>
-		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
-		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
-		<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
-		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript" src="js/weixin/cookie.js"></script>
-		<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
-		<script type="text/javascript" src="js/weixin/sha1.js"></script>
-	    <script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
-	    <script type="text/javascript" src="js/weixin/weixinpay.js"></script>
-	</body>
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="css/wshelper.css">
+</head>
+
+<body onload="initPage()">
+<input type="hidden" id="payMoney"/>
+<input type="hidden" id="moneyType"/>
+<input type="hidden" id="orderTitle"/>
+<input type="hidden" id="ordernum"/>
+
+<div class="page">
+    <nav class="bar bar-nav">
+        <a class="icon pull-left external" href="me.html">返回</a>
+        <h1 class="title">会员充值</h1>
+    </nav>
+    <div class="content">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">有效期至</div>
+                            <div class="item-input">
+                                <input type="text" id="vip_limitdate" readonly="readonly" value="2017.07.01">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="dn-select">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">会员套餐</div>
+                            <div class="item-input">
+                                <select id="pay_type">
+                                    <option value="">-请选择-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block">
+            <a class="button button-big button-fill button-success" onclick="pay();" href="vip.html#">充值</a>
+        </div>
+    </div>
+</div>
+<script id="tpl_payType" type="text/html">
+    {{# for(var i = 0, len = d.length; i< len; i++){ }}
+    <option value="{{ d[i].value}}">{{ d[i].title}}</option>
+    {{# } }}
+</script>
+<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="js/weixin/cookie.js"></script>
+<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
+<script type="text/javascript" src="js/weixin/sha1.js"></script>
+<script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
+<script type="text/javascript" src="js/weixin/weixinpay.js"></script>
+</body>
 
 </html>

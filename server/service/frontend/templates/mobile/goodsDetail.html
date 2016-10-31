@@ -1,131 +1,137 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>微商记账助手</title>
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-		<link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />
-		
-		<link rel="stylesheet" href="css/sm.min.css">
-		<link rel="stylesheet" href="css/wshelper.css">
-	</head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>微商记账助手</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="http://ws.datanexus.cn/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
-	<body>
-		<div class="page">
-			<nav class="bar bar-nav">
-			  <a class="icon pull-left external" href="goodsList.html">返回</a>
-			  <a class="icon pull-right external" href="goodsDetail.html#" style="display: none;" onclick="deleteGoods()">删除</a>
-			  <h1 class="title">商品信息</h1>
-			</nav>
-			<div class="content">
-				<div class="list-block">
-					<form>
-						<input type="hidden" name="id" />
-						<input type="hidden" name="picture" />
-						<ul>
-							<li>
-								<div class="item-content">
-									<div class="item-inner">
-										<div class="item-title label">名称</div>
-										<div class="item-input">
-											<input type="text" name="name" required="required" placeholder="产品名称">
-										</div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item-content">
-									<div class="item-inner">
-										<div class="item-title label">进货价格</div>
-										<div class="item-input">
-											<input type="number" name="inprice" required="required" placeholder="进货价格">
-										</div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="item-content">
-									<div class="item-inner ">
-										<div class="item-title label">零售价格</div>
-										<div class="item-input">
-											<input type="number" name="outprice" required="required" placeholder="零售价格">
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dn-select">
-								<div class="item-content">
-									<div class="item-inner">
-										<div class="item-title label">单位</div>
-										<div class="item-input">
-											<select id="unit" name="unit">
-												<option value="">-请选择-</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="align-top">
-								<div class="item-content">
-									<div class="item-inner">
-										<div class="item-title label">备注</div>
-										<div class="item-input">
-											<textarea name="remark" placeholder="备注" style="height: 3rem;"></textarea>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="dn_uploader">
-									<div class="dn_uploader_bd">
-										<ul class="dn_uploader_files" id="imageList"></ul>
-										<div class="dn_uploader_input_wrp">
-											<button class="dn_uploader_input" type="button" onclick="wxJSSDK.chooseImageWithCall2(1,'imageList','productimg/')"></button>
-										</div>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</form>
-				</div>
-				<div class="content-block">
-					<a id="saveGoods" class="button button-big button-fill button-success" href="goodsDetail.html#">保存</a>
-				</div>
-			</div>
-		</div>
-		<script id="tpl_unit" type="text/html">
-			<option value="">-请选择-</option>
-			{{# for(var i = 0, len = d.length; i< len; i++){ }}
-				<option value="{{d[i].id}}">{{d[i].title}}</option>
-			{{# } }}
-		</script>
-		<script id="tpl_image" type="text/html">
-			<li class="dn_uploader_file" id="img_{{d.id}}">
-				<div class="dn_uploader_file_img" style="background-image: url(http://ws.datanexus.cn/uploadfile/productimg/{{d.picture}});" onclick="wxJSSDK.lookImage('{{d.picture}}','{{d.picture}}','productimg/')"></div>
-				<i class="icon icon-dn-minus icon-dn-tr" onclick="wxJSSDK.deleteFaultImage('imageList','img_{{d.id}}','{{d.picture}}')"></i>
-			</li>
-		</script>
-		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
-		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
-		<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
-		<script type="text/javascript" src="js/weixin/cookie.js"></script>
-		<script type="text/javascript" src="js/weixin/sha1.js"></script>
-		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-		<script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
-		<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
-		<script type="text/javascript" src="js/weixin/wxImage.js"></script>
-		<script type="text/javascript" src="js/page/common.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/page/goodsDetail.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			$.init();
-		</script>
-	</body>
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="css/wshelper.css">
+</head>
+
+<body>
+<div class="page">
+    <nav class="bar bar-nav">
+        <a class="icon pull-left external" href="goodsList.html">返回</a>
+        <a class="icon pull-right external" href="goodsDetail.html#" style="display: none;"
+           onclick="deleteGoods()">删除</a>
+        <h1 class="title">商品信息</h1>
+    </nav>
+    <div class="content">
+        <div class="list-block">
+            <form>
+                <input type="hidden" name="id"/>
+                <input type="hidden" name="picture"/>
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">名称</div>
+                                <div class="item-input">
+                                    <input type="text" name="name" required="required" placeholder="产品名称">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">进货价格</div>
+                                <div class="item-input">
+                                    <input type="number" name="inprice" required="required" placeholder="进货价格">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner ">
+                                <div class="item-title label">零售价格</div>
+                                <div class="item-input">
+                                    <input type="number" name="outprice" required="required" placeholder="零售价格">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dn-select">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">单位</div>
+                                <div class="item-input">
+                                    <select id="unit" name="unit">
+                                        <option value="">-请选择-</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">备注</div>
+                                <div class="item-input">
+                                    <textarea name="remark" placeholder="备注" style="height: 3rem;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dn_uploader">
+                            <div class="dn_uploader_bd">
+                                <ul class="dn_uploader_files" id="imageList"></ul>
+                                <div class="dn_uploader_input_wrp">
+                                    <button class="dn_uploader_input" type="button"
+                                            onclick="wxJSSDK.chooseImageWithCall2(1,'imageList','productimg/')"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div class="content-block">
+            <a id="saveGoods" class="button button-big button-fill button-success" href="goodsDetail.html#">保存</a>
+        </div>
+    </div>
+</div>
+<script id="tpl_unit" type="text/html">
+    <option value="">-请选择-</option>
+    {{# for(var i = 0, len = d.length; i< len; i++){ }}
+    <option value="{{ d[i].id}}">{{ d[i].title}}</option>
+    {{# } }}
+</script>
+<script id="tpl_image" type="text/html">
+    <li class="dn_uploader_file" id="img_{{ d.id }}">
+        <div class="dn_uploader_file_img"
+             style="background-image: url(http://ws.datanexus.cn/uploadfile/productimg/{{ d.picture }});"
+             onclick="wxJSSDK.lookImage('{{ d.picture }}','{{ d.picture }}','productimg/')"></div>
+        <i class="icon icon-dn-minus icon-dn-tr"
+           onclick="wxJSSDK.deleteFaultImage('imageList','img_{{ d.id }}','{{ d.picture }}')"></i>
+    </li>
+</script>
+<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+<script type="text/javascript" src="js/lib/laytpl.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/weixin/cookie.js"></script>
+<script type="text/javascript" src="js/weixin/sha1.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="js/weixin/wxJSSDK.js"></script>
+<script type="text/javascript" src="js/weixin/WXHelper.js"></script>
+<script type="text/javascript" src="js/weixin/wxImage.js"></script>
+<script type="text/javascript" src="js/page/common.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/page/goodsDetail.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $.init();
+</script>
+</body>
 
 </html>

@@ -1,83 +1,89 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>微商记账助手</title>
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />
-		
-		<link rel="stylesheet" href="css/sm.min.css">
-		<link rel="stylesheet" href="css/wshelper.css">
-	</head>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>微商记账助手</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
-	<body>
-		<div class="page" id="page_dealerdetail">
-			<nav class="bar bar-nav">
-				<a class="icon pull-left external" href="dealerList.html">返回</a>
-				<a class="icon pull-right external" href="dealerDetail.html#" style="display: none;" onclick="deleteDealer()">删除</a>
-				<h1 class="title">代理信息</h1>
-			</nav>
-			<div class="content">
-				<div class="list-block">
-					<ul>
-						<li>
-							<div class="item-content">
-								<div class="item-inner">
-									<div class="item-title label">姓名</div>
-									<div class="item-input">
-										<input type="text" id="inp_username" placeholder="代理商姓名">
-									</div>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="content-block-title">代理产品的级别</div>
-				<div class="list-block">
-					<ul id="dom_dealerdetail"></ul>
-				</div>
-				<div class="content-block">
-					<a class="button button-big button-fill button-success" href="dealerDetail.html#" onclick="saveInfo()">保存</a>
-				</div>
-			</div>
-		</div>
-		<script id="tpl_dealerdetail" type="text/html">
-			{{#for(var i=0; i<d.length; i++){ }} 
-			<li class="dn-select">
-				<div class="item-content">
-					<div class="item-inner">
-						<div class="item-title label">{{d[i].title}}</div>
-						<div class="item-input">
-							<select id="sel_{{d[i].id}}">
-								<option value="">无</option>
-								{{# for(var j=0; j<d[i].levels.length; j++){ }} 
-									{{# if(d[i].levels[j].result==d[i].levels[j].id){}}
-									<option value="{{d[i].levels[j].id}}" selected="selected">{{d[i].levels[j].title}}</option>
-									{{#}else { }}
-									<option value="{{d[i].levels[j].id}}">{{d[i].levels[j].title}}</option>
-									{{# } }} 
-								{{# } }}
-							</select>
-						</div>
-					</div>
-				</div>
-			</li>
-			{{#}}}
-		</script>
-		<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
-		<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
-		<script type="text/javascript" src="js/lib/laytpl.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/page/common.js" charset="utf-8"></script>
-		<script type="text/javascript" src="js/page/dealer.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			$.init();
-		</script>
-	</body>
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="css/wshelper.css">
+</head>
+
+<body>
+<div class="page" id="page_dealerdetail">
+    <nav class="bar bar-nav">
+        <a class="icon pull-left external" href="dealerList.html">返回</a>
+        <a class="icon pull-right external" href="dealerDetail.html#" style="display: none;"
+           onclick="deleteDealer()">删除</a>
+        <h1 class="title">代理信息</h1>
+    </nav>
+    <div class="content">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title label">姓名</div>
+                            <div class="item-input">
+                                <input type="text" id="inp_username" placeholder="代理商姓名">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block-title">代理产品的级别</div>
+        <div class="list-block">
+            <ul id="dom_dealerdetail"></ul>
+        </div>
+        <div class="content-block">
+            <a class="button button-big button-fill button-success" href="dealerDetail.html#"
+               onclick="saveInfo()">保存</a>
+        </div>
+    </div>
+</div>
+<script id="tpl_dealerdetail" type="text/html">
+    {{#for(var i=0; i
+    <d.length; i++){ }}
+    <li class="dn-select">
+        <div class="item-content">
+            <div class="item-inner">
+                <div class="item-title label">{{ d[i].title}}</div>
+                <div class="item-input">
+                    <select id="sel_{{ d[i].id}}">
+                        <option value="">无</option>
+                        {{# for(var j=0; j
+                        <d
+                        [i].levels.length; j++){ }}
+                        {{# if(d[i].levels[j].result==d[i].levels[j].id){}}
+                        <option value="{{ d[i].levels[j].id}}" selected="selected">{{ d[i].levels[j].title}}</option>
+                        {{#}else { }}
+                        <option value="{{ d[i].levels[j].id}}">{{ d[i].levels[j].title}}</option>
+                        {{# } }}
+                        {{# } }}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </li>
+    {{#}}}
+</script>
+<script type='text/javascript' src='js/lib/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/lib/sm.min.js' charset='utf-8'></script>
+<script type="text/javascript" src="js/lib/laytpl.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/page/common.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/page/dealer.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $.init();
+</script>
+</body>
 
 </html>
