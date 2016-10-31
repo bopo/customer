@@ -3,7 +3,7 @@
 import os
 import time
 
-import environ
+# import environ
 
 from fabric.api import cd, env, local, run, task
 from fabric.context_managers import prefix
@@ -12,59 +12,36 @@ from fabric.contrib.console import prompt
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-os.environ.setdefault("PRODUCTION_HOSTS", "")
+# os.environ.setdefault("PRODUCTION_HOSTS", "")
 
-environ.Env.read_env()
-env = environ.Env()
+# env = environ.Env()
+# environ.Env.read_env()
 
-PRODUCTION_HOSTS = env('PRODUCTION_HOSTS', None)
+# PRODUCTION_HOSTS = env('PRODUCTION_HOSTS', None)
 # django.settings_module('config.settings.local')
 
-env.hosts = PRODUCTION_HOSTS
-
-
-env.fixtures = (
-    'flatpages',
-    'restful.goodscategory',
-    'restful.preselectioncategory',
-    'restful.total',
-    'restful.goods',
-    'restful.collect',
-    'restful.prompt',
-    'restful.banner',
-    'restful.holiday',
-    'restful.queryrule',
-    'consumer.customuser',
-)
+env.hosts = ['root@192.168.31.226']
 
 env.excludes = (
     "*.pyc", "*.db", ".DS_Store", ".coverage", ".git", ".hg", ".tox", ".idea/",
     'assets/', 'runtime/', 'node_modules', 'itchat.kpi', 'db.sqlite3', '*.ipynb')
 
-env.remote_dir = '/home/apps/stock'
+env.remote_dir = '/home/apps/tuan'
 env.local_dir = '.'
-env.database = 'stock'
-env.check_urls = {
-    "start": "http://api.gjingxi.com/api/v1.0/start/",
-    "first": "http://api.gjingxi.com/api/v1.0/first/",
-    "trade": "http://api.gjingxi.com/api/v1.0/trade/",
-    "bests": "http://api.gjingxi.com/api/v1.0/bests/",
-    "query": "http://api.gjingxi.com/api/v1.0/query/",
-    "random": "http://api.gjingxi.com/api/v1.0/random/",
-    "search": "http://api.gjingxi.com/api/v1.0/search/",
-    "category": "http://api.gjingxi.com/api/v1.0/category/",
-    "feedback": "http://api.gjingxi.com/api/v1.0/feedback/",
-    "location": "http://api.gjingxi.com/api/v1.0/location/",
-    "recommend": "http://api.gjingxi.com/api/v1.0/recommend/",
-    "watchword": "http://api.gjingxi.com/api/v1.0/watchword/",
-    "collect": "http://api.gjingxi.com/api/v1.0/collect/",
-    "preselection": "http://api.gjingxi.com/api/v1.0/preselection/"
-}
-
+env.database = 'tuan'
 
 @task
+def venv():
+    with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
+        run('mkvirtualenv tuan')
+
+    with prefix('workon tuan'), cd(env.remote_dir):
+        run('pip install -r requirements_dev.txt')
+
+        
+@task
 def cron(action='check'):
-    with prefix('workon surprise'), cd(env.remote_dir):
+    with prefix('workon tuan'), cd(env.remote_dir):
         run('python schedule.py %s' % action)
 
 @task
@@ -102,16 +79,12 @@ def test(task=''):
 
 @task
 def static():
-    with prefix('workon surprise'), cd(env.remote_dir):
+    with prefix('workon tuan'), cd(env.remote_dir):
         run('python manage.py collectstatic --dry-run -c --noinput')
 
 
 @task
 def rsync(static=None):
-    clean()
-
-    static and static()
-
     local_dir = os.getcwd() + os.sep
     return project.rsync_project(remote_dir=env.remote_dir, local_dir=local_dir, exclude=env.excludes, delete=True)
 
@@ -123,19 +96,19 @@ def push(static=None):
 
 @task
 def migrate():
-    with prefix('workon surprise'), cd(env.remote_dir):
+    with prefix('workon tuan'), cd(env.remote_dir):
         run('''DJANGO_SETTINGS_MODULE='config.settings.local' python manage.py migrate''')
 
 
 @task(alias='rr')
 def restart():
-    with prefix('workon surprise'), cd(env.remote_dir):
-        run('/usr/bin/supervisorctl restart stock')
+    with prefix('workon tuan'), cd(env.remote_dir):
+        run('/usr/bin/supervisorctl restart tuan')
 
 
 @task
 def stop():
-    run('/usr/bin/supervisorctl stop stock')
+    run('/usr/bin/supervisorctl stop tuan')
 
 
 @task
@@ -245,7 +218,7 @@ def dumpdata(remote=None):
         if not remote:
             local('python manage.py dumpdata {} > database/fixtures/00{}_{}.json'.format(fixture, num, fixture))
         else:
-            with prefix('workon surprise'), cd(env.remote_dir):
+            with prefix('workon tuan'), cd(env.remote_dir):
                 run('python manage.py dumpdata {} > database/fixtures/00{}_{}.json'.format(fixture, num, fixture))
 
         num += 1
@@ -259,7 +232,7 @@ def loaddata(remote=None):
         if not remote:
             local('python manage.py loaddata database/fixtures/00{}_{}.json'.format(num, fixture))
         else:
-            with (prefix('workon surprise'), cd(env.remote_dir)):
+            with (prefix('workon tuan'), cd(env.remote_dir)):
                 run(
                     'DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py loaddata database/fixtures/00{}_{}.json'.format(
                         num, fixture))
@@ -312,7 +285,7 @@ def syncdb(action='down'):
         upload=upload)
 
     # if action == 'up':
-    #     with prefix('workon surprise'), cd(env.remote_dir):
+    #     with prefix('workon tuan'), cd(env.remote_dir):
     #         run('python manage.py loaddata database/fixtures/*.json')
     # else:
     # restdb()
@@ -324,10 +297,10 @@ def dbmigrate():
     run('manage.py dumpdata --format=json > db.json')
 
     # rsync files.
-    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/stock /home/apps')
+    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/tuan /home/apps')
 
     # stop service
-    local('/usr/bin/supervisorctl stop stock')
+    local('/usr/bin/supervisorctl stop tuan')
 
     # migrate db
     local('dropdb {database}'.format(database=env.database))
@@ -337,12 +310,12 @@ def dbmigrate():
     local('python manage.py loaddata db.json')
 
     # start service
-    local('/usr/bin/supervisorctl start stock')
+    local('/usr/bin/supervisorctl start tuan')
 
 
 @task
 def req():
-    with prefix('workon surprise'), cd(env.remote_dir):
+    with prefix('workon tuan'), cd(env.remote_dir):
         run('pip install -r requirements/prod.txt')
 
 

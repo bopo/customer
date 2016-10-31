@@ -58,23 +58,19 @@ clean-runtime:
 	rm -fr .runtime/**/**
 
 lint:
-	flake8 restful
+	flake8 --ignore=E501,F403,E122 .
 
 pack:
-	tar zcfv ../backup/server.tgz .
+	tar zcfv ./package.tgz .
 
 test:
-	@$(PY)  manage.py test
-
-
-tests:
-	@$(PY) scripts/runtests.py
+	@$(PY) manage.py test
 
 test-all:
 	tox
 
 coverage:
-	coverage run --source vin-delphos setup.py test
+	coverage run --source vin-delphos manage.py test
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
@@ -121,7 +117,9 @@ release: clean req.prod
 	@$(PY) manage.py test
 
 server:
-	@$(PY) manage.py server
+	@$(PY) manage.py runserver $(HOST)
+
+start: clean migrate server
 
 startup: clean req.prod
 	@$(PY) manage.py test
@@ -129,11 +127,15 @@ startup: clean req.prod
 dist: clean
 	@$(PY) setup.py sdist
 	@$(PY) setup.py bdist_wheel
-	ls -l dist
 
 shell:
-	@$(PY)  manage.py shell_plus
+	@$(PY) manage.py shell_plus
 
-install: clean
-	@$(PY)  setup.py install
+migrate:
+	@$(PY) manage.py migrate
+
+setup: clean req migrate
+	@$(PY) manage.py createsuperuser
+
+
 # DO NOT DELETE
