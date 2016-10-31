@@ -3,5 +3,6 @@
 fabric
 ansible
 django-baker
+django-sentry
 django-environ
 django-debug-toolbar

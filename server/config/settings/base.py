@@ -162,16 +162,17 @@ DEFAULT_CHARSET = 'utf-8'
 
 try:
     from .apps import *
-    # from .auth import *
-    # from .rest import *
+    from .auth import *
+    from .rest import *
     from .suit import *
 
     from .static import *
-    # from .celery import *
+    from .celery import *
 
     from .cache import *
     from .thumb import *
-    # from .sentry import *
+
+    from .sentry import *
     # from .scraper import *
 
 except ImportError as e:

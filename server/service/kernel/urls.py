@@ -1,20 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-# import service.restauth.urls
 from django.conf.urls import include, url
+from rest_framework.routers import DefaultRouter
 
-# from rest_framework.routers import DefaultRouter
-# from restful.views.collect import CollectViewSet, PreselectionViewSet
-# from restful.views.feedback import FeedbackViewSet
-# from restful.views.goods import QueryViewSet
-# from restful.views.location import LocationViewSet
-# from restful.views.recommend import SearchViewSet, CategoryViewSet, RecommendViewSet, ChildrenViewSet, RandomViewSet
-# from restful.views.start import StartViewSet, BestsViewSet, FirstViewSet
-# from restful.views.trade import TradeViewSet
-# from restful.views.watchword import WatchwordViewSet
-
-# router = DefaultRouter()
+router = DefaultRouter()
 
 # router.register(r'start', StartViewSet, base_name='start')
 # router.register(r'first', FirstViewSet, base_name='first')
@@ -40,10 +30,9 @@ from django.conf.urls import include, url
 # children_router.register(r'children', ChildrenViewSet, base_name='category-children')
 
 urlpatterns = (
-    # url(r'^v1\.0/', include(router.urls, namespace='v1.0')),
-    # url(r'^v1\.0/', include(children_router.urls, namespace='v1.0')),
-    # url(r'^v1\.0/me/', include('restful.contrib.consumer.urls')),
-    # url(r'^auth/', include(service.restauth.urls)),
-    # url(r'^user/', include('rest_framework.urls', namespace='rest_framework')),
-    # url(r'^docs/', include('rest_framework_swagger.urls')),
+    url(r'^', include(router.urls, namespace='v1.0')),
+    # url(r'^v1\.0/me/', include('service.contrib.consumer.urls')),
+    # url(r'^auth/', include('.contrib.restauth.urls')),
+    url(r'^user/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
 )
