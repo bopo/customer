@@ -4,17 +4,15 @@ from __future__ import unicode_literals
 import re
 import unicodedata
 
-# from allauth.account.forms import SetPasswordField
-from django.conf import settings
-
-from .adapter import get_adapter
-from .utils import user_email, user_field, user_username
 from django import forms
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import ValidationError
 
+from .adapter import get_adapter
+from .utils import user_email, user_field, user_username
 from .. import app_settings
 
 

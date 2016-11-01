@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-# from stock.service.models.stock import Term
 from suit.admin import SortableModelAdmin
 from wechatpy import WeChatClient
 

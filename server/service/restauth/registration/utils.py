@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import base64
 import json
 import re
 import unicodedata
+from urlparse import urlsplit
 
 from django.contrib.sites.models import Site
 from django.core import urlresolvers
@@ -13,9 +17,6 @@ from django.db.models.fields import (DateTimeField, DateField,
     EmailField, TimeField,
     BinaryField)
 from django.utils import six, dateparse
-
-# from django.utils.six.moves.urllib.parse import urlsplit
-from urlparse import urlsplit
 
 try:
     from django.utils.encoding import force_text, force_bytes

@@ -51,3 +51,5 @@ click
 plan
 django-rest-swagger==0.3.10
 django-cors-headers
+pypng
+wechatpy

@@ -1,35 +1,16 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# vim:fenc=utf-8
-#  Copyright © XYM
-# Last modified: 2016-10-24 17:17:25
-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import json
 import logging
-import os
 import re
 
-import click
-import coloredlogs
-import django
-import environ
-import itchat
 import requests
 import short_url
-from itchat.content import *
+from fabric.colors import green
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-
-if django.VERSION >= (1, 7):  # 自动判断版本
-    django.setup()
-
-env = environ.Env()
-environ.Env.read_env()
-
-PID_PATH = 'runtime/itchat.kpi'
+import itchat
+from itchat.content import TEXT, FRIENDS
 
 
 def tuling_auto_reply(msg):
@@ -117,22 +98,7 @@ def text_reply(msg):
         itchat.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
 
 
-@click.command()
-@click.option('-p', '--pid', default='itchat.kpi', help='runtime file.')
-@click.option('-l', '--login', is_flag=True, help='only login.')
-@click.option('-d', '--debug', is_flag=True, help='debug mode.')
-@click.option('-v', '--verbose', count=True)
-def main(login, debug, verbose, pid):
-    if debug:
-        logging.getLogger(__name__)
-        coloredlogs.install(level='DEBUG')
-
-    itchat.pid(pid)
+def run():
+    print(green('微信机器人'))
     itchat.login(enableCmdQR=False, hotReload=True)
-
-    if not login:
-        itchat.run(debug=debug)
-
-
-if __name__ == '__main__':
-    main()
+    itchat.run(debug=True)

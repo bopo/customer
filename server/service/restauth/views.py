@@ -10,8 +10,8 @@ from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from service.kernel.helpers import send_verify_code
 
-from restful.helpers import send_verify_code
 from .settings import (
     LoginSerializer, PasswordChangeSerializer, PasswordResetConfirmSerializer,
     PasswordResetSerializer, TokenSerializer, UserDetailsSerializer
@@ -212,33 +212,3 @@ class PasswordChangeView(GenericAPIView):
 
         serializer.save()
         return Response({"success": "New password has been saved."})
-
-# class SocialLoginView(LoginView):
-#     """
-#     class used for social authentications
-#     example usage for facebook with access_token
-#     -------------
-#     from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-#
-#     class FacebookLogin(SocialLoginView):
-#         adapter_class = FacebookOAuth2Adapter
-#     -------------
-#
-#     example usage for facebook with code
-#
-#     -------------
-#     from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-#     from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-#
-#     class FacebookLogin(SocialLoginView):
-#         adapter_class = FacebookOAuth2Adapter
-#          client_class = OAuth2Client
-#          callback_url = 'localhost:8000'
-#     -------------
-#     """
-#
-#     serializer_class = SocialLoginSerializer
-
-
-# class SocialWeiboLogin(SocialLoginView):
-#     adapter_class = WeiboOAuth2Adapter

@@ -38,20 +38,20 @@ class ProfileViewSet(RetrieveUpdateAPIView):
     def get_object(self):
         return get_user_profile(self.request.user)
 
-    #
-    # class TradeViewSet(viewsets.ReadOnlyModelViewSet):
-    #     '''
-    #     这个接口是用来接收APP购买成功后返回的信息.
-    #
-    #     字段待定...
-    #     '''
-    #     # queryset = Trade.objects.all()
-    #     serializer_class = TradeSerializer
-    #     permission_classes = (IsAuthenticated,)
-    #
-    #     def get_queryset(self):
-    #         return self.request.user.trade_set.filter(confirmed__isnull=False)
-    # return self.request.user.trade_set.all()
+        #
+        # class TradeViewSet(viewsets.ReadOnlyModelViewSet):
+        #     '''
+        #     这个接口是用来接收APP购买成功后返回的信息.
+        #
+        #     字段待定...
+        #     '''
+        #     # queryset = Trade.objects.all()
+        #     serializer_class = TradeSerializer
+        #     permission_classes = (IsAuthenticated,)
+        #
+        #     def get_queryset(self):
+        #         return self.request.user.trade_set.filter(confirmed__isnull=False)
+        # return self.request.user.trade_set.all()
 
 
 class AvatarViewSet(RetrieveUpdateAPIView):

@@ -1,11 +1,9 @@
-from django.core.urlresolvers import reverse
-from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core import mail
-from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.encoding import force_text
-
 from rest_framework import status
 
 from .test_base import BaseAPITestCase
@@ -282,6 +280,7 @@ class APITestCase1(TestCase, BaseAPITestCase):
             "password": self.NEW_PASS
         }
         self.post(self.login_url, data=payload, status_code=200)
+
     #
     # def test_password_reset_with_email_in_different_case(self):
     #     get_user_model().objects.create_user(self.USERNAME, self.EMAIL.lower(), self.PASS)
@@ -350,6 +349,7 @@ class APITestCase1(TestCase, BaseAPITestCase):
 
         self._login()
         self._logout()
+
     #
     # @override_settings(REST_USE_JWT=True)
     # def test_registration_with_jwt(self):
@@ -408,7 +408,7 @@ class APITestCase1(TestCase, BaseAPITestCase):
         )
 
         # verify email
-        email_confirmation = new_user.emailaddress_set.get(email=self.EMAIL)\
+        email_confirmation = new_user.emailaddress_set.get(email=self.EMAIL) \
             .emailconfirmation_set.order_by('-created')[0]
         self.post(
             self.veirfy_email_url,

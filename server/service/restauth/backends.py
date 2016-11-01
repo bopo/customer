@@ -1,4 +1,6 @@
-# from coocaca.myauth.models import Account
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
