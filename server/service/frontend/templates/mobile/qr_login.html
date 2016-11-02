@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>微信登录</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://res.wx.qq.com/connect/zh_CN/htmledition/style/impowerApp29579a.css">
+    <link href="https://res.wx.qq.com/connect/zh_CN/htmledition/images/favicon16cb56.ico" rel="Shortcut Icon">
+    <script src="//cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div class="main impowerBox">
+    <div class="loginPanel normalPanel">
+        <div class="title">微信登录</div>
+        <div class="waiting panelContent">
+            <div class="wrp_code"><img class="qrcode lightBorder" src="https://login.weixin.qq.com/qrcode/{{ uuid }}"/>
+            </div>
+            <div class="info">
+                <div class="status status_browser js_status" id="wx_default_tip">
+                    <p>请使用微信扫描二维码登录</p>
+                </div>
+                <div class="status status_succ js_status" style="display:none" id="wx_after_scan">
+                    <i class="status_icon icon38_msg succ"></i>
+                    <div class="status_txt">
+                        <h4>扫描成功</h4>
+                        <p>请在微信中点击确认即可登录</p>
+                    </div>
+                </div>
+                <div class="status status_fail js_status" style="display:none" id="wx_after_cancel">
+                    <i class="status_icon icon38_msg warn"></i>
+                    <div class="status_txt">
+                        <h4>您已取消此次登录</h4>
+                        <p>您可再次扫描登录，或关闭窗口</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    !function () {
+        function a(c) {
+            $.ajax({
+                type: "GET",
+                url: "/qr_check/{{ uuid }}",
+                cache: false,
+                timeout: 6e4,
+                success: function (f) {
+                    console.log(f);
+                    console.log("{{ uuid }}");
+
+                    switch (f) {
+                        case '200':
+                            window.location.href = '/qr_done/';
+                            break;
+                        case '201':
+                            $(".js_status").hide();
+                            $("#wx_after_scan").show();
+                            setTimeout(a, 2e3, f);
+                            break;
+                        case '408':
+                            $(".js_status").hide();
+                            $("#wx_after_cancel").show();
+                            setTimeout(a, 2e3, f);
+                            break;
+                        case 402:
+                        case 500:
+                            window.location.reload();
+                            break;
+                    }
+                },
+                error: function (b, c, d) {
+                    var e = window.wx_errcode;
+                    408 == e ? setTimeout(a, 5e3) : setTimeout(a, 5e3, e)
+                }
+            })
+        }
+
+        var b = window.top != window;
+
+        if (b) {
+            var c = "";
+            "white" != c && (document.body.style.color = "#373737")
+        } else {
+            document.getElementsByClassName || (document.getElementsByClassName = function (a) {
+                for (var b = [], c = new RegExp("(^| )" + a + "( |$)"), d = document.getElementsByTagName("*"), e = 0, f = d.length; f > e; e++) c.test(d[e].className) && b.push(d[e]);
+                return b
+            }),
+                    document.body.style.backgroundColor = "#333333",
+                    document.body.style.padding = "50px";
+            for (var d = document.getElementsByClassName("status"), e = 0, f = d.length; f > e; ++e) {
+                var g = d[e];
+                g.className = g.className + " normal"
+            }
+        }
+        var h = "";
+        if (h) {
+            var i = document.createElement("link");
+            i.rel = "stylesheet",
+                    i.href = h,
+                    document.getElementsByTagName("head")[0].appendChild(i)
+        }
+        setTimeout(a, 2e3);
+    }();
+</script>
+</body>
+</html>

@@ -4,13 +4,20 @@ from __future__ import unicode_literals
 import json
 import logging
 import re
+import time
 
 import requests
-import short_url
-from fabric.colors import green
+from django.conf import settings
+from fabric.colors import red
 
 import itchat
 from itchat.content import TEXT, FRIENDS
+
+CHATBOT_DEFUALT = {
+    'SESSION_PATH': 'runtime/itchat.kpl',
+    'QR_CODE_PATH': 'runtime/itchat.png',
+    'DEBUG': True,
+}
 
 
 def tuling_auto_reply(msg):
@@ -45,31 +52,34 @@ def tuling_auto_reply(msg):
 
 @itchat.msg_register([TEXT, ])
 def text_reply(msg):
-    print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
+    # print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
 
     if re.match(r'\w{5}', msg['Text']):
-        from stock.wechat.models import Member
-        code = msg['Text'].strip('#')
+        content = tuling_auto_reply(msg['Text'])
+        itchat.send_msg(content, msg['FromUserName'])
 
-        try:
-            member = Member.objects.get(pk=short_url.decode_url(code))
-
-            if member.remark != '':
-                itchat.send_msg(u'该用户已经绑定过了，请不要重复绑定', msg['FromUserName'])
-            else:
-                remark = code
-
-                itchat.set_alias(msg['FromUserName'], remark)
-                itchat.get_contract(update=True)
-                friend = itchat.search_friends(userName=msg['FromUserName'])
-
-                member.wechat = friend.get('Alias')
-                member.remark = friend.get('RemarkName')
-                member.save()
-
-                itchat.send_msg(u'恭喜您，已经成功绑定', msg['FromUserName'])
-        except Member.DoesNotExist:
-            itchat.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
+        # from stock.wechat.models import Member
+        # code = msg['Text'].strip('#')
+        #
+        # try:
+        #     member = Member.objects.get(pk=short_url.decode_url(code))
+        #
+        #     if member.remark != '':
+        #         itchat.send_msg(u'该用户已经绑定过了，请不要重复绑定', msg['FromUserName'])
+        #     else:
+        #         remark = code
+        #
+        #         itchat.set_alias(msg['FromUserName'], remark)
+        #         itchat.get_contract(update=True)
+        #         friend = itchat.search_friends(userName=msg['FromUserName'])
+        #
+        #         member.wechat = friend.get('Alias')
+        #         member.remark = friend.get('RemarkName')
+        #         member.save()
+        #
+        #         itchat.send_msg(u'恭喜您，已经成功绑定', msg['FromUserName'])
+        # except Member.DoesNotExist:
+        #     itchat.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
     else:
         content = tuling_auto_reply(msg['Text'])
         itchat.send_msg(content, msg['FromUserName'])
@@ -99,6 +109,13 @@ def text_reply(msg):
 
 
 def run():
-    print(green('微信机器人'))
-    itchat.login(enableCmdQR=False, hotReload=True)
-    itchat.run(debug=True)
+    itchat.default(settings.CHATBOT_DEFUALT)
+
+    while True:
+        if itchat.status():
+            itchat.run(debug=True)
+            break
+        else:
+            print(red(u'用户未登录...退出'))
+
+        time.sleep(10)

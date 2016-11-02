@@ -20,28 +20,28 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 # PRODUCTION_HOSTS = env('PRODUCTION_HOSTS', None)
 # django.settings_module('config.settings.local')
 
-env.hosts = ['root@192.168.31.226']
+env.hosts = ['root@114.55.86.150']
 
 env.excludes = (
     "*.pyc", "*.db", ".DS_Store", ".coverage", ".git", ".hg", ".tox", ".idea/",
     'assets/', 'runtime/', 'node_modules', 'itchat.kpi', 'db.sqlite3', '*.ipynb')
 
-env.remote_dir = '/home/apps/tuan'
+env.remote_dir = '/home/apps/customer'
 env.local_dir = '.'
-env.database = 'tuan'
+env.database = 'customer'
 
 @task
 def venv():
     with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
-        run('mkvirtualenv tuan')
+        run('mkvirtualenv customer')
 
-    with prefix('workon tuan'), cd(env.remote_dir):
+    with prefix('workon customer'), cd(env.remote_dir):
         run('pip install -r requirements_dev.txt')
 
         
 @task
 def cron(action='check'):
-    with prefix('workon tuan'), cd(env.remote_dir):
+    with prefix('workon customer'), cd(env.remote_dir):
         run('python schedule.py %s' % action)
 
 @task
@@ -79,7 +79,7 @@ def test(task=''):
 
 @task
 def static():
-    with prefix('workon tuan'), cd(env.remote_dir):
+    with prefix('workon customer'), cd(env.remote_dir):
         run('python manage.py collectstatic --dry-run -c --noinput')
 
 
@@ -96,19 +96,19 @@ def push(static=None):
 
 @task
 def migrate():
-    with prefix('workon tuan'), cd(env.remote_dir):
+    with prefix('workon customer'), cd(env.remote_dir):
         run('''DJANGO_SETTINGS_MODULE='config.settings.local' python manage.py migrate''')
 
 
 @task(alias='rr')
 def restart():
-    with prefix('workon tuan'), cd(env.remote_dir):
-        run('/usr/bin/supervisorctl restart tuan')
+    with prefix('workon customer'), cd(env.remote_dir):
+        run('/usr/bin/supervisorctl restart customer')
 
 
 @task
 def stop():
-    run('/usr/bin/supervisorctl stop tuan')
+    run('/usr/bin/supervisorctl stop customer')
 
 
 @task
@@ -218,7 +218,7 @@ def dumpdata(remote=None):
         if not remote:
             local('python manage.py dumpdata {} > database/fixtures/00{}_{}.json'.format(fixture, num, fixture))
         else:
-            with prefix('workon tuan'), cd(env.remote_dir):
+            with prefix('workon customer'), cd(env.remote_dir):
                 run('python manage.py dumpdata {} > database/fixtures/00{}_{}.json'.format(fixture, num, fixture))
 
         num += 1
@@ -232,7 +232,7 @@ def loaddata(remote=None):
         if not remote:
             local('python manage.py loaddata database/fixtures/00{}_{}.json'.format(num, fixture))
         else:
-            with (prefix('workon tuan'), cd(env.remote_dir)):
+            with (prefix('workon customer'), cd(env.remote_dir)):
                 run(
                     'DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py loaddata database/fixtures/00{}_{}.json'.format(
                         num, fixture))
@@ -285,7 +285,7 @@ def syncdb(action='down'):
         upload=upload)
 
     # if action == 'up':
-    #     with prefix('workon tuan'), cd(env.remote_dir):
+    #     with prefix('workon customer'), cd(env.remote_dir):
     #         run('python manage.py loaddata database/fixtures/*.json')
     # else:
     # restdb()
@@ -297,10 +297,10 @@ def dbmigrate():
     run('manage.py dumpdata --format=json > db.json')
 
     # rsync files.
-    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/tuan /home/apps')
+    local('rsync -ave ssh rsync -ave ssh root@101.200.136.70:/home/apps/customer /home/apps')
 
     # stop service
-    local('/usr/bin/supervisorctl stop tuan')
+    local('/usr/bin/supervisorctl stop customer')
 
     # migrate db
     local('dropdb {database}'.format(database=env.database))
@@ -310,12 +310,12 @@ def dbmigrate():
     local('python manage.py loaddata db.json')
 
     # start service
-    local('/usr/bin/supervisorctl start tuan')
+    local('/usr/bin/supervisorctl start customer')
 
 
 @task
 def req():
-    with prefix('workon tuan'), cd(env.remote_dir):
+    with prefix('workon customer'), cd(env.remote_dir):
         run('pip install -r requirements/prod.txt')
 
 
