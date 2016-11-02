@@ -10,8 +10,8 @@ import requests
 from django.conf import settings
 from fabric.colors import red
 
-import itchat
-from itchat.content import TEXT, FRIENDS
+import chatbot
+from chatbot.content import TEXT, FRIENDS
 
 CHATBOT_DEFUALT = {
     'SESSION_PATH': 'runtime/itchat.kpl',
@@ -50,13 +50,13 @@ def tuling_auto_reply(msg):
         return u"知道啦"
 
 
-@itchat.msg_register([TEXT, ])
+@chatbot.msg_register([TEXT, ])
 def text_reply(msg):
     # print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
 
     if re.match(r'\w{5}', msg['Text']):
         content = tuling_auto_reply(msg['Text'])
-        itchat.send_msg(content, msg['FromUserName'])
+        chatbot.send_msg(content, msg['FromUserName'])
 
         # from stock.wechat.models import Member
         # code = msg['Text'].strip('#')
@@ -82,7 +82,7 @@ def text_reply(msg):
         #     itchat.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
     else:
         content = tuling_auto_reply(msg['Text'])
-        itchat.send_msg(content, msg['FromUserName'])
+        chatbot.send_msg(content, msg['FromUserName'])
 
 
 # @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
@@ -91,29 +91,29 @@ def text_reply(msg):
 #     return '@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(msg['Type'], 'fil'), msg['FileName'])
 
 
-@itchat.msg_register(FRIENDS)
+@chatbot.msg_register(FRIENDS)
 def add_friend(msg):
     logging.info('%s 加入好友' % (msg['FromUserName']))
-    itchat.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
-    itchat.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
-    itchat.get_contract(update=True)
+    chatbot.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
+    chatbot.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
+    chatbot.get_contract(update=True)
 
 
-@itchat.msg_register(TEXT, isGroupChat=True)
+@chatbot.msg_register(TEXT, isGroupChat=True)
 def text_reply(msg):
     if msg['isAt']:
         print msg
         logging.info('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
         content = tuling_auto_reply(msg['Content'])
-        itchat.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
+        chatbot.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
 
 
 def run():
-    itchat.default(settings.CHATBOT_DEFUALT)
+    chatbot.default(settings.CHATBOT_DEFUALT)
 
     while True:
-        if itchat.status():
-            itchat.run(debug=True)
+        if chatbot.status():
+            chatbot.run(debug=True)
             break
         else:
             print(red(u'用户未登录...退出'))

@@ -23,6 +23,9 @@ help:
 	@echo "dist - package"
 	@echo "install - install the package to the active Python's site-packages"
 
+
+
+
 clean: clean-build clean-others clean-pyc clean-test clean-runtime
 distclean: clean-build clean-others clean-pyc clean-test clean-runtime clean-database
 
@@ -86,19 +89,19 @@ docs:
 req.all: req.base req.local req.test req.docs req.scrapy
 
 req:
-	@$(PIP) install -U -r requirements.txt
+	@$(PIP) install -r requirements.txt
 
-req.base:
-	@$(PIP) install  -r .requirements/base.txt
+req.dev:
+	@$(PIP) install  -r requirements_dev.txt
 
 req.update:
-	@$(PIP) install  -U -r .requirements/base.txt
+	@$(PIP) install  -U -r requirements.txt
 
 req.prod:
 	@$(PIP) install  -U -r .requirements/prod.txt
 
 req.test:
-	@$(PIP) install  -U -r .requirements/test.txt
+	@$(PIP) install  -U -r requirements_test.txt
 
 req.docs:
 	@$(PIP) install  -U -r .requirements/docs.txt
@@ -136,6 +139,5 @@ migrate:
 
 setup: clean req migrate
 	@$(PY) manage.py createsuperuser
-
 
 # DO NOT DELETE
