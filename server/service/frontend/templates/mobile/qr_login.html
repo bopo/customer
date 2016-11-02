@@ -45,14 +45,14 @@
         function a(c) {
             $.ajax({
                 type: "GET",
-                url: "/qr_check/{{ uuid }}",
+                url: "/qr_check/{{ uuid }}/",
                 cache: false,
                 timeout: 6e4,
-                success: function (f) {
-                    console.log(f);
+                success: function (code) {
+                    console.log(code);
                     console.log("{{ uuid }}");
 
-                    switch (f) {
+                    switch (code) {
                         case '200':
                             window.location.href = '/qr_done/';
                             break;
@@ -62,12 +62,7 @@
                             setTimeout(a, 2e3, f);
                             break;
                         case '408':
-                            $(".js_status").hide();
-                            $("#wx_after_cancel").show();
-                            setTimeout(a, 2e3, f);
-                            break;
-                        case 402:
-                        case 500:
+                        case '500':
                             window.location.reload();
                             break;
                     }

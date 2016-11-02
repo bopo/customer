@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^me/', me, name='me'),
     url(r'^qr_login/', qr_login, name='qr_login'),
     url(r'^qr_done/', qr_done, name='qr_done'),
-    url(r'^qr_check/(?P<uuid>\w+)', qr_check, name='qr_check'),
+    url(r'^qr_check/(?P<uuid>.*?)/', qr_check, name='qr_check'),
 
     # url(r'^channel/(?P<id>\d+)', 'frontend.views.channel', name='category'),
     # url(r'^detail/(?P<id>\d+)', 'frontend.views.detail', name='detail'),

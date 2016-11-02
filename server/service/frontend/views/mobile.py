@@ -3,7 +3,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
 
-import itchat
+import chatbot
 
 try:
     from cStringIO import StringIO
@@ -11,7 +11,7 @@ except ImportError:
     from StringIO import StringIO
 
 CHATBOT_DEFUALT = settings.CHATBOT_DEFUALT
-itchat.default(CHATBOT_DEFUALT)
+chatbot.default(CHATBOT_DEFUALT)
 
 
 # @cache_page(60 * 15)
@@ -33,27 +33,22 @@ def me(request):
 
 
 def qr_login(request):
-    print itchat.cookies()
-    uuid = itchat.get_QRuuid()
+    print chatbot.cookies()
+    uuid = chatbot.get_QRuuid()
     return render(request, 'mobile/qr_login.html', locals())
 
 
 def qr_check(request, uuid):
-    uuid += '=='
-    print uuid
 
-    # if itchat.status():
-    #     return HttpResponse('405')
-
-    response = itchat.check_login(uuid=uuid)
+    response = chatbot.check_login(uuid=uuid)
 
     if response == '200':
-        print itchat.__client.loginInfo
-        print itchat.web_init()
-        print itchat.show_mobile_login()
-        print itchat.dump_login_status()
-        # print itchat.get_friends(True)
-        print itchat.__client.loginInfo
+        print chatbot.__client.loginInfo
+        print chatbot.web_init()
+        print chatbot.show_mobile_login()
+        print chatbot.dump_login_status()
+        print chatbot.get_friends(True)
+        print chatbot.__client.loginInfo
 
     return HttpResponse(response)
 

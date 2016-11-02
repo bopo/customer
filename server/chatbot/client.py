@@ -252,7 +252,6 @@ class Client(object):
         }
 
         r = self.request.post(url, data=json.dumps(payloads), headers=headers)
-        open('groups.txt', 'w').write(r.content)
         j = json.loads(r.content.decode('utf8', 'replace'))['ContactList'][0]
 
         if detailedMember:
