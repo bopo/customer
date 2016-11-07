@@ -1,0 +1,107 @@
+{% extends "mobile/buy/layout.html" %}
+{% block content %}
+    <header class="bar bar-nav">
+        <h1 class='title'>订单信息</h1>
+    </header>
+    <div class="content">
+        <form method="post" action="{% url 'buy_save' %}" id="myfrom">
+            {% csrf_token %}
+            <div class="content-block-title">商品信息</div>
+            <div class="list-block">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">商品</div>
+                            <div class="item-after">{{ items.title }}</div>
+                            <input type="hidden" name="title" value="{{ items.title }}"/>
+                            <input type="hidden" name="id" value="{{ items.id }}"/>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">单价</div>
+                            <div class="item-after">{{ items.price }}</div>
+                            <input type="hidden" name="price" value="{{ items.price }}"/>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">数量</div>
+                            <div class="item-after">{{ items.quantity }}</div>
+                            <input type="hidden" name="quantity" value="{{ items.quantity }}"/>
+                        </div>
+                    </li>
+                    <li class="item-content">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title">总计</div>
+                            <div class="item-after">{{ items.amount }}</div>
+                            <input type="hidden" name="amount" value="{{ items.amount }}"/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block-title">用户信息</div>
+            <div class="list-block">
+                <ul>
+                    <!-- Text inputs -->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">姓名</div>
+                                <div class="item-input">
+                                    <input type="text" name="name" placeholder="您的姓名" value="张三">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">手机</div>
+                                <div class="item-input">
+                                    <input type="tel" name="mobile" placeholder="请输入您的手机" value="18588888888">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">地址</div>
+                                <div class="item-input">
+                                    <textarea name="address" placeholder="输入您的地址"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    {#                <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>#}
+                    <div class="col-100">
+                        <a id="pay" class="button button-big button-fill button-success">确定支付</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('#pay').click(function () {
+                $('#myfrom').submit();
+            })
+        })
+    </script>
+{% endblock %}

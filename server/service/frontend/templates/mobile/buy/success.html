@@ -1,0 +1,43 @@
+{% extends "mobile/buy/layout.html" %}
+{% load static %}
+{% block content %}
+    <header class="bar bar-nav">
+        <h1 class="title">订单已提交</h1>
+    </header>
+
+    <div class="content">
+        <div class="content-block">
+            <p align="center"><img src="{% static 'frontend/img/qr_pay.png' %}" width="260"/></p>
+            <p>您已成功提交订单，扫描下面二维码进行转账支付。完成转账后，将订单号填在下面或发给机器人就可以完成交易！</p>
+        </div>
+
+        <form method="post" action="{% url 'buy_success' orders.token %}" id="myfrom" style="display: none">
+            {% csrf_token %}
+            <div class="content-block-title">转帐信息</div>
+            <div class="list-block">
+                <ul>
+
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <input type="text" name="number" placeholder="请输入您转帐的订单号" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    {#                <div class="col-50"><a href="#" class="button button-big button-fill button-danger">取消</a></div>#}
+                    <div class="col-100">
+                        <a id="pay" class="button button-big button-fill button-success">确认转账</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

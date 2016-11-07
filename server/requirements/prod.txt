@@ -1,0 +1,13 @@
+-r base.txt
+-r scrapy.txt
+psycopg2
+gunicorn
+meinheld
+gevent
+greenlet==0.4.9
+
+# Redis support
+django-redis-cache
+django-redis>=4.3.0
+redis
+
