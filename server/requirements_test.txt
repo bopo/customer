@@ -1,7 +1,0 @@
-mock
-nose
-flake8
-pytest
-coverage
-doctest2
-django-coverage

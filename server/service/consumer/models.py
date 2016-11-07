@@ -10,7 +10,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from imagekit.models import ProcessedImageField
-from model_utils.models import TimeStampedModel
+from model_utils.models import TimeStampedModel, StatusModel
 from pilkit.processors import ResizeToFill
 from rest_framework.serializers import ValidationError
 
@@ -126,3 +126,65 @@ class Profile(TimeStampedModel):
     class Meta:
         verbose_name = _(u'profile')
         verbose_name_plural = _(u'profiles')
+
+
+class Address(TimeStampedModel):
+    '''
+    用户地址信息
+
+    '''
+    owner = models.OneToOneField(settings.AUTH_USER_MODEL, unique=True, db_index=True, related_name='address')
+    city = models.CharField(verbose_name=_(u'城市'), blank=True, max_length=255, db_index=True)
+    area = models.CharField(verbose_name=_(u'市区'), blank=True, null=True, max_length=255, db_index=True)
+    address = models.CharField(verbose_name=_(u'详细地址'), blank=True, null=True, max_length=255, db_index=True)
+    default = models.BooleanField(verbose_name=_('默认地址'), default=False)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
+    class Meta:
+        verbose_name = _(u'用户地址')
+        verbose_name_plural = _(u'用户地址')
+
+
+'''class Contact()'''
+
+
+class Affairs(TimeStampedModel):
+    '''
+
+    '''
+    owner = models.OneToOneField(settings.AUTH_USER_MODEL, unique=True, db_index=True, related_name='affairs')
+    default = models.BooleanField(verbose_name=_('用户通讯录'), default=False)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
+    class Meta:
+        verbose_name = _(u'用户通讯录')
+        verbose_name_plural = _(u'用户通讯录')
+
+
+class Contact(TimeStampedModel):
+    '''
+    用户通讯录
+
+    '''
+    owner = models.OneToOneField(settings.AUTH_USER_MODEL, unique=True, db_index=True, related_name='contact')
+    default = models.BooleanField(verbose_name=_('用户通讯录'), default=False)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.__unicode__()
+
+    class Meta:
+        verbose_name = _(u'用户通讯录')
+        verbose_name_plural = _(u'用户通讯录')

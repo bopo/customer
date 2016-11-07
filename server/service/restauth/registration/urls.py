@@ -7,5 +7,5 @@ from .views import RegisterView, VerifyMobileView
 
 urlpatterns = (
     url(r'^$', RegisterView.as_view(), name='rest_register'),
-    url(r'^verify_mobile/$', VerifyMobileView.as_view(), name='rest_verify_mobile'),
+    url(r'^verify_code/$', VerifyMobileView.as_view(), name='rest_verify_code'),
 )

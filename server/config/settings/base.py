@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -66,6 +65,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     # 'service.middleware.DisableCSRFCheck',
     # 'sslify.middleware.SSLifyMiddleware',
     # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
@@ -166,13 +167,13 @@ try:
     from .rest import *
     from .suit import *
 
-    from .static import *
-    from .celery import *
-
     from .cache import *
     from .thumb import *
 
+    from .static import *
+    from .celery import *
     from .sentry import *
+
     # from .scraper import *
 
 except ImportError as e:

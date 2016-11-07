@@ -3,11 +3,9 @@
 import os
 import time
 
-# import environ
-
-from fabric.api import cd, env, local, run, task
+from fabric.api import cd, env, local, run, task, put
 from fabric.context_managers import prefix
-from fabric.contrib import django, project
+from fabric.contrib import project
 from fabric.contrib.console import prompt
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -30,6 +28,7 @@ env.remote_dir = '/home/apps/customer'
 env.local_dir = '.'
 env.database = 'customer'
 
+
 @task
 def venv():
     with prefix('source /usr/local/bin/virtualenvwrapper.sh'):
@@ -38,11 +37,18 @@ def venv():
     with prefix('workon customer'), cd(env.remote_dir):
         run('pip install -r requirements_dev.txt')
 
-        
+
+@task
+def conf():
+    put('customer_server.conf', '/etc/supervisor/conf.d/')
+    put('customer_chatbot.conf', '/etc/supervisor/conf.d/')
+
+
 @task
 def cron(action='check'):
     with prefix('workon customer'), cd(env.remote_dir):
         run('python schedule.py %s' % action)
+
 
 @task
 def d2u():
@@ -50,6 +56,7 @@ def d2u():
     local('find . -name "*.py" -exec dos2unix {} \;')
     local('find . -name "*.css" -exec dos2unix {} \;')
     local('find . -name "*.js" -exec dos2unix {} \;')
+
 
 @task
 def cert():

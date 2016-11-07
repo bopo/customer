@@ -18,7 +18,7 @@ import xml.dom.minidom
 import pyqrcode
 import requests
 
-from . import config, storage, out, tools
+from . import config, storage, tools
 
 BASE_URL = config.BASE_URL
 
@@ -30,6 +30,20 @@ def hash(src):
 
 
 class Client(object):
+    def __str__(self):
+        description = \
+            "=========================\n" + \
+            "[#] Web Weixin\n" + \
+            "[#] Debug Mode: " + str(self.debug) + "\n" + \
+            "[#] Uuid: " + self.uuid + "\n" + \
+            "[#] Uin: " + str(self.loginInfo['uin']) + "\n" + \
+            "[#] Sid: " + self.sid + "\n" + \
+            "[#] Skey: " + self.skey + "\n" + \
+            "[#] DeviceId: " + self.deviceId + "\n" + \
+            "[#] PassTicket: " + self.pass_ticket + "\n" + \
+            "========================="
+        return description
+
     def __init__(self):
         self.storage = storage.Storage()
         self.memberList = self.storage.memberList
@@ -66,7 +80,6 @@ class Client(object):
 
             os.remove(self.session_path)
         except Exception, e:
-            traceback.print_exc()
             raise Exception('Incorrect fileDir')
 
         status = {
@@ -85,7 +98,6 @@ class Client(object):
                 j = pickle.load(f)
         except Exception, e:
             traceback.print_exc()
-            print self.session_path
             return False
 
         self.loginInfo = j['loginInfo']
@@ -103,7 +115,7 @@ class Client(object):
     def auto_login(self, enableCmdQR=False):
         def open_QR():
             for get_count in range(10):
-                out.print_line('Getting uuid', True)
+                print('Getting uuid')
 
                 while not self.get_QRuuid():
                     time.sleep(1)
@@ -137,7 +149,7 @@ class Client(object):
 
         # 清除终端显示
         tools.clear_screen()
-        out.print_line('Login successfully as %s\n' % self.storage.nickName, False)
+        print('Login successfully as %s\n' % self.storage.nickName)
 
         self.start_receiving()
 
@@ -153,6 +165,8 @@ class Client(object):
         if data and data.group(1) == '200':
             self.uuid = data.group(2)
             return self.uuid
+
+        return False
 
     def get_QR(self, uuid=None, enableCmdQR=False):
         try:
@@ -184,8 +198,6 @@ class Client(object):
 
         regx = r'window.code=(\d+)'
         data = re.search(regx, r.text)
-
-        print r.text
 
         if data and data.group(1) == '200':
             if os.path.exists(self.qr_code_path):
@@ -407,11 +419,11 @@ class Client(object):
                     count += 1
                     time.sleep(count * 3)
                 except Exception as e:
-                    out.print_line(str(e), False)
+                    print(str(e))
                     if self.debug:
                         traceback.print_exc()
 
-            out.print_line('LOG OUT', False)
+            print('LOG OUT')
 
         maintainThread = threading.Thread(target=maintain_loop)
         maintainThread.setDaemon(True)
@@ -660,7 +672,7 @@ class Client(object):
                     'Text': 'UselessMsg',
                 }
             else:
-                out.print_line('MsgType Unknown: %s\n%s' % (m['MsgType'], str(m)), False)
+                print('MsgType Unknown: %s\n%s' % (m['MsgType'], str(m)))
                 srl.append(m['MsgType'])
                 msg = {
                     'Type': 'Useless',

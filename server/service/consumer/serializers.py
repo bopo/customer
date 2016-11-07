@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from rest_framework import serializers
 
-from .models import Address, Profile
+from .models import Address, Profile, Contact, Affairs
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -38,9 +38,16 @@ class AvatarSerializer(serializers.ModelSerializer):
         fields = ("avatar",)
 
 
-class AvatarRelatedField(serializers.RelatedField):
-    def to_representation(self, value):
-        return value.url
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = '__all__'
 
 
 # class BestsProfileSerializer(serializers.ModelSerializer):
@@ -71,8 +78,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class AccountDetailsSerializer(serializers.ModelSerializer):
-    # gender = serializers.ChoiceField((('male', '男'), ('female', '女')))
-    # favorites = serializers.HyperlinkedIdentityField(many=True, view_name='me-favorites-list', lookup_field='pk')
     avatar = serializers.ReadOnlyField(source='profile.avatar')
     zodiac = serializers.ReadOnlyField(source='profile.zodiac')
     birthday = serializers.ReadOnlyField(source='profile.birthday')
@@ -93,12 +98,7 @@ class AccountDetailsSerializer(serializers.ModelSerializer):
         }
 
 
-class AddressSerializer(serializers.ModelSerializer):
+class AffairsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Address
-        # fields = ('url', 'profile', 'address')
-        # extra_kwargs = {
-        # 'url': {'view_name': 'address-list', 'lookup_field': 'pk'},
-        # 'profile': {'view_name': 'profile-detail', 'lookup_field': 'pk', 'read_only': True, 'many': True},
-        # 'address': {'view_name': 'address-detail', 'lookup_field': 'pk', 'read_only': True, 'many': True},
-        # }
+        model = Affairs
+        fields = '__all__'

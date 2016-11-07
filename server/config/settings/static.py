@@ -11,7 +11,8 @@ STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'assets', 'static')
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'assets', 'media')
 THUMB_ROOT = os.path.join(BASE_DIR, '..', 'assets', 'media', 'thumb')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'assets', 'media', 'goods')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

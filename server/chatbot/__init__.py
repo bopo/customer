@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import logging
+import os
 import time
+
+import sys
 
 from . import content
 from .client import Client
@@ -28,8 +32,9 @@ def login(hotReload=False, enableCmdQR=False):
 
 
 def status():
-    # if not os.path.exists(__client.session_path):
-    #     return False
+    if not os.path.exists(__client.session_path):
+        logging.debug('[!] 没有 session 文件 ... 关闭')
+        # sys.exit()
 
     if __client.load_login_status():
         return True
@@ -62,17 +67,10 @@ def cookies():
     return __client.cookies()
 
 
-def show_mobile_login():
-    return __client.show_mobile_login()
-
-
 def start_receiving():
     return __client.start_receiving()
 
 
-# <<<
-
-# The following methods are for reload without re-scan the QRCode >>>
 def dump_login_status():
     return __client.dump_login_status()
 
@@ -85,9 +83,6 @@ def user_sync_check():
     return __client.sync_check()
 
 
-# <<<
-
-# The following methods are for contract dealing >>>
 def get_friends(update=False):
     return __client.get_friends(update)
 
@@ -144,9 +139,6 @@ def add_member_into_chatroom(chatroomUserName, memberList):
     return __client.add_member_into_chatroom(chatroomUserName, memberList)
 
 
-# <<<
-
-# The following is the tear of age, will be deleted soon
 def get_contract(update=False):
     return __client.get_friends(update)
 
@@ -155,9 +147,6 @@ def get_batch_contract(groupUserName):
     return __client.update_chatroom(groupUserName)
 
 
-# <<<
-
-# if toUserName is set to None, msg will be sent to yourself
 def send_msg(msg='Test Message', toUserName=None):
     return __client.send_msg(msg, toUserName)
 
@@ -190,7 +179,6 @@ def send(msg, toUserName=None):
         return __client.send_msg(msg, toUserName)
 
 
-# decorations
 __functionDict = {'FriendChat': {}, 'GroupChat': {}, 'MpChat': {}}
 
 
@@ -199,7 +187,8 @@ def configured_reply():
         however, I use a strange way to determine whether a msg is from massive platform
         I haven't found a better solution here
         The main problem I'm worrying about is the mismatching of new friends added on phone
-        If you have any good idea, pleeeease report an issue. I will be more than grateful. '''
+        If you have any good idea, pleeeease report an issue. I will be more than grateful.
+    '''
     if not __client.storage.msgList:
         return
 
@@ -225,7 +214,8 @@ def configured_reply():
 
 def msg_register(msgType, isFriendChat=False, isGroupChat=False, isMpChat=False):
     ''' a decorator constructor
-        return a specific decorator based on information given '''
+        return a specific decorator based on information given
+    '''
     if not isinstance(msgType, list):
         msgType = [msgType]
 
@@ -254,6 +244,9 @@ def run(debug=True):
 
     try:
         while 1:
+            if not check_login():
+                print('\rLOG OUT')
+                break
             configured_reply()
             time.sleep(.3)
     except KeyboardInterrupt:

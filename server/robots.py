@@ -1,35 +1,34 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-# vim:fenc=utf-8
-#  Copyright © XYM
-# Last modified: 2016-10-24 17:17:25
-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import json
 import logging
 import os
 import re
-
+import platform
 import click
 import coloredlogs
 import django
 import environ
-import itchat
+import chatbot
 import requests
 import short_url
-from itchat.content import *
+from chatbot.content import *
+import sys
+
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 
 if django.VERSION >= (1, 7):  # 自动判断版本
     django.setup()
 
+from django.conf import settings
 env = environ.Env()
 environ.Env.read_env()
 
-PID_PATH = 'runtime/itchat.kpi'
+PID_PATH = 'chatbot.kpi'
 
 
 def tuling_auto_reply(msg):
@@ -56,15 +55,24 @@ def tuling_auto_reply(msg):
         else:
             result = respond['text'].replace('<br>', '  ')
 
-        print '    ROBOT:', result
+        # print '    ROBOT:', result
         return result
     else:
         return u"知道啦"
 
 
-@itchat.msg_register([TEXT, ])
+
+def say(msg):
+    if platform.system() == 'Darwin':
+        # os.system('say %s' % msg)
+        print(msg)
+        os.system('say "' + msg+'"')
+    else:
+        print(msg)
+
+@chatbot.msg_register([TEXT, ])
 def text_reply(msg):
-    print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
+    say("网友说:" + msg['Text'])
 
     if re.match(r'\w{5}', msg['Text']):
         from stock.wechat.models import Member
@@ -74,51 +82,52 @@ def text_reply(msg):
             member = Member.objects.get(pk=short_url.decode_url(code))
 
             if member.remark != '':
-                itchat.send_msg(u'该用户已经绑定过了，请不要重复绑定', msg['FromUserName'])
+                chatbot.send_msg(u'该用户已经绑定过了，请不要重复绑定', msg['FromUserName'])
             else:
                 remark = code
 
-                itchat.set_alias(msg['FromUserName'], remark)
-                itchat.get_contract(update=True)
-                friend = itchat.search_friends(userName=msg['FromUserName'])
+                chatbot.set_alias(msg['FromUserName'], remark)
+                chatbot.get_contract(update=True)
+                friend = chatbot.search_friends(userName=msg['FromUserName'])
 
                 member.wechat = friend.get('Alias')
                 member.remark = friend.get('RemarkName')
                 member.save()
 
-                itchat.send_msg(u'恭喜您，已经成功绑定', msg['FromUserName'])
+                chatbot.send_msg(u'恭喜您，已经成功绑定', msg['FromUserName'])
         except Member.DoesNotExist:
-            itchat.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
+            chatbot.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
     else:
         content = tuling_auto_reply(msg['Text'])
-        itchat.send_msg(content, msg['FromUserName'])
+        say('我说:%s' % content)
+        chatbot.send_msg(content, msg['FromUserName'])
 
 
-# @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
+# @chatbot.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
 # def download_files(msg):
 #     msg['Text'](msg['FileName'])
 #     return '@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(msg['Type'], 'fil'), msg['FileName'])
 
 
-@itchat.msg_register(FRIENDS)
+@chatbot.msg_register(FRIENDS)
 def add_friend(msg):
-    logging.info('%s 加入好友' % (msg['FromUserName']))
-    itchat.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
-    itchat.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
-    itchat.get_contract(update=True)
+    logging.info(u'%s 加入好友' % (msg['FromUserName']))
+    chatbot.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
+    chatbot.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
+    chatbot.get_contract(update=True)
 
 
-@itchat.msg_register(TEXT, isGroupChat=True)
+@chatbot.msg_register(TEXT, isGroupChat=True)
 def text_reply(msg):
     if msg['isAt']:
         print msg
         logging.info('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
         content = tuling_auto_reply(msg['Content'])
-        itchat.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
+        chatbot.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
 
 
 @click.command()
-@click.option('-p', '--pid', default='itchat.kpi', help='runtime file.')
+@click.option('-p', '--pid', default='chatbot.kpi', help='runtime file.')
 @click.option('-l', '--login', is_flag=True, help='only login.')
 @click.option('-d', '--debug', is_flag=True, help='debug mode.')
 @click.option('-v', '--verbose', count=True)
@@ -127,11 +136,11 @@ def main(login, debug, verbose, pid):
         logging.getLogger(__name__)
         coloredlogs.install(level='DEBUG')
 
-    itchat.pid(pid)
-    itchat.login(enableCmdQR=False, hotReload=True)
+    chatbot.default(settings.CHATBOT_DEFUALT)
+    chatbot.login(enableCmdQR=True, hotReload=True)
 
     if not login:
-        itchat.run(debug=debug)
+        chatbot.run(debug=debug)
 
 
 if __name__ == '__main__':

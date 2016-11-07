@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import json
 import logging
 import re
+import sys
 import time
 
 import requests
@@ -12,12 +13,7 @@ from fabric.colors import red
 
 import chatbot
 from chatbot.content import TEXT, FRIENDS
-
-CHATBOT_DEFUALT = {
-    'SESSION_PATH': 'runtime/itchat.kpl',
-    'QR_CODE_PATH': 'runtime/itchat.png',
-    'DEBUG': True,
-}
+from chatbot.plugins import order
 
 
 def tuling_auto_reply(msg):
@@ -44,17 +40,36 @@ def tuling_auto_reply(msg):
         else:
             result = respond['text'].replace('<br>', '  ')
 
-        print '    ROBOT:', result
         return result
     else:
         return u"知道啦"
 
 
+from chatbot.plugins import trade
+
+
 @chatbot.msg_register([TEXT, ])
 def text_reply(msg):
     # print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
+    print msg['FromUserName']
+    print msg['Text']
 
-    if re.match(r'\w{5}', msg['Text']):
+    message = trade.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+
+    if message:
+        print message
+        chatbot.send(message, msg['FromUserName'])
+    elif re.match(r'\d{10,}', msg['Text']):
+        message = express.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+
+        if message:
+            chatbot.send(message, msg['FromUserName'])
+    elif re.match(r'\d{28}', msg['Text']):
+        message = order.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+
+        if message:
+            chatbot.send(message, msg['FromUserName'])
+    elif re.match(r'\w{5}', msg['Text']):
         content = tuling_auto_reply(msg['Text'])
         chatbot.send_msg(content, msg['FromUserName'])
 
@@ -116,6 +131,7 @@ def run():
             chatbot.run(debug=True)
             break
         else:
+            sys.exit()
             print(red(u'用户未登录...退出'))
 
         time.sleep(10)

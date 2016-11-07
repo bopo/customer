@@ -1,5 +1,7 @@
 from django.conf.urls import url
-from .views import *
+
+import views
+
 # sitemaps = {'static': PhotoViewSitemap,}
 
 # urlpatterns = patterns('',
@@ -15,13 +17,22 @@ from .views import *
 #     )
 
 urlpatterns = [
-    url(r'^$', home, name='home'),
-    url(r'^history/', history, name='history'),
-    url(r'^report/', report, name='report'),
-    url(r'^me/', me, name='me'),
-    url(r'^qr_login/', qr_login, name='qr_login'),
-    url(r'^qr_done/', qr_done, name='qr_done'),
-    url(r'^qr_check/(?P<uuid>.*?)/', qr_check, name='qr_check'),
+    url(r'^manage/$', views.home, name='home'),
+    url(r'^manage/history/', views.history, name='history'),
+    url(r'^manage/report/', views.report, name='report'),
+    url(r'^manage/me/', views.me, name='me'),
+
+    url(r'^qr_check/(?P<uuid>.*?)/', views.qr_check, name='qr_check'),
+    url(r'^qr_login/', views.qr_login, name='qr_login'),
+    url(r'^qr_done/', views.qr_done, name='qr_done'),
+
+    url(r'^detail/(?P<id>\d+)', views.detail, name='detail'),
+    url(r'^goods/', views.goods, name='goods'),
+    url(r'^buy/$', views.buy, name='buy'),
+    url(r'^buy/success/(?P<token>.*?)/$', views.buy_success, name='buy_success'),
+    url(r'^buy/confirm/(?P<token>.*?)/$', views.buy_confirm, name='buy_confirm'),
+    url(r'^buy/errors/$', views.buy_errors, name='buy_errors'),
+    url(r'^buy/save/$', views.buy_save, name='buy_save'),
 
     # url(r'^channel/(?P<id>\d+)', 'frontend.views.channel', name='category'),
     # url(r'^detail/(?P<id>\d+)', 'frontend.views.detail', name='detail'),

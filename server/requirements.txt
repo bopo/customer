@@ -49,7 +49,7 @@ django-redis
 redis
 click
 plan
-django-rest-swagger==0.3.10
+django-rest-swagger
 django-cors-headers
 pypng
 wechatpy

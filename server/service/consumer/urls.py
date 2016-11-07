@@ -4,14 +4,16 @@ from __future__ import unicode_literals
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
 
-from .views import ProfileViewSet, AvatarViewSet
+from .views import ProfileViewSet, AvatarViewSet, AddressViewSet, ContactViewSet, AffairsViewSet
 
 router = DefaultRouter()
-# router.register(r'notices', NoticeViewSet, 'me-messages')
-# router.register(r'affairs', AffairsViewSet, 'me-affairs')
-# router.register(r'extract', ExtractViewSet, 'me-extract')
-# router.register(r'shared', SharedViewSet, 'me-shared')
-# router.register(r'orders', TradeViewSet, 'me-orders')
+router.register(r'address', AddressViewSet, 'me-address')
+router.register(r'affairs', AffairsViewSet, 'me-affairs')
+router.register(r'contact', ContactViewSet, 'me-contact')
+
+# router.register(r'signatures', SignatureViewSet, 'me-signatures')
+# router.register(r'treaties', TreatyViewSet, 'me-treaties')
+# router.register(r'trades', TradeViewSet, 'me-trades')
 
 urlpatterns = (
     url(r'^', include(router.urls)),

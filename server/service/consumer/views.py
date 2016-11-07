@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from .serializers import (
-    AddressSerializer, ProfileSerializer, AvatarSerializer, )
+    AddressSerializer, ProfileSerializer, AvatarSerializer, ContactSerializer, AffairsSerializer)
 from .utils import get_user_profile
 
 
@@ -73,16 +73,18 @@ class AddressViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.address_set.all()
 
-# class QRCodeViewSet(viewsets.ModelViewSet):
-#     '''
-#     二维码生成:
-#     '''
-#
-#     serializer_class = QRCodeSerializer
-#     permission_classes = (IsAuthenticated,)
-#
-#     def perform_create(self, serializer):
-#         serializer.save(owner=self.request.user)
-#
-#     def get_queryset(self):
-#         return self.request.user.shared_set.all()
+
+class AffairsViewSet(viewsets.ModelViewSet):
+    serializer_class = AffairsSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.contact_set.all()
+
+
+class ContactViewSet(viewsets.ModelViewSet):
+    serializer_class = ContactSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.request.user.contact_set.all()
