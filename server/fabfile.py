@@ -110,12 +110,13 @@ def migrate():
 @task(alias='rr')
 def restart():
     with prefix('workon customer'), cd(env.remote_dir):
-        run('/usr/bin/supervisorctl restart customer')
+        run('/usr/bin/supervisorctl restart customer_servers')
+        run('/usr/bin/supervisorctl restart customer_chatbot')
 
 
 @task
 def stop():
-    run('/usr/bin/supervisorctl stop customer')
+    run('/usr/bin/supervisorctl stop customer_servers')
 
 
 @task
@@ -321,9 +322,9 @@ def dbmigrate():
 
 
 @task
-def req():
+def req(file='local'):
     with prefix('workon customer'), cd(env.remote_dir):
-        run('pip install -r requirements/prod.txt')
+        run('pip install -r requirements/%s.txt' % file)
 
 
 @task

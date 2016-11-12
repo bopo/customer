@@ -7,8 +7,9 @@
 
     <div class="content">
         <div class="content-block">
+            <p align="center">订单应付: {{ orders.amount }}</p>
             <p align="center"><img src="{% static 'frontend/img/qr_pay.png' %}" width="260"/></p>
-            <p>您已成功提交订单，扫描下面二维码进行转账支付。完成转账后，将订单号填在下面或发给机器人就可以完成交易！</p>
+            <p>您已成功提交订单，`长按`或`扫描二维码`进行转账支付。既可以完成交易！</p>
         </div>
 
         <form method="post" action="{% url 'buy_success' orders.token %}" id="myfrom" style="display: none">

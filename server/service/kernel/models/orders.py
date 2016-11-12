@@ -19,6 +19,7 @@ class Orders(TimeStampedModel, StatusModel):
     goods = models.ForeignKey(Goods)
     uin = models.CharField(verbose_name=_(u'商品数量'), max_length=100, default='')
     token = models.CharField(verbose_name=_(u'订单标示'), max_length=100, default='')
+    openid = models.CharField(verbose_name=_(u'openid'), max_length=100, default='')
 
     def __unicode__(self):
         return self.goods.title

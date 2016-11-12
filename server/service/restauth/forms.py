@@ -17,7 +17,7 @@ class PasswordResetForm(forms.Form):
     mobile = forms.CharField(label=_(u'手机号码'), max_length=100)
 
     def send_mail(self, subject_template_name, email_template_name,
-                  context, from_email, to_email, html_email_template_name=None):
+            context, from_email, to_email, html_email_template_name=None):
         """
         Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
         """
@@ -32,7 +32,7 @@ class PasswordResetForm(forms.Form):
             html_email = loader.render_to_string(html_email_template_name, context)
             email_message.attach_alternative(html_email, 'text/html')
 
-        # email_message.send()
+            # email_message.send()
 
     def get_users(self, email):
         """Given an email, return matching user(s) who should receive a reset.
@@ -46,10 +46,10 @@ class PasswordResetForm(forms.Form):
         return (u for u in active_users if u.has_usable_password())
 
     def save(self, domain_override=None,
-             subject_template_name='registration/password_reset_subject.txt',
-             email_template_name='registration/password_reset_email.html',
-             use_https=False, token_generator=default_token_generator,
-             from_email=None, request=None, html_email_template_name=None):
+            subject_template_name='registration/password_reset_subject.txt',
+            email_template_name='registration/password_reset_email.html',
+            use_https=False, token_generator=default_token_generator,
+            from_email=None, request=None, html_email_template_name=None):
         """
         Generates a one-use only link for resetting password and sends to the
         user.
@@ -75,5 +75,5 @@ class PasswordResetForm(forms.Form):
             }
 
             self.send_mail(subject_template_name, email_template_name,
-                           context, from_email, user.email,
-                           html_email_template_name=html_email_template_name)
+                context, from_email, user.email,
+                html_email_template_name=html_email_template_name)

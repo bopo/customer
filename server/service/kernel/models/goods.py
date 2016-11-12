@@ -9,7 +9,6 @@ from model_utils.models import TimeStampedModel, StatusModel
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 from pilkit.processors import ResizeToFill
-from tagging.fields import TagField
 from tagging.models import Tag
 
 from . import UNITS_CHOICES
@@ -76,8 +75,8 @@ class Goods(TimeStampedModel, StatusModel):
     cover = ProcessedImageField(verbose_name=_(u'图片'), upload_to='goods', processors=[ResizeToFill(720, 240)],
         format='JPEG', null=True, help_text=u'图片尺寸最好为720x240', blank=True)
 
-    cats = models.ForeignKey(Category)
-    tags = TagField()
+    cats = models.ForeignKey(Category, blank=True, null=True)
+    tags = models.CharField(verbose_name=_(u'标签关键字'), max_length=200, help_text='多个关键字之间逗号隔开')
 
     def get_tags(self):
         return Tag.objects.get_for_object(self)
@@ -93,6 +92,12 @@ class Goods(TimeStampedModel, StatusModel):
 
     def __str__(self):
         return self.__unicode__()
+
+    def save(self, *args, **kwargs):
+        if self.tags:
+            self.tags = ',%s,' % self.tags.strip(',')
+
+        super(Goods, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _(u'商品列表')

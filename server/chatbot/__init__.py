@@ -5,10 +5,13 @@ import logging
 import os
 import time
 
-import sys
-
 from . import content
 from .client import Client
+
+try:
+    import Queue
+except ImportError:
+    import queue as Queue
 
 __version__ = '1.1.17'
 
@@ -34,7 +37,6 @@ def login(hotReload=False, enableCmdQR=False):
 def status():
     if not os.path.exists(__client.session_path):
         logging.debug('[!] 没有 session 文件 ... 关闭')
-        # sys.exit()
 
     if __client.load_login_status():
         return True

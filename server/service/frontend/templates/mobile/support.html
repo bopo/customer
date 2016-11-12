@@ -1,0 +1,14 @@
+{% extends "mobile/simple.html" %}
+{% load static %}
+{% block content %}
+    <header class="bar bar-nav">
+        <h1 class="title">技术支持</h1>
+    </header>
+
+    <div class="content">
+        <div class="content-block">
+            <p align="center"><img src="{% static 'frontend/img/support.png' %}" width="260"/></p>
+            <p>您已成功提交订单，`长按`或`扫描二维码`进行转账支付。既可以完成交易！</p>
+        </div>
+    </div>
+{% endblock %}

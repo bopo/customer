@@ -5,6 +5,7 @@ import copy
 import hashlib
 import io
 import json
+import logging
 import mimetypes
 import os
 import pickle
@@ -79,8 +80,8 @@ class Client(object):
                 f.write('DELETE THIS')
 
             os.remove(self.session_path)
-        except Exception, e:
-            raise Exception('Incorrect fileDir')
+        except Exception as e:
+            raise Exception('Incorrect session_path')
 
         status = {
             'loginInfo': self.loginInfo,
@@ -96,7 +97,7 @@ class Client(object):
         try:
             with open(self.session_path, 'rb') as f:
                 j = pickle.load(f)
-        except Exception, e:
+        except Exception as e:
             traceback.print_exc()
             return False
 
@@ -266,6 +267,8 @@ class Client(object):
         r = self.request.post(url, data=json.dumps(payloads), headers=headers)
         j = json.loads(r.content.decode('utf8', 'replace'))['ContactList'][0]
 
+        open('chatroom.txt','w').write(r.content)
+
         if detailedMember:
             def get_detailed_member_info(encryChatroomId, memberList):
                 url = '%s/webwxbatchgetcontact?type=ex&r=%s' % (self.loginInfo['url'], int(time.time()))
@@ -423,7 +426,7 @@ class Client(object):
                     if self.debug:
                         traceback.print_exc()
 
-            print('LOG OUT')
+            sys.exit('LOG OUT')
 
         maintainThread = threading.Thread(target=maintain_loop)
         maintainThread.setDaemon(True)
@@ -447,6 +450,8 @@ class Client(object):
         pm = re.search(regx, r.text)
 
         if pm.group(1) != '0':
+            logging.debug(r.text)
+            print ('sync err.')
             return None
 
         return pm.group(2)
@@ -697,11 +702,11 @@ class Client(object):
 
         if member is None:
             chatroom = self.update_chatroom(msg['FromUserName'])
-            member = tools.search_dict_list((chatroom or {}).get(
-                'MemberList') or [], 'UserName', actualUserName)
+            member = tools.search_dict_list((chatroom or {}).get('MemberList') or [], 'UserName', actualUserName)
 
         msg['ActualUserName'] = actualUserName
         msg['ActualNickName'] = member['DisplayName'] or member['NickName']
+        msg['NickName'] = member['NickName']
         msg['Content'] = content
 
         tools.msg_formatter(msg, 'Content')
@@ -729,20 +734,26 @@ class Client(object):
 
     def __update_chatrooms(self, l):
         oldUsernameList = []
+
         for chatroom in l:
             # format NickName & DisplayName & self keys
             tools.emoji_formatter(chatroom, 'NickName')
+
             for member in chatroom['MemberList']:
                 if self.storage.userName == member['UserName']:
                     chatroom['self'] = member
+
                 tools.emoji_formatter(member, 'NickName')
                 tools.emoji_formatter(member, 'DisplayName')
+
             # get useful information from old version of this chatroom
             oldChatroom = tools.search_dict_list(
                 self.chatroomList, 'UserName', chatroom['UserName'])
+
             if oldChatroom is not None:
                 memberList, oldMemberList = \
                     chatroom['MemberList'], oldChatroom['MemberList']
+
                 # update member list
                 if memberList:
                     for member in memberList:
@@ -753,28 +764,38 @@ class Client(object):
                                 member[k] = member[k] or oldMember[k]
                 else:
                     chatroom['MemberList'] = oldMemberList
+
                 # update other info
                 for k in oldChatroom:
                     chatroom[k] = chatroom.get(k) or oldChatroom[k]
+
                 # ready for deletion
                 oldUsernameList.append(oldChatroom['UserName'])
+
             # update OwnerUin
             if 'ChatRoomOwner' in chatroom:
                 chatroom['OwnerUin'] = tools.search_dict_list(
                     chatroom['MemberList'], 'UserName', chatroom['ChatRoomOwner'])['Uin']
+
             # update isAdmin
             if 'OwnerUin' in chatroom and chatroom['OwnerUin'] != 0:
                 chatroom['isAdmin'] = \
                     chatroom['OwnerUin'] == int(self.loginInfo['wxuin'])
             else:
                 chatroom['isAdmin'] = None
+
         # delete old chatrooms
         oldIndexList = []
+
         for i, chatroom in enumerate(self.chatroomList):
             if chatroom['UserName'] in oldUsernameList:
                 oldIndexList.append(i)
+
         oldIndexList.sort(reverse=True)
-        for i in oldIndexList: del self.chatroomList[i]
+
+        for i in oldIndexList:
+            del self.chatroomList[i]
+
         # add new chatrooms
         for chatroom in l:
             self.chatroomList.append(chatroom)

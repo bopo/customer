@@ -53,8 +53,11 @@ def chinese2digits(uchars_chinese):
     return total
 
 
-def execute(message, uin):
-    seg_list = pseg.cut(message)
+def handler(message, *args, **kwargs):
+    text = message['Text']
+    uin = message['FromUserName']
+
+    seg_list = pseg.cut(text)
     words = []
     quantity = 1
 
@@ -70,7 +73,6 @@ def execute(message, uin):
                 words.append(word)
 
     if not words:
-        print words
         return None
 
     try:
@@ -78,6 +80,7 @@ def execute(message, uin):
 
         for w in words:
             queryset = queryset.filter(title__contains=w)
+            queryset = queryset.filter(tags__contains=w)
 
         result = queryset.all()
 

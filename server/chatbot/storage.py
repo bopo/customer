@@ -71,6 +71,7 @@ class Storage:
                         contract.append(m)
             else:
                 contract = self.memberList[:]
+
             if matchDict:  # select again based on matchDict
                 friendList = []
                 for m in contract:

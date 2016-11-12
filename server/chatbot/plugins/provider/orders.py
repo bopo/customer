@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 import jieba
 
-from service.kernel.models import Goods
 from service.kernel.models import Orders
 
 TOP_APPKEY = 'wx95d4b735c05ff6a7'
@@ -50,27 +49,26 @@ def chinese2digits(uchars_chinese):
     return total
 
 
-def execute(message, uin):
-    result = Orders.objects.filter(uin=uin).exclude(status='pay_success').order_by('id', 'desc').all()
+def handler(message, *args, **kwargs):
+    # alias = message['RecommendInfo']['Alias']
+    result = Orders.objects.filter(uin=kwargs['uin']).exclude(status='pay_success').order_by('-id').all()
 
     if result:
         if len(result) == 1:
             result = result[0]
-            result.number = message
-            result.status = 'pay_success'
-            result.save()
-        else:
-            result = result[0]
-            result.number = message
+            result.number = message['Text']
             result.status = 'pay_success'
             result.save()
 
-            # url = 'http://wx.gjingxi.com:8099/orders/?&uin=%s' % uin
-            # client = WeChatClient(TOP_APPKEY, TOP_SECRET)
-            # short_url = client.misc.short_url(long_url=url)['short_url']
-        message = '已经完成订单支付操作，已发至工作人员进行核验，核验完成后就给您发货'
+            return u'已经完成订单支付操作，已发至工作人员进行核验，核验完成后就给您发货'
+        else:
+            for row in result:
+                msg = row.goods.title
+                message.append(msg)
+
+            return message
+
     else:
-        message = '没有发现您的订单'
+        message = u'没有发现您的订单'
 
     return message
-

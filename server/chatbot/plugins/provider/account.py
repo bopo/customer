@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 import jieba
+import short_url
 
-from service.kernel.models import Goods
-from service.kernel.models import Orders
+import chatbot
 
 TOP_APPKEY = 'wx95d4b735c05ff6a7'
 TOP_SECRET = '5c330e437a2ebf13faf122551b103520'
@@ -50,27 +50,26 @@ def chinese2digits(uchars_chinese):
     return total
 
 
-def execute(message, uin):
-    result = Orders.objects.filter(uin=uin).exclude(status='pay_success').order_by('id', 'desc').all()
+def handler(message, *args, **kwargs):
+    from service.wechat.models import Member
+    code = message['Text'].strip('#')
 
-    if result:
-        if len(result) == 1:
-            result = result[0]
-            result.number = message
-            result.status = 'pay_success'
-            result.save()
+    try:
+        member = Member.objects.get(pk=short_url.decode_url(code))
+
+        if member.remark != '':
+            chatbot.send_msg(u'该用户已经绑定过了，请不要重复绑定', message['FromUserName'])
         else:
-            result = result[0]
-            result.number = message
-            result.status = 'pay_success'
-            result.save()
+            remark = code
 
-            # url = 'http://wx.gjingxi.com:8099/orders/?&uin=%s' % uin
-            # client = WeChatClient(TOP_APPKEY, TOP_SECRET)
-            # short_url = client.misc.short_url(long_url=url)['short_url']
-        message = '已经完成订单支付操作，已发至工作人员进行核验，核验完成后就给您发货'
-    else:
-        message = '没有发现您的订单'
+            chatbot.set_alias(message['FromUserName'], remark)
+            chatbot.get_contract(update=True)
+            friend = chatbot.search_friends(userName=message['FromUserName'])
 
-    return message
+            member.wechat = friend.get('Alias')
+            member.remark = friend.get('RemarkName')
+            member.save()
 
+            chatbot.send_msg(u'恭喜您，已经成功绑定', message['FromUserName'])
+    except Member.DoesNotExist:
+        chatbot.send_msg(u'对不起, 您确定已经关注过公众号了吗？', message['FromUserName'])

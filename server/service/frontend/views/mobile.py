@@ -4,6 +4,7 @@ import uuid
 from django.conf import settings
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
@@ -36,6 +37,10 @@ def report(request):
 
 def me(request):
     return render(request, 'mobile/me.html', locals())
+
+
+def support(request):
+    return render(request, 'mobile/support.html', locals())
 
 
 def qr_login(request):
@@ -75,21 +80,37 @@ def detail(request, id):
 
 # 商品购买
 def buy(request):
+    # code_ = request.GET.get('code', None)
+    # oauth = WeChatOAuth(settings.WECHAT_APPKEY, settings.WECHAT_SECRET,
+    #     redirect_uri=request.build_absolute_uri(request.get_full_path()))
+    #
+    # if code_ is None:
+    #     return HttpResponseRedirect(oauth.authorize_url)
+    #
+    # access = oauth.fetch_access_token(code_)
+    # oauth.refresh_access_token(access.get('refresh_token'))
+    # user = oauth.get_user_info()
+    #
+    # request.session['openid'] = user.get('openid')
+
     items = get_object_or_404(Goods, pk=request.GET.get('id'))
     items.quantity = request.GET.get('q')
     items.amount = float(float(items.price) * float(items.quantity))
-    print items
+
     return render(request, 'mobile/buy/pay.html', locals())
 
 
 def buy_save(request):
     if request.method == 'POST':
+        openid = request.session.get('openid')
         id = request.POST.get('id')
         uin = request.POST.get('uin', 'NULL')
         items = get_object_or_404(Goods, pk=id)
         quantity = request.POST.get('quantity')
         amount = float(float(items.price) * float(quantity))
-        orders = Orders.objects.create(goods_id=id, uin=uin, quantity=quantity, amount=amount, token=uuid.uuid1())
+
+        orders = Orders.objects.create(goods_id=id, uin=uin, openid=openid, quantity=quantity, amount=amount,
+            token=uuid.uuid1())
 
         if not orders:
             raise Http404
@@ -100,6 +121,19 @@ def buy_save(request):
 
 
 def buy_confirm(request, token):
+    # code_ = request.GET.get('code', None)
+    # oauth = WeChatOAuth(settings.WECHAT_APPKEY, settings.WECHAT_SECRET,
+    #     redirect_uri=request.build_absolute_uri(request.get_full_path()))
+    #
+    # if code_ is None:
+    #     return HttpResponseRedirect(oauth.authorize_url)
+    #
+    # access = oauth.fetch_access_token(code_)
+    # oauth.refresh_access_token(access.get('refresh_token'))
+    # user = oauth.get_user_info()
+    #
+    # request.session['openid'] = user.get('openid')
+    # -----------------------------------------------
     orders = get_object_or_404(Orders, token=token)
     return render(request, 'mobile/buy/confirm.html', locals())
 
@@ -111,3 +145,15 @@ def buy_success(request, token):
 
 def buy_errors(request):
     return render(request, 'mobile/buy/errors.html', locals())
+
+
+def buy_close(request, token):
+    result = Orders.objects.filter(token=token)
+
+    if result:
+        result.delete()
+        data = {'error': '0'}
+    else:
+        data = {'error': '1'}
+
+    return JsonResponse(data=data)

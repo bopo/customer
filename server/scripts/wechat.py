@@ -2,9 +2,6 @@
 from __future__ import unicode_literals
 
 import json
-import logging
-import re
-import sys
 import time
 
 import requests
@@ -13,7 +10,8 @@ from fabric.colors import red
 
 import chatbot
 from chatbot.content import TEXT, FRIENDS
-from chatbot.plugins import order
+from chatbot.plugins.handlers import patterns, help_handler as default_handler
+from chatbot.plugins.routers import routers
 
 
 def tuling_auto_reply(msg):
@@ -45,70 +43,57 @@ def tuling_auto_reply(msg):
         return u"知道啦"
 
 
-from chatbot.plugins import trade
-
-
 @chatbot.msg_register([TEXT, ])
 def text_reply(msg):
     # print ('%s:%s' % (itchat.search_friends(userName=msg['FromUserName']).get('NickName'), msg['Text']))
     print msg['FromUserName']
     print msg['Text']
 
-    message = trade.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+    ############################
+    # routers = [base_router, db_router]
 
-    if message:
-        print message
-        chatbot.send(message, msg['FromUserName'])
-    elif re.match(r'\d{10,}', msg['Text']):
-        message = express.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+    for router in routers:
+        result = router(msg, patterns)
+        print result
 
-        if message:
-            chatbot.send(message, msg['FromUserName'])
-    elif re.match(r'\d{28}', msg['Text']):
-        message = order.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+        if result:
+            chatbot.send_msg(result, msg['FromUserName'])
 
-        if message:
-            chatbot.send(message, msg['FromUserName'])
-    elif re.match(r'\w{5}', msg['Text']):
-        content = tuling_auto_reply(msg['Text'])
-        chatbot.send_msg(content, msg['FromUserName'])
+    content = tuling_auto_reply(msg['Text'])
+    chatbot.send_msg(content, msg['FromUserName'])
 
-        # from stock.wechat.models import Member
-        # code = msg['Text'].strip('#')
-        #
-        # try:
-        #     member = Member.objects.get(pk=short_url.decode_url(code))
-        #
-        #     if member.remark != '':
-        #         itchat.send_msg(u'该用户已经绑定过了，请不要重复绑定', msg['FromUserName'])
-        #     else:
-        #         remark = code
-        #
-        #         itchat.set_alias(msg['FromUserName'], remark)
-        #         itchat.get_contract(update=True)
-        #         friend = itchat.search_friends(userName=msg['FromUserName'])
-        #
-        #         member.wechat = friend.get('Alias')
-        #         member.remark = friend.get('RemarkName')
-        #         member.save()
-        #
-        #         itchat.send_msg(u'恭喜您，已经成功绑定', msg['FromUserName'])
-        # except Member.DoesNotExist:
-        #     itchat.send_msg(u'对不起, 您确定已经关注过公众号了吗？', msg['FromUserName'])
-    else:
-        content = tuling_auto_reply(msg['Text'])
-        chatbot.send_msg(content, msg['FromUserName'])
+    return default_handler(msg)
+    ############################
 
-
-# @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
-# def download_files(msg):
-#     msg['Text'](msg['FileName'])
-#     return '@%s@%s' % ({'Picture': 'img', 'Video': 'vid'}.get(msg['Type'], 'fil'), msg['FileName'])
+    # message = trade.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+    #
+    # if message:
+    #     print message
+    #     chatbot.send(message, msg['FromUserName'])
+    # elif re.match(r'\d{10,}', msg['Text']):
+    #     # message = express.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+    #
+    #     # if message:
+    #     #     chatbot.send(message, msg['FromUserName'])
+    #     pass
+    # elif re.match(r'\d{28}', msg['Text']):
+    #     message = orders.execute(message=msg['Text'].encode('utf-8'), uin=msg['FromUserName'])
+    #
+    #     if message:
+    #         chatbot.send(message, msg['FromUserName'])
+    # elif re.match(r'\w{5}', msg['Text']):
+    #     content = tuling_auto_reply(msg['Text'])
+    #     chatbot.send_msg(content, msg['FromUserName'])
+    #
+    #
+    # else:
+    #     content = tuling_auto_reply(msg['Text'])
+    #     chatbot.send_msg(content, msg['FromUserName'])
 
 
 @chatbot.msg_register(FRIENDS)
 def add_friend(msg):
-    logging.info('%s 加入好友' % (msg['FromUserName']))
+    print('%s 加入好友' % (msg['FromUserName']))
     chatbot.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
     chatbot.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
     chatbot.get_contract(update=True)
@@ -116,11 +101,47 @@ def add_friend(msg):
 
 @chatbot.msg_register(TEXT, isGroupChat=True)
 def text_reply(msg):
+    chatbot.get_contract(True)
     if msg['isAt']:
-        print msg
-        logging.info('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
-        content = tuling_auto_reply(msg['Content'])
-        chatbot.send(u'@%s %s' % (msg['ActualNickName'], content), msg['FromUserName'])
+        print('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
+        print msg['FromUserName']
+        print msg['Text']
+
+        actuals = None
+        chatroom = chatbot.update_chatroom(msg['FromUserName'].replace('@@', '@'))
+
+        if chatroom:
+            for member in chatroom.get('MemberList'):
+                if member.get('NickName') == msg['ActualNickName']:
+                    actuals = member
+                    break
+
+        if not actuals:
+            chatbot.send(u'@%s %s' % (msg['ActualNickName'], u'你还没有加我为好友，加我好友后可以购买'), msg['FromUserName'])
+        else:
+            result = None
+
+            msg['Text'] = msg['Text'].replace(chatbot.search_friends().get('NickName'), '')
+
+            for router in routers:
+                result = router(msg, patterns)
+                print result
+
+                if result:
+                    status = chatbot.send_msg(result, actuals['UserName'])
+
+                    if not status:
+                        chatbot.add_friend(userName=actuals['UserName'])
+                        chatbot.send(u'@%s %s' % (msg['ActualNickName'], u'你还没有加我为好友，加我好友后可以购买'), msg['FromUserName'])
+                        return True
+
+            if not result:
+                content = tuling_auto_reply(msg['Content'])
+            else:
+                content = '已经将购买链接私聊给您了'
+
+            NickName = chatbot.search_friends(userName=actuals['UserName'])['NickName']
+            chatbot.send(u'@%s %s' % (NickName, content), msg['FromUserName'])
 
 
 def run():
@@ -131,7 +152,6 @@ def run():
             chatbot.run(debug=True)
             break
         else:
-            sys.exit()
             print(red(u'用户未登录...退出'))
 
         time.sleep(10)
