@@ -1,9 +1,17 @@
 {% extends "mobile/buy/layout.html" %}
+{% load static %}
 {% block content %}
     <header class="bar bar-nav">
         <h1 class='title'>订单信息</h1>
     </header>
+
     <div class="content">
+        <div class="content-block" id="success" style="display: none;">
+            <p align="center">订单应付: <span id="amount">amount</span></p>
+            <p align="center"><img src="{% static 'frontend/img/qr_pay.png' %}" width="260"/></p>
+            <p>您已成功提交订单，`长按`或`扫描二维码`进行转账支付。既可以完成交易！</p>
+        </div>
+
         <form method="post" action="{% url 'buy_save' %}" id="myfrom">
             {% csrf_token %}
             <div class="content-block-title">商品信息</div>
@@ -15,6 +23,7 @@
                             <div class="item-title">商品</div>
                             <div class="item-after">{{ items.title }}</div>
                             <input type="hidden" name="title" value="{{ items.title }}"/>
+                            <input type="hidden" name="nick" value="{{ items.nick }}"/>
                             <input type="hidden" name="id" value="{{ items.id }}"/>
                         </div>
                     </li>
@@ -92,16 +101,40 @@
                         <a id="pay" class="button button-big button-fill button-success">确定支付</a>
                     </div>
                 </div>
+                <div class="row" align="center">
+                    <a href="{% url 'support' %}"><h5>技术支持由 "观大牌" 团队提供</h5></a>
+                </div>
             </div>
         </form>
     </div>
 {% endblock %}
+
 {% block scripts %}
     <script type="text/javascript">
         $(function () {
             $('#pay').click(function () {
-                $('#myfrom').submit();
-            })
+
+                $.showIndicator();
+                $.ajax({
+                    type: 'POST',
+                    url: $('#myfrom').attr('action'),
+                    data: $('#myfrom').serialize(),
+                    dataType: 'json',
+                    timeout: 300,
+                    success: function (data) {
+                        $.hideIndicator();
+                        $('#myfrom').hide();
+                        $('#success').show();
+                        $('#amount').html(data.amount);
+
+                        $.toast("成功提交订单");
+                    },
+                    error: function (xhr, type) {
+                        $.hideIndicator();
+                        $.toast('服务器错误!');
+                    }
+                });
+            });
         })
     </script>
 {% endblock %}

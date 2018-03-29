@@ -66,10 +66,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
     # 'service.middleware.DisableCSRFCheck',
     # 'sslify.middleware.SSLifyMiddleware',
-    # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 SITE_ID = 1
@@ -96,37 +97,37 @@ TEMPLATES = [
     },
 ]
 
-# TEMPLATES = [
-#     {
-#         # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-#         # 'DIRS': [],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-#             'debug': DEBUG,
-#             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-#             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
-#             'loaders': [
-#                 'django.template.loaders.filesystem.Loader',
-#                 'django.template.loaders.app_directories.Loader',
-#             ],
-#             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
-#             'context_processors': [
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.template.context_processors.i18n',
-#                 'django.template.context_processors.media',
-#                 'django.template.context_processors.static',
-#                 'django.template.context_processors.tz',
-#                 'django.contrib.messages.context_processors.messages',
-#                 # Your stuff: custom template context processors go here
-#             ],
-#         },
-#     },
-# ]
+TEMPLATES = [
+    {
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        'DIRS': ['service/frontend/templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            'debug': DEBUG,
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            # 'loaders': [
+            #     'django.template.loaders.filesystem.Loader',
+            #     'django.template.loaders.app_directories.Loader',
+            # ],
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                # Your stuff: custom template context processors go here
+            ],
+        },
+    },
+]
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

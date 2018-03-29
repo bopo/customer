@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import hashlib
+import os
 import sys
 
 import jpush as jpush
-import top
 from django.conf import settings
 from jinja2 import Template
+from wechatpy import WeChatClient
+
+import top
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -160,3 +164,30 @@ def DetailGet(open_iids, *args, **kwargs):
     except Exception, e:
         print(e)
         return None
+
+
+def short_urls(url):
+    if not url:
+        return url
+
+    m2 = hashlib.md5()
+    m2.update(url)
+    fp = m2.hexdigest()
+    fp = 'runtime/%s' % fp
+
+    if os.path.exists(fp):
+        with open(fp) as f:
+            s = f.read()
+
+        return s
+
+    try:
+        client = WeChatClient(settings.WECHAT_APPKEY, settings.WECHAT_SECRET)
+        short_url = client.misc.short_url(long_url=url)['short_url']
+
+        with open(fp, 'w') as f:
+            f.write(short_url)
+    except Exception as e:
+        short_url = url
+
+    return short_url

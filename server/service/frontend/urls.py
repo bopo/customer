@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^qr_done/', views.qr_done, name='qr_done'),
 
     url(r'^detail/(?P<id>\d+)', views.detail, name='detail'),
-    url(r'^support/$', views.support, name='detail'),
+    url(r'^support/$', views.support, name='support'),
     url(r'^goods/', views.goods, name='goods'),
     url(r'^buy/$', views.buy, name='buy'),
     url(r'^buy/success/(?P<token>.*?)/$', views.buy_success, name='buy_success'),

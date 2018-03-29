@@ -4,12 +4,16 @@
 /.idea
 
 *.sql
+*.pkl
 *.pyc
 *.pyo
 *.db
+*.ipynb
 *~
 .*
 
+MP_verify_6GR663zqKDgj54ic.txt
+_book/
 /htmlcov/
 /coverage/
 /build/

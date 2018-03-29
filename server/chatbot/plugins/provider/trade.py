@@ -5,12 +5,14 @@ import re
 
 import jieba
 import jieba.posseg as pseg
-from wechatpy import WeChatClient
+from django.db.models import Q
 
-from service.kernel.models import Goods
+from service.kernel.helpers import short_urls
+from service.kernel.models import Goods, UNITS_CHOICES
 
-TOP_APPKEY = 'wx95d4b735c05ff6a7'
-TOP_SECRET = '5c330e437a2ebf13faf122551b103520'
+# TOP_APPKEY = settings.WECHAT_APPKEY  # 'wx95d4b735c05ff6a7'
+# TOP_SECRET = settings.WECHAT_SECRET  # '5c330e437a2ebf13faf122551b103520'
+
 jieba.initialize()
 
 common_used_numerals_tmp = {u'零': 0, u'一': 1, u'二': 2, u'两': 2, u'三': 3, u'四': 4, u'五': 5, u'六': 6, u'七': 7, u'八': 8,
@@ -56,6 +58,7 @@ def chinese2digits(uchars_chinese):
 def handler(message, *args, **kwargs):
     text = message['Text']
     uin = message['FromUserName']
+    nick = message.get('ActualNickName') or message.get('NickName')
 
     seg_list = pseg.cut(text)
     words = []
@@ -68,10 +71,11 @@ def handler(message, *args, **kwargs):
                 quantity = re.findall(r'(\d+)', str(quantity))[0]
             else:
                 quantity = word
-        elif flag == 'n':
-            if word not in ('盒', '箱', '个', '件'):
+        elif 'n' in flag:
+            if word not in UNITS_CHOICES:
                 words.append(word)
 
+    print words
     if not words:
         return None
 
@@ -79,23 +83,24 @@ def handler(message, *args, **kwargs):
         queryset = Goods.objects.filter(title__isnull=False)
 
         for w in words:
-            queryset = queryset.filter(title__contains=w)
-            queryset = queryset.filter(tags__contains=w)
+            queryset = queryset.filter(Q(title__contains=w) | Q(tags__contains=',%s,' % w))
 
         result = queryset.all()
 
         if result:
             result = result[0]
         else:
-            return None
+            raise Goods.DoesNotExist
 
         # from django.db import connection
 
         # print connection.queries
 
-        url = 'http://ws.gjingxi.com/buy/?id=%d&q=%d&uin=%s' % (int(result.id), int(quantity), uin)
-        client = WeChatClient(TOP_APPKEY, TOP_SECRET)
-        short_url = client.misc.short_url(long_url=url)['short_url']
+        url = 'http://ws.gjingxi.com/buy/?id=%d&q=%d&uin=%s&nick=%s' % (int(result.id), int(quantity), uin, nick)
+        # client = WeChatClient(settings.WECHAT_APPKEY, settings.WECHAT_SECRET)
+        # short_url = client.misc.short_url(long_url=url)['short_url']
+        short_url = short_urls(url)
+
         amount = float(float(result.price) * float(quantity))
         price = result.price
         title = result.title
@@ -110,5 +115,36 @@ def handler(message, *args, **kwargs):
 %(short_url)s''' % locals()
         return message
     except Goods.DoesNotExist:
-        print '产品空'
         return None
+
+# queryset = Goods.objects.filter(title__isnull=False)
+#         results = queryset.all()
+#
+#         if not results:
+#             return None
+#
+#         # from django.db import connection
+#
+#         # print connection.queries
+#         message = '''没有找到您要的商品，下面是本店正在热销的商品
+# ===================
+# '''
+#         quantity = 1
+#
+#         for result in results:
+#             url = 'http://ws.gjingxi.com/buy/?id=%d&q=%d&uin=%s&nick=%s' % (int(result.id), int(quantity), uin, nick)
+#             client = WeChatClient(settings.WECHAT_APPKEY, settings.WECHAT_SECRET)
+#             short_url = client.misc.short_url(long_url=url)['short_url']
+#
+#             amount = float(float(result.price) * float(quantity))
+#             price = result.price
+#             title = result.title
+#             units = result.units
+#
+#             message += '''商品: %(title)s
+# 价格: %(price).2f 元
+# %(short_url)s
+# -------------------
+# ''' % locals()
+#
+#         return message.strip().strip('-------------------')

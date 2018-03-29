@@ -13,4 +13,5 @@ class GoodsViewSet(viewsets.ModelViewSet):
     '''
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
-    allowed_methods = ('POST', 'OPTIONS', 'HEAD')
+
+    # allowed_methods = ('POST', 'OPTIONS', 'HEAD')

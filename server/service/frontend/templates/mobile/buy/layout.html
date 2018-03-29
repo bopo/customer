@@ -27,12 +27,22 @@
         <!-- 你的html代码 -->
         {% block content %}{% endblock %}
     </div>
+
 </div>
 {#<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>#}
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+{#<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>#}
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-<script type="text/javascript">$.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});</script>
+{#<script type="text/javascript">#}
+{#    $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}'}});#}
+{#    $.ajaxSend(function (e, xhr, opt) {#}
+{#        $.showIndicator();#}
+{#    });#}
+{#    $.ajaxStop(function () {#}
+{#        $.hideIndicator();#}
+{#    });#}
+{#</script>#}
 {% block scripts %}{% endblock %}
 </body>
 </html>

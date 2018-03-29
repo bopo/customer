@@ -57,6 +57,9 @@ def d2u():
     local('find . -name "*.css" -exec dos2unix {} \;')
     local('find . -name "*.js" -exec dos2unix {} \;')
 
+@task
+def hello():
+    local('python manage.py runserver')
 
 @task
 def cert():
@@ -215,7 +218,7 @@ def pack(time=None):
 
 @task
 def setup():
-    local('python manage.py migrate --settings config.settings.prod')
+    local('python manage.py migrate --settings config.settings.local')
 
 
 @task
@@ -242,7 +245,7 @@ def loaddata(remote=None):
         else:
             with (prefix('workon customer'), cd(env.remote_dir)):
                 run(
-                    'DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py loaddata database/fixtures/00{}_{}.json'.format(
+                    'DJANGO_SETTINGS_MODULE=config.settings.local python manage.py loaddata database/fixtures/00{}_{}.json'.format(
                         num, fixture))
 
         num += 1

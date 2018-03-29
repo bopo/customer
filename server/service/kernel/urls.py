@@ -8,8 +8,8 @@ from rest_framework_swagger.views import get_swagger_view
 from .views.goods import GoodsViewSet
 
 router = DefaultRouter()
-
 router.register(r'goods', GoodsViewSet, base_name='goods')
+
 # router.register(r'first', FirstViewSet, base_name='first')
 # router.register(r'trade', TradeViewSet, base_name='trade')
 # router.register(r'bests', BestsViewSet, base_name='bests')
@@ -35,6 +35,11 @@ schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = (
     url(r'^', include(router.urls, namespace='v1.0')),
+
+
+
+
+
     url(r'^me/', include('service.consumer.urls')),
     url(r'^auth/', include('service.restauth.urls')),
     url(r'^user/', include('rest_framework.urls', namespace='rest_framework')),

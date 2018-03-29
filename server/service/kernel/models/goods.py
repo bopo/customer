@@ -74,8 +74,9 @@ class Goods(TimeStampedModel, StatusModel):
     summary = models.TextField(_('商品简介'), blank=True, null=True)
     cover = ProcessedImageField(verbose_name=_(u'图片'), upload_to='goods', processors=[ResizeToFill(720, 240)],
         format='JPEG', null=True, help_text=u'图片尺寸最好为720x240', blank=True)
+    total = models.IntegerField(verbose_name=_('库存数'), default=0)
 
-    cats = models.ForeignKey(Category, blank=True, null=True)
+    # cats = models.ForeignKey(Category, blank=True, null=True)
     tags = models.CharField(verbose_name=_(u'标签关键字'), max_length=200, help_text='多个关键字之间逗号隔开')
 
     def get_tags(self):

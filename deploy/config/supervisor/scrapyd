@@ -1,0 +1,9 @@
+[program:scrapyd]
+command=/usr/local/bin/scrapyd
+directory = /home/wangyi/scrapyd
+user=wangyi
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile = /var/log/supervisor_scrapyd.log
+stderr_logfile = /var/log/supervisor_scrapyd.log

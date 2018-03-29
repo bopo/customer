@@ -3,21 +3,31 @@ from __future__ import unicode_literals
 
 import json
 import os
+import re
+import sys
 import time
 
 import django
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
+
+from service.kernel.helpers import short_urls
 from django.conf import settings
-
 import requests
-from fabric.colors import red
 
-import chatbot
-from chatbot.content import TEXT
+# import chatbot
+# from chatbot.content import TEXT, FRIENDS, NOTE
 from chatbot.plugins.handlers import patterns
 from chatbot.plugins.routers import routers
+
+import itchat
+from itchat.content import *
+
+chatbot = itchat.new_instance()
 
 
 def tuling_auto_reply(msg):
@@ -49,28 +59,60 @@ def tuling_auto_reply(msg):
         return u"知道啦"
 
 
+@chatbot.msg_register([NOTE, TEXT], isGroupChat=True)
+def note_reply(msg):
+    print(msg.get('Content'))
+
+    memeber = re.findall(ur'邀请"(.*?)"加入了群聊', msg.get('Content'))
+
+    url = 'http://ws.gjingxi.com/about/criterion/'
+    # client = WeChatClient(settings.WECHAT_APPKEY, settings.WECHAT_SECRET)
+    # short_url = client.misc.short_url(long_url=url)['short_url']
+
+    if memeber:
+        content = u'欢迎加入,'
+        content += u'请遵守本群群规, 点击查看群规 \n%s\n' % url
+        # content += goods.handler(msg)
+        chatbot.send(u'@%s %s' % (memeber[0], content), msg['FromUserName'])
+
+
 @chatbot.msg_register([TEXT, ])
 def text_reply(msg):
+    # print msg['Content']
+
     for router in routers:
         result = router(msg, patterns)
-        print result
+        # print result
+        # print type(result)
 
         if result:
-            if type(result, list):
-                [chatbot.send_msg(res, msg['FromUserName']) for res in result]
+            if type(result) == list:
+                for res in result:
+                    # print res
+                    chatbot.send_msg(res, msg['FromUserName'])
             else:
                 chatbot.send_msg(result, msg['FromUserName'])
         else:
             chatbot.send_msg(tuling_auto_reply(msg['Text']), msg['FromUserName'])
 
 
-@chatbot.msg_register(TEXT, isGroupChat=True)
+@chatbot.msg_register(FRIENDS)
+def add_friend(msg):
+    # print('%s 加入好友' % (msg['FromUserName']))
+    chatbot.add_friend(**msg['Text'])  # 该操作会自动将新好友的消息录入，不需要重载通讯录
+    chatbot.send_msg('Nice to meet you!', msg['RecommendInfo']['UserName'])
+    chatbot.send_msg('您好！我是全智能客服秘书，请问有什么可以帮助你？!', msg['FromUserName'])
+    chatbot.get_contract(update=True)
+
+
+@chatbot.msg_register([NOTE, TEXT], isGroupChat=True)
 def text_reply(msg):
-    chatbot.get_contract(True)
-    if msg['isAt']:
-        print('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
-        print msg['FromUserName']
-        print msg['Text']
+    print(msg.get('Content'))
+    if msg.get('isAt'):
+        # chatbot.get_contract(True)
+        # print('%s At me:%s' % (msg['ActualNickName'], msg['Text']))
+        # print msg['FromUserName']
+        # print msg['Text']
 
         actuals = None
         chatroom = chatbot.update_chatroom(msg['FromUserName'].replace('@@', '@'))
@@ -90,7 +132,7 @@ def text_reply(msg):
 
             for router in routers:
                 result = router(msg, patterns)
-                print result
+                # print result
 
                 if result:
                     status = chatbot.send_msg(result, actuals['UserName'])
@@ -98,26 +140,37 @@ def text_reply(msg):
                     if not status:
                         chatbot.add_friend(userName=actuals['UserName'])
                         chatbot.send(u'@%s %s' % (msg['ActualNickName'], u'你还没有加我为好友，加我好友后可以购买'), msg['FromUserName'])
-                        return True
+                        break
 
-            if not result:
-                content = tuling_auto_reply(msg['Content'])
-            else:
+            if result:
                 content = '已经将购买链接私聊给您了'
+            else:
+                content = tuling_auto_reply(msg['Content'])
 
-            NickName = chatbot.search_friends(userName=actuals['UserName'])['NickName']
+            NickName = chatbot.search_friends(userName=actuals['UserName'])
+            NickName = NickName.get('NickName') if NickName else msg['ActualNickName']
+            # print NickName
             chatbot.send(u'@%s %s' % (NickName, content), msg['FromUserName'])
+    else:
+        memeber = re.findall(ur'邀请"(.*?)"加入了群聊', msg.get('Content'))
+        url = 'http://ws.gjingxi.com/about/criterion/'
+
+        if memeber:
+            content = u'欢迎加入,'
+            content += u'请遵守本群群规, 点击查看群规 \n%s\n' % short_urls(url)
+            # content += goods.handler(msg)
+            chatbot.send(u'@%s %s' % (memeber[0], content), msg['FromUserName'])
 
 
 def run():
-    chatbot.default(settings.CHATBOT_DEFUALT)
+    # chatbot.default(settings.CHATBOT_DEFUALT)
 
     while True:
-        if chatbot.status():
+        if chatbot.load_login_status(settings.CHATBOT_DEFUALT['SESSION_PATH']):
             chatbot.run(debug=True)
             break
-        else:
-            print(red(u'用户未登录...退出'))
+            # else:
+            # print(red(u'用户未登录...退出'))
 
         time.sleep(10)
 

@@ -267,8 +267,6 @@ class Client(object):
         r = self.request.post(url, data=json.dumps(payloads), headers=headers)
         j = json.loads(r.content.decode('utf8', 'replace'))['ContactList'][0]
 
-        open('chatroom.txt','w').write(r.content)
-
         if detailedMember:
             def get_detailed_member_info(encryChatroomId, memberList):
                 url = '%s/webwxbatchgetcontact?type=ex&r=%s' % (self.loginInfo['url'], int(time.time()))
@@ -452,6 +450,7 @@ class Client(object):
         if pm.group(1) != '0':
             logging.debug(r.text)
             print ('sync err.')
+            print (r.text)
             return None
 
         return pm.group(2)

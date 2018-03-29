@@ -1,32 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import django
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-# import service.kernel.urls
-
-# import service.frontend.views
+from service.frontend.views import MP_verify_6GR663zqKDgj54ic
 
 urlpatterns = (
-    # url(r'^$', include('service.frontend.views.home')),
     url(r'^', include('service.frontend.urls')),
-        # url(r'^api/wechat/$', views.home),
-
     url(r'^api/', include('service.kernel.urls')),
-
-        # url(r'^account/signup/$', service.frontend.views.signup),
-        # url(r'^account/verify/$', service.frontend.views.verify),
-
-        # url(r'^account/success/(?P<openid>.*)/$', service.frontend.views.success),
-        # url(r'^account/errors/', service.frontend.views.errors),
-
-        # url(r'^account/union/$', service.frontend.views.union),
-
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^about/', include('django.contrib.flatpages.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^MP_verify_6GR663zqKDgj54ic.txt', MP_verify_6GR663zqKDgj54ic),
+    # url(r'^pages/', include('django.contrib.flatpages.urls')),
+    # url(r'^(?P<url>.*/)$', views.flatpage),
 )
 
 if settings.DEBUG:

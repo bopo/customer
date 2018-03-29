@@ -17,21 +17,21 @@ DATABASES = {
     },
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'surprise',
-#         'USER': 'surprise',
-#         'PASSWORD': 'secret',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#         'OPTIONS': {
-#             'isolation_level': ISOLATION_LEVEL_SERIALIZABLE,
-#             'client_encoding': 'UTF8',
-#         },
-#         'timezone': 'UTC',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'customer',
+        'USER': 'customer',
+        'PASSWORD': 'secret',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'OPTIONS': {
+            'isolation_level': ISOLATION_LEVEL_SERIALIZABLE,
+            'client_encoding': 'UTF8',
+        },
+        'timezone': 'UTC',
+    }
+}
 
 # CACHES = {
 #     'default': {

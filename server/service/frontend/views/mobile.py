@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import json
 import uuid
 
 from django.conf import settings
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
+from wechatpy import WeChatOAuth
 
-import chatbot
+import itchat
 from service.kernel.models import Goods
 from service.kernel.models import Orders
 
@@ -17,12 +19,11 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-CHATBOT_DEFUALT = settings.CHATBOT_DEFUALT
-chatbot.default(CHATBOT_DEFUALT)
+# chatbot.default(settings.CHATBOT_DEFUALT)
+chatbot = itchat.new_instance()
 
 
 # @cache_page(60 * 15)
-# @oauth
 def home(request):
     return render(request, 'mobile/index.html', locals())
 
@@ -44,7 +45,6 @@ def support(request):
 
 
 def qr_login(request):
-    print chatbot.cookies()
     uuid = chatbot.get_QRuuid()
     return render(request, 'mobile/qr_login.html', locals())
 
@@ -54,10 +54,11 @@ def qr_check(request, uuid):
 
     if response == '200':
         print chatbot.web_init()
-        # print chatbot.__client.show_mobile_login()
-        print chatbot.dump_login_status()
-        # print chatbot.get_friends(True)
-        # print chatbot.__client.loginInfo
+        print chatbot.show_mobile_login()
+        print chatbot.get_contact(True)
+        print chatbot.dump_login_status(fileDir=settings.CHATBOT_DEFUALT['SESSION_PATH'])
+
+        # chatbot.auto_login(hotReload=True, statusStorageDir='runtime/chatbot.pkl')
 
     return HttpResponse(response)
 
@@ -80,44 +81,60 @@ def detail(request, id):
 
 # 商品购买
 def buy(request):
-    # code_ = request.GET.get('code', None)
-    # oauth = WeChatOAuth(settings.WECHAT_APPKEY, settings.WECHAT_SECRET,
-    #     redirect_uri=request.build_absolute_uri(request.get_full_path()))
-    #
-    # if code_ is None:
-    #     return HttpResponseRedirect(oauth.authorize_url)
-    #
-    # access = oauth.fetch_access_token(code_)
-    # oauth.refresh_access_token(access.get('refresh_token'))
-    # user = oauth.get_user_info()
-    #
-    # request.session['openid'] = user.get('openid')
+    code_ = request.GET.get('code', None)
+    oauth = WeChatOAuth(settings.WECHAT_APPKEY, settings.WECHAT_SECRET,
+        redirect_uri=request.build_absolute_uri(request.get_full_path()))
+
+    if code_ is None:
+        return HttpResponseRedirect(oauth.authorize_url)
+
+    access = oauth.fetch_access_token(code_)
+    oauth.refresh_access_token(access.get('refresh_token'))
+    user = oauth.get_user_info()
+
+    request.session['openid'] = user.get('openid')
+    # nick = user.get('nickname')
 
     items = get_object_or_404(Goods, pk=request.GET.get('id'))
     items.quantity = request.GET.get('q')
     items.amount = float(float(items.price) * float(items.quantity))
+    items.nick = user.get('nickname')
 
     return render(request, 'mobile/buy/pay.html', locals())
 
 
 def buy_save(request):
+    print request.method
+    amount = 12
     if request.method == 'POST':
-        openid = request.session.get('openid')
+        # openid = request.session.get('openid')
+        # uin = request.POST.get('uin', 'NULL')
+
         id = request.POST.get('id')
-        uin = request.POST.get('uin', 'NULL')
         items = get_object_or_404(Goods, pk=id)
         quantity = request.POST.get('quantity')
         amount = float(float(items.price) * float(quantity))
+        nick = request.POST.get('nick')
+        mobile = request.POST.get('mobile')
+        address = request.POST.get('address')
 
-        orders = Orders.objects.create(goods_id=id, uin=uin, openid=openid, quantity=quantity, amount=amount,
-            token=uuid.uuid1())
+        orders = Orders.objects.create(goods_id=id)
+        # orders.uin = uin
+        orders.nick = nick
+        orders.token = uuid.uuid1()
+        orders.mobile = mobile
+        # orders.openid = openid
+        orders.amount = str(amount)
+        orders.address = address
+        orders.quantity = quantity
+        orders.save()
 
         if not orders:
             raise Http404
 
-        return redirect(reverse('buy_success', args=[orders.token]))
-
-    raise Http404
+        return HttpResponse(json.dumps({'amount': amount}), content_type='application/json')
+    else:
+        raise Http404
 
 
 def buy_confirm(request, token):
@@ -157,3 +174,8 @@ def buy_close(request, token):
         data = {'error': '1'}
 
     return JsonResponse(data=data)
+
+
+def MP_verify_6GR663zqKDgj54ic(request):
+    data = open('MP_verify_6GR663zqKDgj54ic.txt').read()
+    return HttpResponse(data)

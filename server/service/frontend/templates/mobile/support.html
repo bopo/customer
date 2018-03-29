@@ -2,13 +2,18 @@
 {% load static %}
 {% block content %}
     <header class="bar bar-nav">
+        <button class="button button-link button-nav pull-left" onclick="history.go(-1)">
+            <span class="icon icon-left"></span>
+            返回
+        </button>
         <h1 class="title">技术支持</h1>
     </header>
 
     <div class="content">
         <div class="content-block">
-            <p align="center"><img src="{% static 'frontend/img/support.png' %}" width="260"/></p>
-            <p>您已成功提交订单，`长按`或`扫描二维码`进行转账支付。既可以完成交易！</p>
+            <p align="center"><img src="{% static 'frontend/img/WechatIMG2.jpeg' %}" width="260"/></p>
         </div>
     </div>
 {% endblock %}
+
+
